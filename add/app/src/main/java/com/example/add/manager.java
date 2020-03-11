@@ -12,7 +12,9 @@ public class manager {
         this.num2 = num2;
     }
 
-    public int addition(){
+    public int addition(int n1, int n2){
+        setNum1(n1);
+        setNum2(n2);
         return num1 + num2;
     }
 }

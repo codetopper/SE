@@ -42,13 +42,13 @@ public class add extends AppCompatActivity {
                 // num1 or num2 double type
                 // get data which is in edittext, convert it to string
                 // using parse Double convert it to Double type
-                double num1 = Double.parseDouble(number1.getText().toString());
-                m1.setNum1((int) num1);
-                double num2 = Double.parseDouble(number2.getText().toString());
-                m1.setNum2((int) num2);
+//                int num1 = Integer.parseInt(number1.getText().toString());
+//                m1.setNum1((int) Double.parseDouble(number1.getText().toString()));
+//                int num2 = Integer.parseInt(number2.getText().toString());
+//                m1.setNum2((int) Double.parseDouble(number2.getText().toString()));
                 // add both number and store it to sum
                 // set it ot result textview
-                result.setText(Double.toString(m1.addition()));
+                result.setText(Integer.toString(m1.addition(Integer.parseInt(number1.getText().toString()), Integer.parseInt(number2.getText().toString()))));
             }
         });
     }
