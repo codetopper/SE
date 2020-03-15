@@ -1,5 +1,13 @@
 package com.example.karat;
 
 public class Orders {
-    int orderQuantity = 0;
+    private static int orderQuantity = 0;
+
+    public static int getOrderQuantity() {
+        return orderQuantity;
+    }
+
+    public static void incOrderQuantity() {
+        Orders.orderQuantity++;
+    }
 }

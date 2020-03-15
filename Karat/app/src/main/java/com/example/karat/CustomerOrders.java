@@ -2,10 +2,11 @@ package com.example.karat;
 
 public class CustomerOrders extends Orders {
 
-    private Receipt[] custOrders = new Receipt[0];
+    private static Receipt[] custOrders = new Receipt[0];
 
     void purchase(int item) {
-        custOrders[orderQuantity++].itemId = item;
+        custOrders[getOrderQuantity()].itemId = item;
+        incOrderQuantity();
     }
 
     public Receipt[] getCOrders(int cust) {
