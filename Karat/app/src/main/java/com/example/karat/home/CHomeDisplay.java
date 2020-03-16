@@ -19,6 +19,9 @@ public class CHomeDisplay extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_c_home_display);
 
+
+        //cart
+
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navi);
 
         bottomNavigationView.setSelectedItemId(R.id.Home);
