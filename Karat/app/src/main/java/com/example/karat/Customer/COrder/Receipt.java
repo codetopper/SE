@@ -1,4 +1,4 @@
-package com.example.karat.order;
+package com.example.karat.Customer.COrder;
 
 public class Receipt {
     private int itemId;

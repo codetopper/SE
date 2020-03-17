@@ -9,7 +9,7 @@
     android:gravity="bottom"
     android:orientation="vertical"
     android:visibility="visible"
-    tools:context=".order.COrderDisplay"
+    tools:context=".Customer.COrder.COrderDisplay"
     tools:visibility="visible">
 
     <TextView
