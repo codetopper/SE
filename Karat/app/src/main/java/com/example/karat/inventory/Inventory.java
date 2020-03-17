@@ -1,17 +1,14 @@
-package com.example.karat.order;
+package com.example.karat.inventory;
 
 import java.util.ArrayList;
 
-import static java.lang.reflect.Array.newInstance;
-import static java.lang.reflect.Array.set;
-
 class Inventory{
     private static Inventory single_instance = null;
-    public static ArrayList<Receipt> meatInventory = new ArrayList<>();
-    public static ArrayList<Receipt> vegInventory = new ArrayList<>();
-    public static ArrayList<Receipt> fruitsInventory = new ArrayList<>();
-    public static ArrayList<Receipt> seafoodInventory = new ArrayList<>();
-    public static ArrayList<Receipt> cannedInventory = new ArrayList<>();
+    public static ArrayList<Listing> meatInventory = new ArrayList<>();
+    public static ArrayList<Listing> vegInventory = new ArrayList<>();
+    public static ArrayList<Listing> fruitsInventory = new ArrayList<>();
+    public static ArrayList<Listing> seafoodInventory = new ArrayList<>();
+    public static ArrayList<Listing> cannedInventory = new ArrayList<>();
 
     private Inventory() {}
     

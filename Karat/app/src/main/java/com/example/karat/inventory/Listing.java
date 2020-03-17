@@ -1,4 +1,6 @@
-package com.example.karat.inventory
+package com.example.karat.inventory;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Listing{
     private static final AtomicInteger count = new AtomicInteger(0);
@@ -34,7 +36,7 @@ public class Listing{
 
     public String getListingCategory() {return category;}
 
-    public void setListingName(String category) {this.category = category;}
+    public void setListingCategory(String category) {this.category = category;}
 
     public boolean getListingAvailable() {return available;}
 
