@@ -10,14 +10,16 @@ public class Listing{
     private double discount;
     private String name;
     private String category;
+    private String location;
     private boolean available;
 
-    public Listing(double price, double discount, String name, String category){
+    public Listing(double price, double discount, String location, String name, String category){
             listingId = count.incrementAndGet();
             this.price = price;
             this.discount = discount;
             this.name = name;
             this.category = category;
+            this.location = location;
             if (quantity > 0)
                 this.available = true;
         }
@@ -43,6 +45,10 @@ public class Listing{
     public String getListingCategory() {return category;}
 
     public void setListingCategory(String category) {this.category = category;}
+
+    public String getListingLocation() {return location;}
+
+    public void setListingLocation(String location) {this.location = location;}
 
     public boolean getListingAvailable() {return available;}
 

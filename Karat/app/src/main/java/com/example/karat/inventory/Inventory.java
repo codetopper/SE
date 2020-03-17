@@ -4,16 +4,20 @@ import java.util.ArrayList;
 
 class Inventory{
     private static Inventory single_instance = null;
-    public static ArrayList<Listing> Inventory = new ArrayList<>();
+    public static ArrayList<Listing> inventoryList = new ArrayList<>();
 
     private Inventory() {}
     
-    public void addListing(double price, double discount, String name, String category) {
-        Inventory.add(new Listing(price, discount, name, category));
+    public ArrayList<Listing> getList(){
+        return inventoryList;
+    }
+
+    public void addListing(double price, double discount, String location, String name, String category) {
+        inventoryList.add(new Listing(price, discount, location, name, category));
     }
 
     public int purchase(int listingId){
-        for (Listing l: Inventory) {
+        for (Listing l: inventoryList) {
             if (listingId == l.getListingId()){
                 if (l.available == true){
                     l.quantity--;
@@ -28,7 +32,7 @@ class Inventory{
     }
 
     public void removeListing(int listingId){
-        for (listing l: Inventory) {
+        for (listing l: inventoryList) {
             if (listingId == l.getListingId()){
                 if (l.available == true){
                     l.setListingAvailable(false);
@@ -36,6 +40,8 @@ class Inventory{
             }
         }
     }
+
+
 
     public static Inventory getInstance(){
         if(single_instance == null){
