@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.karat" >
+    package="com.example.karat">
 
     <application
         android:allowBackup="true"
@@ -8,10 +8,14 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
-        <activity android:name=".profile.CProfileDisplay" />
-        <activity android:name=".order.COrderDisplay" />
-        <activity android:name=".home.CHomeDisplay" >
+        android:theme="@style/AppTheme">
+        <activity android:name=".Staff.SProfile.SProfileDisplay"></activity>
+        <activity android:name=".Staff.SOrder.SOrderDisplay" />
+        <activity android:name=".Staff.SHome.SHomeDisplay" />
+        <activity android:name=".Customer.Cart.CartDisplay" />
+        <activity android:name=".Customer.CProfile.CProfileDisplay" />
+        <activity android:name=".Customer.COrder.COrderDisplay" />
+        <activity android:name=".Customer.CHome.CHomeDisplay">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

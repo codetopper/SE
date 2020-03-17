@@ -1,4 +1,4 @@
-package com.example.karat.order;
+package com.example.karat.Customer.COrder;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,9 +59,9 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderVH> {
         public OrderVH(@NonNull final View itemView) {
             super(itemView);
 
-            titleTextView = itemView.findViewById(R.id.titleText);
-            itemIdTextView = itemView.findViewById(R.id.itemIdText);
-            custIdTextView = itemView.findViewById(R.id.custIdText);
+            titleTextView = itemView.findViewById(R.id.order_number);
+            itemIdTextView = itemView.findViewById(R.id.item_name);
+            custIdTextView = itemView.findViewById(R.id.item_quantity);
             expandableLayout = itemView.findViewById(R.id.expandableLayout);
 
 

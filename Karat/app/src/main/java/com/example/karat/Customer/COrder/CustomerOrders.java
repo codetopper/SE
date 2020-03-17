@@ -1,9 +1,8 @@
-package com.example.karat.order;
+package com.example.karat.Customer.COrder;
 
 import java.util.ArrayList;
 
 import static java.lang.reflect.Array.newInstance;
-import static java.lang.reflect.Array.set;
 
 public class CustomerOrders {
     protected static int orderQuantity = 0;

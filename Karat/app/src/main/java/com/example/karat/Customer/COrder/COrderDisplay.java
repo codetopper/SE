@@ -1,27 +1,39 @@
-package com.example.karat.profile;
+package com.example.karat.Customer.COrder;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.example.karat.R;
-import com.example.karat.home.CHomeDisplay;
-import com.example.karat.order.COrderDisplay;
+import com.example.karat.Customer.CHome.CHomeDisplay;
+import com.example.karat.Customer.CProfile.CProfileDisplay;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class CProfileDisplay extends AppCompatActivity {
+public class COrderDisplay extends AppCompatActivity {
+    RecyclerView recyclerView;
+    COrderManager orderManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_c_profile_display);
+        setContentView(R.layout.activity_c_order_display);
 
+        //cart button?
+
+        //recyclerview
+        recyclerView = findViewById(R.id.recyclerView);
+        orderManager = new COrderManager(1);
+        initRecyclerView();
+
+        //navigation bar
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navi);
 
-        bottomNavigationView.setSelectedItemId(R.id.Profile);
+        bottomNavigationView.setSelectedItemId(R.id.Orders);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -44,4 +56,11 @@ public class CProfileDisplay extends AppCompatActivity {
             }
         });
     }
+
+    private void initRecyclerView() {
+        OrderAdapter orderAdapter = new OrderAdapter(orderManager.cOrders);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(orderAdapter);
+    }
+
 }
