@@ -5,6 +5,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Listing{
     private static final AtomicInteger count = new AtomicInteger(0);
     private final int listingId;
+    private int quantity;
     private double price;
     private double discount;
     private String name;
@@ -17,10 +18,15 @@ public class Listing{
             this.discount = discount;
             this.name = name;
             this.category = category;
-            this.available = true;
+            if (quantity > 0)
+                this.available = true;
         }
 
     public int getListingId() {return listingId;}
+
+    public int getListingQuantity() {return quantity;}
+
+    public void setListingQuantity(int quantity) {this.quantity = quantity;}
 
     public double getListingPrice() {return price;}
 

@@ -32,6 +32,83 @@ class Inventory{
         cannedInventory.add(new Listing(price, discount, name, "canned"));
     }
 
+    public int purchase(int listingId, String category){
+        if (category == "meats"){
+            for (Listing l: meatInventory) {
+                if (listingId == l.getListingId()){
+                    if (l.available == true){
+                        l.quantity--;
+                        if (l.quantity == 0) {
+                            l.setListingAvailable(false)
+                        }
+                        return 1;
+                    }
+                }
+            }    
+            return 0;
+        }
+
+        else if (category == "vegetables"){
+            for (Listing l: vegInventory) {
+                if (listingId == l.getListingId()){
+                    if (l.available == true){
+                        l.quantity--;
+                        if (l.quantity == 0) {
+                            l.setListingAvailable(false)
+                        }
+                        return 1;
+                    }
+                }
+            }    
+            return 0;
+        }
+
+        else if (category == "fruits"){
+            for (Listing l: fruitsInventory) {
+                if (listingId == l.getListingId()){
+                    if (l.available == true){
+                        l.quantity--;
+                        if (l.quantity == 0) {
+                            l.setListingAvailable(false)
+                        }
+                        return 1;
+                    }
+                }
+            }    
+            return 0;
+        }
+
+        else if (category == "seafood"){
+            for (Listing l: seafoodInventory) {
+                if (listingId == l.getListingId()){
+                    if (l.available == true){
+                        l.quantity--;
+                        if (l.quantity == 0) {
+                            l.setListingAvailable(false)
+                        }
+                        return 1;
+                    }
+                }
+            }    
+            return 0;
+        }
+
+        else if (category == "canned"){
+            for (Listing l: cannedInventory) {
+                if (listingId == l.getListingId()){
+                    if (l.available == true){
+                        l.quantity--;
+                        if (l.quantity == 0) {
+                            l.setListingAvailable(false)
+                        }
+                        return 1;
+                    }
+                }
+            }    
+            return 0;
+        }
+    }
+
     public static Inventory getInstance(){
         if(single_instance == null){
             single_instance = new Inventory();
