@@ -20,8 +20,7 @@ public class Listing{
             this.name = name;
             this.category = category;
             this.location = location;
-            if (quantity > 0)
-                this.available = true;
+            this.available = true;
         }
 
     public int getListingId() {return listingId;}
