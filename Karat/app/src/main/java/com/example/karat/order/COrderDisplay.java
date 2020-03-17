@@ -29,7 +29,6 @@ public class COrderDisplay extends AppCompatActivity {
 
         //recyclerview
         recyclerView = findViewById(R.id.recyclerView);
-        initData();
         orderManager = new COrderManager(1);
         initRecyclerView();
 
@@ -47,6 +46,8 @@ public class COrderDisplay extends AppCompatActivity {
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.Orders:
+                        startActivity(new Intent(getApplicationContext(), COrderDisplay.class));
+                        overridePendingTransition(0,0);
                         return true;
                     case R.id.Profile:
                         startActivity(new Intent(getApplicationContext(), CProfileDisplay.class));
@@ -56,14 +57,6 @@ public class COrderDisplay extends AppCompatActivity {
                 return false;
             }
         });
-    }
-
-    private void initData() {
-        purchase(1, "Apple", 1);
-        purchase(2, "Orange", 1);
-        purchase(3, "Pear", 1);
-        purchase(4, "Pineapple", 1);
-        purchase(5, "Durian", 2);
     }
 
     private void initRecyclerView() {

@@ -10,8 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
         <activity android:name=".profile.CProfileDisplay" />
-        <activity android:name=".home.CHomeDisplay" />
-        <activity android:name=".order.COrderDisplay" >
+        <activity android:name=".order.COrderDisplay" />
+        <activity android:name=".home.CHomeDisplay" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

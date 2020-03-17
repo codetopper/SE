@@ -36,6 +36,8 @@ public class CProfileDisplay extends AppCompatActivity {
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.Profile:
+                        startActivity(new Intent(getApplicationContext(), CProfileDisplay.class));
+                        overridePendingTransition(0,0);
                         return true;
                 }
                 return false;
