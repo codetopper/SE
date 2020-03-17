@@ -18,13 +18,23 @@ class Inventory{
                 if (l.available == true){
                     l.quantity--;
                     if (l.quantity == 0) {
-                        l.setListingAvailable(false)
+                        l.setListingAvailable(false);
                     }
                     return 1;
                 }
             }
         }    
         return 0;
+    }
+
+    public void removeListing(int listingId){
+        for (listing l: Inventory) {
+            if (listingId == l.getListingId()){
+                if (l.available == true){
+                    l.setListingAvailable(false);
+                }
+            }
+        }
     }
 
     public static Inventory getInstance(){
