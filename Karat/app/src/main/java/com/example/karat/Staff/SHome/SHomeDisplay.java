@@ -15,6 +15,8 @@ import com.example.karat.Staff.SOrder.SOrderDisplay;
 import com.example.karat.Staff.SProfile.SProfileDisplay;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import static com.example.karat.Customer.COrder.CustomerOrders.purchase;
+
 public class SHomeDisplay extends AppCompatActivity {
 
     @Override
@@ -35,6 +37,7 @@ public class SHomeDisplay extends AppCompatActivity {
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.Orders:
+                        initData();
                         startActivity(new Intent(getApplicationContext(), SOrderDisplay.class));
                         overridePendingTransition(0,0);
                         return true;
@@ -46,5 +49,13 @@ public class SHomeDisplay extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    private void initData() {
+        purchase(1, "Apple", 1);
+        purchase(2, "Orange", 1);
+        purchase(3, "Pear", 1);
+        purchase(4, "Pineapple", 1);
+        purchase(5, "Durian", 2);
     }
 }

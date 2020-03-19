@@ -2,6 +2,8 @@ package com.example.karat.Staff.SOrder;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.view.MenuItem;
 
 import com.example.karat.Customer.CHome.CHomeDisplay;
 import com.example.karat.Customer.COrder.COrderDisplay;
+import com.example.karat.Staff.SOrder.OrderAdapter;
 import com.example.karat.Customer.CProfile.CProfileDisplay;
 import com.example.karat.R;
 import com.example.karat.Staff.SHome.SHomeDisplay;
@@ -16,11 +19,18 @@ import com.example.karat.Staff.SProfile.SProfileDisplay;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class SOrderDisplay extends AppCompatActivity {
+    RecyclerView recyclerView;
+    SOrderManager orderManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s_order_display);
+
+        //recyclerview
+        recyclerView = findViewById(R.id.recyclerView);
+        orderManager = new SOrderManager(1);
+        initRecyclerView();
 
         //navigation bar
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navi);
@@ -47,5 +57,10 @@ public class SOrderDisplay extends AppCompatActivity {
                 return false;
             }
         });
+    }
+    private void initRecyclerView() {
+        OrderAdapter orderAdapter = new OrderAdapter(orderManager.sOrders);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(orderAdapter);
     }
 }
