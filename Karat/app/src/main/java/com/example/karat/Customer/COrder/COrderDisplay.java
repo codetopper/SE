@@ -25,7 +25,6 @@ public class COrderDisplay extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_c_order_display);
 
-        //cart button?
 
         //recyclerview
         recyclerView = findViewById(R.id.recyclerView);
@@ -68,5 +67,6 @@ public class COrderDisplay extends AppCompatActivity {
     public void goToCart(View v) {
         Intent i = new Intent(getBaseContext(), CartDisplay.class);
         startActivity(i);
+        overridePendingTransition(0,0);
     }
 }
