@@ -1,5 +1,6 @@
 package com.example.karat.Login;
 
+import androidx.annotation.IntegerRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -31,6 +32,7 @@ public class RegisterDisplay extends AppCompatActivity {
     private ProgressBar progressBar;
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
+    private EditText firstNameTV, lastNameTV, mobileNumTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,11 +53,13 @@ public class RegisterDisplay extends AppCompatActivity {
 
     private void registerNewUser() {
         progressBar.setVisibility(View.VISIBLE);
-
-        String user, password;
+        final String user, password, firstName, lastName;
+        final Integer mobileNum;
         user = "Customer-".concat(userTV.getText().toString());
         password = passwordTV.getText().toString();
-
+        firstName = firstNameTV.getText().toString();
+        lastName = lastNameTV.getText().toString();
+        mobileNum = Integer.parseInt(mobileNumTV.getText().toString());
         if (TextUtils.isEmpty(user)) {
             Toast.makeText(getApplicationContext(), "Please enter email...", Toast.LENGTH_LONG).show();
             return;
@@ -72,7 +76,7 @@ public class RegisterDisplay extends AppCompatActivity {
                         Log.d(TAG, "createUser:onComplete:" + task.isSuccessful());
 
                         if (task.isSuccessful()) {
-                            writeUserToDatabase(task.getResult().getUser());
+                            writeUserToDatabase(task.getResult().getUser(), firstName, lastName, mobileNum);
                             Intent LoginIntent = new Intent(getApplicationContext(), LoginDisplay.class);
                             startActivity(LoginIntent);
                         } else {
@@ -83,9 +87,12 @@ public class RegisterDisplay extends AppCompatActivity {
                 });
     }
 
-    private void writeUserToDatabase(FirebaseUser user){
+    private void writeUserToDatabase(FirebaseUser user, String firstName, String lastName, Integer mobileNum){
         String email = user.getEmail().substring(9);
         mDatabase.child("UserDatabase").child(user.getUid()).child("Email").setValue(email);
+        mDatabase.child("UserDatabase").child(user.getUid()).child("FirstName").setValue(firstName);
+        mDatabase.child("UserDatabase").child(user.getUid()).child("LastName").setValue(lastName);
+        mDatabase.child("UserDatabase").child(user.getUid()).child("MobileNo.").setValue((int)mobileNum);
     }
 
     private void initializeUI() {
@@ -93,5 +100,8 @@ public class RegisterDisplay extends AppCompatActivity {
         passwordTV = findViewById(R.id.password_login);
         regBtn = findViewById(R.id.register);
         progressBar = findViewById(R.id.progressBar);
+        firstNameTV = findViewById(R.id.firstName);
+        lastNameTV = findViewById(R.id.lastName);
+        mobileNumTV = findViewById(R.id.mobileNum);
     }
 }

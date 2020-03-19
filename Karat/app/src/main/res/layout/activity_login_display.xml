@@ -50,20 +50,26 @@
         android:id="@+id/ResetPw"
         android:layout_width="300dp"
         android:layout_height="50dp"
+        android:background="#C4C4C4"
         android:fontFamily="@font/lato"
         android:text="Reset Password"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.9" />
+        app:layout_constraintVertical_bias="0.94" />
 
     <Button
         android:id="@+id/login"
         android:layout_width="300dp"
         android:layout_height="50dp"
+        android:background="#A2DD8E"
         android:fontFamily="@font/lato"
         android:text="Log In"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -89,14 +95,17 @@
         android:id="@+id/Register"
         android:layout_width="300dp"
         android:layout_height="50dp"
+        android:background="#C4C4C4"
         android:fontFamily="@font/lato"
         android:text="Register"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.82" />
+        app:layout_constraintVertical_bias="0.84000003" />
 
     <TextView
         android:id="@+id/textView6"
