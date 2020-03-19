@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,9 +36,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderVH> {
     public void onBindViewHolder(@NonNull OrderVH holder, int position) {
 
         Receipt order = orderList.get(position);
-        holder.titleTextView.setText(order.getItemName());
-        holder.itemIdTextView.setText("Item ID: "+order.getItemId());
-        holder.custIdTextView.setText("Customer ID: "+order.getCustId());
+        holder.titleTextView.setText("Order" + order.receiptNum);
+        holder.itemIdTextView.setText("Item Name: " + order.getItemName());
 
         boolean isExpanded = orderList.get(position).isExpanded();
         holder.expandableLayout.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
@@ -53,19 +53,19 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderVH> {
 
         private static final String TAG = "OrderVH";
 
+        CardView container;
         ConstraintLayout expandableLayout;
-        TextView titleTextView, itemIdTextView, custIdTextView;
+        TextView titleTextView, itemIdTextView;
 
         public OrderVH(@NonNull final View itemView) {
             super(itemView);
 
             titleTextView = itemView.findViewById(R.id.order_number);
             itemIdTextView = itemView.findViewById(R.id.item_name);
-            custIdTextView = itemView.findViewById(R.id.item_quantity);
             expandableLayout = itemView.findViewById(R.id.expandableLayout);
+            container = itemView.findViewById(R.id.order_card);
 
-
-            titleTextView.setOnClickListener(new View.OnClickListener() {
+            container.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 

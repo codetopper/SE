@@ -1,13 +1,19 @@
 package com.example.karat.Customer.COrder;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class Receipt {
     private int itemId;
     private String itemName;
+    private static final AtomicInteger count = new AtomicInteger(0);
+    final int receiptNum;
+    //quantity, date,
     private int custId;
     private boolean expanded;
 
     public Receipt(int itemId, String itemName, int custId) {
         this.itemId = itemId;
+        receiptNum = count.incrementAndGet();
         this.itemName = itemName;
         this.custId = custId;
         this.expanded = false;
