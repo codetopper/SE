@@ -6,7 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
+import com.example.karat.Customer.Cart.CartDisplay;
 import com.example.karat.R;
 import com.example.karat.Customer.COrder.COrderDisplay;
 import com.example.karat.Customer.CProfile.CProfileDisplay;
@@ -20,9 +22,6 @@ public class CHomeDisplay extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_c_home_display);
-
-
-        //cart
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navi);
 
@@ -57,5 +56,11 @@ public class CHomeDisplay extends AppCompatActivity {
         purchase(3, "Pear", 1);
         purchase(4, "Pineapple", 1);
         purchase(5, "Durian", 2);
+    }
+
+    public void goToCart(View v) {
+        Intent i = new Intent(getBaseContext(), CartDisplay.class);
+        startActivity(i);
+        overridePendingTransition(0,0);
     }
 }

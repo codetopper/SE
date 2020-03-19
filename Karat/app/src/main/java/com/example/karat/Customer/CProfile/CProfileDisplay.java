@@ -6,7 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
+import com.example.karat.Customer.Cart.CartDisplay;
 import com.example.karat.R;
 import com.example.karat.Customer.CHome.CHomeDisplay;
 import com.example.karat.Customer.COrder.COrderDisplay;
@@ -43,5 +45,11 @@ public class CProfileDisplay extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    public void goToCart(View v) {
+        Intent i = new Intent(getBaseContext(), CartDisplay.class);
+        startActivity(i);
+        overridePendingTransition(0,0);
     }
 }

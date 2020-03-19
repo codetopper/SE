@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "609768840882",
+    "firebase_url": "https://karat-d57e6.firebaseio.com",
+    "project_id": "karat-d57e6",
+    "storage_bucket": "karat-d57e6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:609768840882:android:c72f3fd681b5d2b01eb3ab",
+        "android_client_info": {
+          "package_name": "com.example.karat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "609768840882-gin5d7b76c2ctrp9hvmib15q0aqgb25m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9MEkTh1vMOtY1gjxi9Bbij8XN12wMpJU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "609768840882-gin5d7b76c2ctrp9hvmib15q0aqgb25m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
