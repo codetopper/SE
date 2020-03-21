@@ -42,7 +42,7 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
         categorySpinner.setAdapter(categoryAdapter);
         categorySpinner.setOnItemSelectedListener(this);
 
-        final Spinner priceSpinner = findViewById(R.id.spinnerPrice);
+        /*final Spinner priceSpinner = findViewById(R.id.spinnerPrice);
         ArrayAdapter<CharSequence> priceAdapter = ArrayAdapter.createFromResource(this, R.array.Prices, android.R.layout.simple_spinner_item);
         priceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         priceSpinner.setAdapter(priceAdapter);
@@ -64,7 +64,7 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
                 CHomeManager homeManager = new CHomeManager();
                 ArrayList returnList = homeManager.search(priceparam, categoryparam, discountparam);
             }
-        });
+        });*/
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navi);
 
