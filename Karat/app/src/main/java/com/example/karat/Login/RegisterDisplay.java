@@ -55,7 +55,7 @@ public class RegisterDisplay extends AppCompatActivity {
     private void registerNewUser() {
         final String user, password, firstName, lastName, mobileNum;
         int firstDigit;
-        user = userTV.getText().toString();
+            user = userTV.getText().toString();
         password = passwordTV.getText().toString();
         firstName = firstNameTV.getText().toString();
         lastName = lastNameTV.getText().toString();
