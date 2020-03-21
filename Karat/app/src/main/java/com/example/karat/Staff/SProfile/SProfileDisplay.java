@@ -19,10 +19,12 @@ import com.example.karat.R;
 import com.example.karat.Staff.SHome.SHomeDisplay;
 import com.example.karat.Staff.SOrder.SOrderDisplay;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class SProfileDisplay extends AppCompatActivity {
 
     private Button logOffBtn, changePwBtn, editProfileBtn;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,7 @@ public class SProfileDisplay extends AppCompatActivity {
         logOffBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mAuth.signOut();
                 Intent logOffIntent = new Intent(getApplicationContext(), LoginDisplay.class);
                 startActivity(logOffIntent);
                 overridePendingTransition(0,0);

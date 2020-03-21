@@ -25,7 +25,6 @@ public class COrderDisplay extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_c_order_display);
 
-
         //recyclerview
         recyclerView = findViewById(R.id.recyclerView);
         orderManager = new COrderManager(1);

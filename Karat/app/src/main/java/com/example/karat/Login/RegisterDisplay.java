@@ -23,13 +23,14 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class RegisterDisplay extends AppCompatActivity {
 
-    private static final String TAG = RegisterDisplay.class.getSimpleName();
     private EditText userTV, passwordTV;
     private Button regBtn;
-    private ProgressBar progressBar;
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
     private EditText firstNameTV, lastNameTV, mobileNumTV;
@@ -52,15 +53,16 @@ public class RegisterDisplay extends AppCompatActivity {
     }
 
     private void registerNewUser() {
-        progressBar.setVisibility(View.VISIBLE);
-        final String user, password, firstName, lastName;
-        final Integer mobileNum;
-        user = "Customer-".concat(userTV.getText().toString());
+        final String user, password, firstName, lastName, mobileNum;
+        int firstDigit;
+        user = userTV.getText().toString();
         password = passwordTV.getText().toString();
         firstName = firstNameTV.getText().toString();
         lastName = lastNameTV.getText().toString();
-        mobileNum = Integer.parseInt(mobileNumTV.getText().toString());
-        if (TextUtils.isEmpty(user)) {
+        mobileNum = mobileNumTV.getText().toString();
+        firstDigit = Integer.parseInt(String.valueOf(mobileNum.toCharArray()[0]));
+
+        if (TextUtils.isEmpty(userTV.getText().toString())) {
             Toast.makeText(getApplicationContext(), "Please enter email...", Toast.LENGTH_LONG).show();
             return;
         }
@@ -68,38 +70,59 @@ public class RegisterDisplay extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Please enter password!", Toast.LENGTH_LONG).show();
             return;
         }
+        if (TextUtils.isEmpty(firstName)) {
+            Toast.makeText(getApplicationContext(), "Please enter first name!", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (TextUtils.isEmpty(lastName)) {
+            Toast.makeText(getApplicationContext(), "Please enter last name!", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (TextUtils.isEmpty(mobileNum)) {
+            Toast.makeText(getApplicationContext(), "Please enter mobile number!", Toast.LENGTH_LONG).show();
+            return;
+        } else if (mobileNum.length()!=8) {
+            Toast.makeText(getApplicationContext(), "Please enter an 8 digit mobile number!", Toast.LENGTH_LONG).show();
+            return;
+        } else if (firstDigit<8) {
+            Toast.makeText(getApplicationContext(), "Please enter a valid mobile number!", Toast.LENGTH_LONG).show();
+            return;
+        }
 
         mAuth.createUserWithEmailAndPassword(user, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "createUser:onComplete:" + task.isSuccessful());
-
                         if (task.isSuccessful()) {
-                            writeUserToDatabase(task.getResult().getUser(), firstName, lastName, mobileNum);
+                            writeUserToDatabase(task.getResult().getUser(), password, firstName, lastName, mobileNum);
                             Intent LoginIntent = new Intent(getApplicationContext(), LoginDisplay.class);
                             startActivity(LoginIntent);
                         } else {
-                            Toast.makeText(RegisterDisplay.this, "Sign Up Failed",
+                            Toast.makeText(RegisterDisplay.this, "Sign Up Failed.\n Error message: "+ task.getException().getMessage(),
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
     }
 
-    private void writeUserToDatabase(FirebaseUser user, String firstName, String lastName, Integer mobileNum){
-        String email = user.getEmail().substring(9);
-        mDatabase.child("UserDatabase").child(user.getUid()).child("Email").setValue(email);
-        mDatabase.child("UserDatabase").child(user.getUid()).child("FirstName").setValue(firstName);
-        mDatabase.child("UserDatabase").child(user.getUid()).child("LastName").setValue(lastName);
-        mDatabase.child("UserDatabase").child(user.getUid()).child("MobileNo.").setValue((int)mobileNum);
+    private void writeUserToDatabase(FirebaseUser user, String password, String firstName, String lastName, String mobileNum){
+        String email = user.getEmail().replace("@", "");
+        email = email.replace(".", "");
+        Date c = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+        String formattedDate = df.format(c).toString();
+        mDatabase.child("UserDatabase").child(email).child("isStaff").setValue(0);
+        mDatabase.child("UserDatabase").child(email).child("email").setValue(user.getEmail());
+        mDatabase.child("UserDatabase").child(email).child("firstName").setValue(firstName);
+        mDatabase.child("UserDatabase").child(email).child("lastName").setValue(lastName);
+        mDatabase.child("UserDatabase").child(email).child("mobileNo").setValue(mobileNum);
+        mDatabase.child("UserDatabase").child(email).child("dateRegistered").setValue(formattedDate);
     }
 
     private void initializeUI() {
         userTV = findViewById(R.id.username);
         passwordTV = findViewById(R.id.password_login);
         regBtn = findViewById(R.id.register);
-        progressBar = findViewById(R.id.progressBar);
         firstNameTV = findViewById(R.id.firstName);
         lastNameTV = findViewById(R.id.lastName);
         mobileNumTV = findViewById(R.id.mobileNum);
