@@ -64,7 +64,7 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
                 CHomeManager homeManager = new CHomeManager();
                 ArrayList returnList = homeManager.search(priceparam, categoryparam, discountparam);
             }
-        }); */
+        });*/
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navi);
 

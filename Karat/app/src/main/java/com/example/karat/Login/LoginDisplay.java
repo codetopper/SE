@@ -21,16 +21,20 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginDisplay extends AppCompatActivity {
 
-    private static final String TAG = LoginDisplay.class.getSimpleName();
     private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
     private EditText usernameEditText, passwordEditText;
     private Button loginBtn;
     private Button rgnBtn;
     private Button resetBtn;
-    private ProgressBar progressBar;
     private Switch domain;
 
 
@@ -39,6 +43,7 @@ public class LoginDisplay extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_display);
         mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         ///////////////////////////////////////////////////////////////////
         //Login process
@@ -69,19 +74,12 @@ public class LoginDisplay extends AppCompatActivity {
     }
 
     private void loginUserAccount() {
-        progressBar.setVisibility(View.VISIBLE);
 
         final String user, password;
         final boolean isStaff = domain.isChecked();
 
-        if (isStaff) {
-            user = "Staff-".concat(usernameEditText.getText().toString());
-        } else {
-            user = "Customer-".concat(usernameEditText.getText().toString());
-        }
-
+        user = usernameEditText.getText().toString();
         password = passwordEditText.getText().toString();
-
 
         if (TextUtils.isEmpty(user)) {
             Toast.makeText(getApplicationContext(), "Please enter email...", Toast.LENGTH_LONG).show();
@@ -96,18 +94,43 @@ public class LoginDisplay extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "signIn:onComplete:" + task.isSuccessful());
-
                         if (task.isSuccessful()) {
-                            if (isStaff){
-                                Intent SHomeIntent = new Intent(getApplicationContext(), SHomeDisplay.class);
-                                startActivity(SHomeIntent);
-                            } else{
-                                Intent CHomeIntent = new Intent(getApplicationContext(), CHomeDisplay.class);
-                                startActivity(CHomeIntent);
-                            }
+                            // Sign in success
+                            mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    String email = user.replace("@", "");
+                                    email = email.replace(".", "");
+                                    int check = dataSnapshot.child("UserDatabase").child(email).child("isStaff").getValue(Integer.class);
+                                    boolean userType;
+                                    if (check == 1){
+                                        userType = true;
+                                    } else {
+                                        userType = false;
+                                    }
+
+                                    if (userType==isStaff){
+                                        if(isStaff){
+                                            Intent SHomeIntent = new Intent(getApplicationContext(), SHomeDisplay.class);
+                                            startActivity(SHomeIntent);
+                                        } else {
+                                            Intent CHomeIntent = new Intent(getApplicationContext(), CHomeDisplay.class);
+                                            startActivity(CHomeIntent);
+                                        }
+                                    } else {
+                                        Toast.makeText(LoginDisplay.this, "Authentication failed.",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    Toast.makeText(LoginDisplay.this, "Database Error",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         } else {
-                            Toast.makeText(LoginDisplay.this, "Sign In Failed",
+                            // If sign in fails, display a message to the user.
+                            Toast.makeText(LoginDisplay.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -118,11 +141,9 @@ public class LoginDisplay extends AppCompatActivity {
     private void initializeUI() {
         usernameEditText = findViewById(R.id.username);
         passwordEditText = findViewById(R.id.password_login);
-
         resetBtn = findViewById(R.id.ResetPw);
         rgnBtn = findViewById(R.id.Register);
         loginBtn = findViewById(R.id.login);
-        progressBar = findViewById(R.id.progressBar);
         domain = findViewById(R.id.Domain);
     }
 }
