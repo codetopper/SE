@@ -65,21 +65,21 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onClick(View v) {
                 String cathold = categorySpinner.getSelectedItem().toString();
-                if(cathold == "--") {
+                if(cathold.equals( "--")) {
                     catparam = "empty";
                 }
                 else
                     catparam = cathold;
 
                 String pxhold = priceSpinner.getSelectedItem().toString();
-                if (pxhold == "--"){
+                if (pxhold.equals("--")){
                     pxparam = -1;
                 }
                 else
                     pxparam = Double.parseDouble(pxhold);
 
                 String dischold = discountSpinner.getSelectedItem().toString();
-                if (dischold == "--"){
+                if (dischold.equals("--")){
                     discparam = -1;
                 }
                 else
