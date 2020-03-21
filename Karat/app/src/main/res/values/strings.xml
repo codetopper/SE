@@ -3,4 +3,12 @@
     <string name="home">Home</string>
     <string name="orders">Orders</string>
     <string name="profile">Profile</string>
+    <string-array name="Categories">
+        <item>Meats</item>
+        <item>Vegetables</item>
+        <item>Fruits</item>
+        <item>Canned</item>
+        <item>Seafood</item>
+        <item>Others</item>
+    </string-array>
 </resources>
