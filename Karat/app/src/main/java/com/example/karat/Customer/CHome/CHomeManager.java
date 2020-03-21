@@ -1,4 +1,6 @@
-package com.example.karat.home;
+package com.example.karat.Customer.CHome;
+import com.example.karat.inventory.Inventory;
+import com.example.karat.inventory.Listing;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,24 +11,30 @@ public class CHomeManager {
 	Inventory inventory = Inventory.getInstance();
 	ArrayList<Listing> searchList = inventory.getList();
 
-	public int search(double price, String category, double discount, String location){
+	public ArrayList search(double price, String category, double discount, String location) {
 		searchList = inventory.getList();
-		for (Listing l: searchList) {
-			if(price != null){
-				searchList.removeIf(l -> (l.getListingPrice() <= price));
+		for (Listing l : searchList) {
+			if (price != -1) {
+				if (l.getListingPrice() <= price)
+					searchList.remove(l);
 			}
 
-			if(category != null){
-				searchList.removeIf(l -> (l.getListingCategory() != category));
+			if (category != "empty") {
+				if (l.getListingCategory() != category)
+				searchList.remove(l);
 			}
 
-			if(discount != null){
-				searchList.removeIf(l -> (l.getListingDiscount() >= discount));
+			if (discount != -1) {
+				if (l.getListingDiscount() >= discount)
+					searchList.remove(l);
 			}
 
-			if(discount != null){
-				searchList.removeIf(l -> (l.getListingLocation() != location));
+			if (location != "empty") {
+				if (l.getListingLocation() != location)
+					searchList.remove(l);
 			}
 		}
+		return searchList;
+	}
 	// cart manager
 }

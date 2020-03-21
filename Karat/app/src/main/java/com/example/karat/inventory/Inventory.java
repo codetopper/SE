@@ -2,7 +2,7 @@ package com.example.karat.inventory;
 
 import java.util.ArrayList;
 
-class Inventory{
+public class Inventory{
     private static Inventory single_instance = null;
     public static ArrayList<Listing> inventoryList = new ArrayList<>();
 
@@ -19,9 +19,11 @@ class Inventory{
     public int purchase(int listingId){
         for (Listing l: inventoryList) {
             if (listingId == l.getListingId()){
-                if (l.available == true){
-                    l.quantity--;
-                    if (l.quantity == 0) {
+                if (l.getListingAvailable() == true){
+                    int quant = l.getListingQuantity();
+                    quant--;
+                    l.setListingQuantity(quant);
+                    if (l.getListingQuantity() == 0) {
                         l.setListingAvailable(false);
                     }
                     return 1;
@@ -32,9 +34,9 @@ class Inventory{
     }
 
     public void removeListing(int listingId){
-        for (listing l: inventoryList) {
+        for (Listing l: inventoryList) {
             if (listingId == l.getListingId()){
-                if (l.available == true){
+                if (l.getListingAvailable() == true){
                     l.setListingAvailable(false);
                 }
             }
