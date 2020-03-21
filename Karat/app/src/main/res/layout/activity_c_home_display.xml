@@ -14,8 +14,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_width="409dp"
-        android:layout_height="373dp"
+        android:layout_width="411dp"
+        android:layout_height="306dp"
         android:layout_alignParentBottom="true"
         android:background="#00FFFFFF"
         android:clipChildren="true"
@@ -65,7 +65,7 @@
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.114">
+        app:layout_constraintVertical_bias="0.22">
 
         <Button
             android:id="@+id/buttonViewMkt"
@@ -90,7 +90,6 @@
             android:layout_width="125dp"
             android:layout_height="25dp"
             android:background="#FFFFFF"
-            android:popupBackground="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.1"
@@ -103,7 +102,6 @@
             android:layout_width="125dp"
             android:layout_height="25dp"
             android:background="#FFFFFF"
-            android:popupBackground="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.85"
@@ -116,7 +114,6 @@
             android:layout_width="125dp"
             android:layout_height="25dp"
             android:background="#FFFFFF"
-            android:popupBackground="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.1"
@@ -129,7 +126,6 @@
             android:layout_width="125dp"
             android:layout_height="25dp"
             android:background="#FFFFFF"
-            android:popupBackground="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.85"

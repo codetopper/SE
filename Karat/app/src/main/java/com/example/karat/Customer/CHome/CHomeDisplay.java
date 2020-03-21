@@ -42,7 +42,7 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
         categorySpinner.setAdapter(categoryAdapter);
         categorySpinner.setOnItemSelectedListener(this);
 
-        /*final Spinner priceSpinner = findViewById(R.id.spinnerPrice);
+        final Spinner priceSpinner = findViewById(R.id.spinnerPrice);
         ArrayAdapter<CharSequence> priceAdapter = ArrayAdapter.createFromResource(this, R.array.Prices, android.R.layout.simple_spinner_item);
         priceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         priceSpinner.setAdapter(priceAdapter);
@@ -54,7 +54,7 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
         discountSpinner.setAdapter(discountAdapter);
         discountSpinner.setOnItemSelectedListener(this);
 
-        Button searchButton=(Button)findViewById(R.id.ExecuteSearch);
+        /*Button searchButton=(Button)findViewById(R.id.ExecuteSearch);
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,12 +118,12 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
         }
 
         if(spin.getId() == R.id.spinnerPrice) {
-            Integer selectPrice = (Integer) parent.getItemAtPosition(position);
+            String selectPrice = (String) parent.getItemAtPosition(position);
             //Toast.makeText(parent.getContext(), selectPrice, Toast.LENGTH_SHORT).show();
         }
 
         if(spin.getId() == R.id.spinnerDiscounts) {
-            Integer selectDiscount = (Integer) parent.getItemAtPosition(position);
+            String selectDiscount = (String) parent.getItemAtPosition(position);
             //Toast.makeText(parent.getContext(), selectDiscount, Toast.LENGTH_SHORT).show();
         }
     }
