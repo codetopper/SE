@@ -33,6 +33,9 @@ import static com.example.karat.Customer.COrder.CustomerOrders.purchase;
 public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     RecyclerView recyclerView;
     ArrayList searchList;
+    String catparam;
+    double pxparam;
+    double discparam;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,9 +64,26 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String catparam = categorySpinner.getSelectedItem().toString();
-                double pxparam = (double)priceSpinner.getSelectedItem();
-                double discparam = (double)discountSpinner.getSelectedItem();
+                String cathold = categorySpinner.getSelectedItem().toString();
+                if(cathold == "--") {
+                    catparam = "empty";
+                }
+                else
+                    catparam = cathold;
+
+                String pxhold = priceSpinner.getSelectedItem().toString();
+                if (pxhold == "--"){
+                    pxparam = -1;
+                }
+                else
+                    pxparam = Double.parseDouble(pxhold);
+
+                String dischold = discountSpinner.getSelectedItem().toString();
+                if (dischold == "--"){
+                    discparam = -1;
+                }
+                else
+                    discparam = Double.parseDouble(dischold);
                 CHomeManager manager = new CHomeManager();
                 searchList = manager.search(pxparam, catparam, discparam);
             }
