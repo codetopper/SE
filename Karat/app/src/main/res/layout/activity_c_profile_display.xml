@@ -147,7 +147,7 @@
             app:layout_constraintVertical_bias="0.73" />
 
         <TextView
-            android:id="@+id/mobileTV"
+            android:id="@+id/addressTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/fredoka_one"
@@ -163,7 +163,7 @@
             app:layout_constraintVertical_bias="0.56" />
 
         <TextView
-            android:id="@+id/dateJTV"
+            android:id="@+id/timeTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/fredoka_one"

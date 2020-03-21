@@ -5,13 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.karat.Customer.Cart.CartDisplay;
 import com.example.karat.Login.LoginDisplay;
@@ -26,7 +23,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 public class CProfileDisplay extends AppCompatActivity {
@@ -62,8 +58,8 @@ public class CProfileDisplay extends AppCompatActivity {
         databaseReference = firebaseDatabase.getReference();
 
         nameTV = findViewById(R.id.nameTV);
-        dateJTV = findViewById(R.id.dateJTV);
-        mobileTV = findViewById(R.id.mobileTV);
+        dateJTV = findViewById(R.id.timeTV);
+        mobileTV = findViewById(R.id.addressTV);
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
