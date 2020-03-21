@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.example.karat.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -17,12 +19,9 @@ import com.google.firebase.database.DatabaseReference;
 
 public class ResetPwDisplay extends AppCompatActivity {
 
-    private static final String TAG = ResetPwDisplay.class.getSimpleName();
-    private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
     private Button reset;
     private EditText emailEditText;
-    private Switch domain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,35 +29,33 @@ public class ResetPwDisplay extends AppCompatActivity {
         setContentView(R.layout.activity_reset_pw_display);
 
         mAuth = FirebaseAuth.getInstance();
-
         initializeUI();
 
-        String email;
-        boolean isStaff = domain.isChecked();
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        if (isStaff) {
-            email = "Staff-".concat(emailEditText.getText().toString());
-        } else {
-            email = "Customer-".concat(emailEditText.getText().toString());
-        }
+                String email = emailEditText.getText().toString();
 
-        mAuth.sendPasswordResetEmail(email)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Log.d(TAG, "Email sent.");
-                        } else {
-                            Log.d(TAG, "User not found...");
-                        }
-                    }
-                });
-
+                mAuth.sendPasswordResetEmail(email)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(ResetPwDisplay.this, "Email sent!",
+                                            Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(ResetPwDisplay.this, "Reset Password Failed.\n Error message: "+ task.getException().getMessage(),
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+            }
+        });
     }
 
     private void initializeUI(){
         reset = findViewById(R.id.ResetPw);
         emailEditText = findViewById(R.id.email);
-        domain = findViewById(R.id.domain);
     }
 }
