@@ -6,12 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CHomeManager {
+    Inventory inventory = Inventory.getInstance();
+    ArrayList<Listing> searchList = inventory.getList();
 
 	public CHomeManager(){}
-	Inventory inventory = Inventory.getInstance();
-	ArrayList<Listing> searchList = inventory.getList();
 
-	public ArrayList search(double price, String category, double discount, String location) {
+	public ArrayList search(double price, String category, double discount/*, String location*/) {
 		searchList = inventory.getList();
 		for (Listing l : searchList) {
 			if (price != -1) {
@@ -29,10 +29,10 @@ public class CHomeManager {
 					searchList.remove(l);
 			}
 
-			if (location != "empty") {
+			/*if (location != "empty") {
 				if (l.getListingLocation() != location)
 					searchList.remove(l);
-			}
+			}*/
 		}
 		return searchList;
 	}
