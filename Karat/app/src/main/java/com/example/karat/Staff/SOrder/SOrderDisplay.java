@@ -9,10 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.example.karat.Customer.CHome.CHomeDisplay;
-import com.example.karat.Customer.COrder.COrderDisplay;
-import com.example.karat.Staff.SOrder.OrderAdapter;
-import com.example.karat.Customer.CProfile.CProfileDisplay;
+import com.example.karat.Customer.COrder.OrderAdapter;
 import com.example.karat.R;
 import com.example.karat.Staff.SHome.SHomeDisplay;
 import com.example.karat.Staff.SProfile.SProfileDisplay;
