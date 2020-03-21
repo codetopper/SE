@@ -2,35 +2,48 @@ package com.example.karat.inventory;
 
 import java.util.ArrayList;
 
-class Inventory{
+public class Inventory{
     private static Inventory single_instance = null;
-    public static ArrayList<Listing> meatInventory = new ArrayList<>();
-    public static ArrayList<Listing> vegInventory = new ArrayList<>();
-    public static ArrayList<Listing> fruitsInventory = new ArrayList<>();
-    public static ArrayList<Listing> seafoodInventory = new ArrayList<>();
-    public static ArrayList<Listing> cannedInventory = new ArrayList<>();
+    public static ArrayList<Listing> inventoryList = new ArrayList<>();
 
     private Inventory() {}
     
-    public void addMeat(double price, double discount, String name) {
-        meatInventory.add(new Listing(price, discount, name, "meats"));
+    public ArrayList<Listing> getList(){
+        return inventoryList;
     }
 
-    public void addVeg(double price, double discount, String name) {
-        vegInventory.add(new Listing(price, discount, name, "vegetables"));
+    public void addListing(double price, double discount, String location, String name, String category) {
+        inventoryList.add(new Listing(price, discount, location, name, category));
     }
 
-    public void addFruits(double price, double discount, String name) {
-        fruitsInventory.add(new Listing(price, discount, name, "fruits"));
+    public int purchase(int listingId){
+        for (Listing l: inventoryList) {
+            if (listingId == l.getListingId()){
+                if (l.getListingAvailable() == true){
+                    int quant = l.getListingQuantity();
+                    quant--;
+                    l.setListingQuantity(quant);
+                    if (l.getListingQuantity() == 0) {
+                        l.setListingAvailable(false);
+                    }
+                    return 1;
+                }
+            }
+        }    
+        return 0;
     }
 
-    public void addSeafood(double price, double discount, String name) {
-        seafoodInventory.add(new Listing(price, discount, name, "seafood"));
+    public void removeListing(int listingId){
+        for (Listing l: inventoryList) {
+            if (listingId == l.getListingId()){
+                if (l.getListingAvailable() == true){
+                    l.setListingAvailable(false);
+                }
+            }
+        }
     }
 
-    public void addCanned(double price, double discount, String name) {
-        cannedInventory.add(new Listing(price, discount, name, "canned"));
-    }
+
 
     public static Inventory getInstance(){
         if(single_instance == null){
