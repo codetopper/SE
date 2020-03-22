@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -13,6 +14,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import com.example.karat.Customer.CHome.CHomeDisplay;
+import com.example.karat.Customer.COrder.COrderDisplay;
+import com.example.karat.Customer.CProfile.CProfileDisplay;
 import com.example.karat.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -24,6 +27,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MapDisplay extends FragmentActivity implements OnMapReadyCallback {
 
@@ -37,6 +41,31 @@ public class MapDisplay extends FragmentActivity implements OnMapReadyCallback {
         setContentView(R.layout.activity_maps);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         fetchLastLocation();
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navi);
+
+        bottomNavigationView.findViewById(R.id.Home).setSelected(false);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.Home:
+                        startActivity(new Intent(getApplicationContext(), CHomeDisplay.class));
+                        overridePendingTransition(0,0);
+                        return true;
+                    case R.id.Orders:
+                        startActivity(new Intent(getApplicationContext(), COrderDisplay.class));
+                        overridePendingTransition(0,0);
+                        return true;
+                    case R.id.Profile:
+                        startActivity(new Intent(getApplicationContext(), CProfileDisplay.class));
+                        overridePendingTransition(0,0);
+                        return true;
+                }
+                return false;
+            }
+        });
     }
 
     private void fetchLastLocation() {
