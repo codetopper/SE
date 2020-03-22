@@ -7,7 +7,7 @@ import java.util.List;
 
 public class CHomeManager {
     Inventory inventory = Inventory.getInstance();
-    ArrayList<Listing> searchList = inventory.getList();
+    ArrayList<Listing> searchList;
 
 	public CHomeManager(){}
 
