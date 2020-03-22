@@ -1,5 +1,6 @@
 package com.example.karat.Customer.CHome;
 
+import com.example.karat.Customer.CHome.CHomeManager;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,6 +17,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.karat.Customer.COrder.OrderAdapter;
+import com.example.karat.Customer.CSuperMap.MapDisplay;
 import com.example.karat.Customer.Cart.CartDisplay;
 import com.example.karat.R;
 import com.example.karat.Customer.COrder.COrderDisplay;
@@ -31,13 +33,17 @@ import static com.example.karat.Customer.COrder.CustomerOrders.purchase;
 
 public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     RecyclerView recyclerView;
+    ArrayList searchList;
+    String catparam;
+    double pxparam;
+    double discparam;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_c_home_display);
 
         final Spinner categorySpinner = findViewById(R.id.spinnerCategory);
-        ArrayAdapter<CharSequence> categoryAdapter = ArrayAdapter.createFromResource(this, R.array.Categories, android.R.layout.simple_spinner_item);
+        final ArrayAdapter<CharSequence> categoryAdapter = ArrayAdapter.createFromResource(this, R.array.Categories, android.R.layout.simple_spinner_item);
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(categoryAdapter);
         categorySpinner.setOnItemSelectedListener(this);
@@ -49,20 +55,38 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
         priceSpinner.setOnItemSelectedListener(this);
 
         final Spinner discountSpinner = findViewById(R.id.spinnerDiscounts);
-        ArrayAdapter<CharSequence> discountAdapter = ArrayAdapter.createFromResource(this, R.array.Discounts, android.R.layout.simple_spinner_item);
+        final ArrayAdapter<CharSequence> discountAdapter = ArrayAdapter.createFromResource(this, R.array.Discounts, android.R.layout.simple_spinner_item);
         discountAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         discountSpinner.setAdapter(discountAdapter);
         discountSpinner.setOnItemSelectedListener(this);
 
-        Button searchButton=(Button)findViewById(R.id.ExecuteSearch);
-        searchButton.setOnClickListener(new View.OnClickListener() {
+        Button search = (Button) findViewById(R.id.ExecuteSearch);
+
+        search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String categoryparam = String.valueOf(categorySpinner.getSelectedItem());
-                Integer priceparam = (Integer) priceSpinner.getSelectedItem();
-                Integer discountparam = (Integer) discountSpinner.getSelectedItem();
-                CHomeManager homeManager = new CHomeManager();
-                ArrayList returnList = homeManager.search(priceparam, categoryparam, discountparam);
+                String cathold = categorySpinner.getSelectedItem().toString();
+                if(cathold.equals( "--")) {
+                    catparam = "empty";
+                }
+                else
+                    catparam = cathold;
+
+                String pxhold = priceSpinner.getSelectedItem().toString();
+                if (pxhold.equals("--")){
+                    pxparam = -1;
+                }
+                else
+                    pxparam = Double.parseDouble(pxhold);
+
+                String dischold = discountSpinner.getSelectedItem().toString();
+                if (dischold.equals("--")){
+                    discparam = -1;
+                }
+                else
+                    discparam = Double.parseDouble(dischold);
+                CHomeManager manager = new CHomeManager();
+                searchList = manager.search(pxparam, catparam, discparam);
             }
         });
 
@@ -94,11 +118,11 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
     }
 
     private void initData() {
-        purchase(1, "Apple", 1);
-        purchase(2, "Orange", 1);
-        purchase(3, "Pear", 1);
-        purchase(4, "Pineapple", 1);
-        purchase(5, "Durian", 2);
+        purchase(1, "Apple", 1, 1, 0.5, "1/3/2020", 1, "Giant");
+        purchase(2, "Orange", 1, 2, 1.0, "1/3/2020", 1, "Giant");
+        purchase(3, "Pear", 1, 1, 0.8, "3/3/2020", 1, "Giant");
+        purchase(4, "Pineapple", 1, 2, 7.8, "4/3/2020", 1, "Giant");
+        purchase(5, "Durian", 2, 4, 50, "10/3/2020", 1, "Giant");
     }
 
     public void goToCart(View v) {
@@ -107,28 +131,45 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
         overridePendingTransition(0,0);
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        Spinner spin = (Spinner)parent;
-        Spinner spin2 = (Spinner)parent;
-        Spinner spin3 = (Spinner)parent;
-        if(spin.getId() == R.id.spinnerCategory) {
-            String selectCategory = parent.getItemAtPosition(position).toString();
-            //Toast.makeText(parent.getContext(), selectCategory, Toast.LENGTH_SHORT).show();
-        }
-
-        if(spin.getId() == R.id.spinnerPrice) {
-            Integer selectPrice = (Integer) parent.getItemAtPosition(position);
-            //Toast.makeText(parent.getContext(), selectPrice, Toast.LENGTH_SHORT).show();
-        }
-
-        if(spin.getId() == R.id.spinnerDiscounts) {
-            Integer selectDiscount = (Integer) parent.getItemAtPosition(position);
-            //Toast.makeText(parent.getContext(), selectDiscount, Toast.LENGTH_SHORT).show();
-        }
+    public void goToMap(View v) {
+        Intent i = new Intent(getBaseContext(), MapDisplay.class);
+        startActivity(i);
+        overridePendingTransition(0,0);
     }
 
     @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+// zy version most likely wrong cause i haven't get cyrus' update
+//         Spinner spin = (Spinner)parent;
+//         Spinner spin2 = (Spinner)parent;
+//         Spinner spin3 = (Spinner)parent;
+//         if(spin.getId() == R.id.spinnerCategory) {
+//             String selectCategory = parent.getItemAtPosition(position).toString();
+//             //Toast.makeText(parent.getContext(), selectCategory, Toast.LENGTH_SHORT).show();
+//         }
+
+//         if(spin2.getId() == R.id.spinnerPrice) {
+//             Integer selectPrice = (Integer) parent.getItemAtPosition(position);
+//             //Toast.makeText(parent.getContext(), selectPrice, Toast.LENGTH_SHORT).show();
+//         }
+
+//         if(spin.getId() == R.id.spinnerDiscounts) {
+//             Integer selectDiscount = (Integer) parent.getItemAtPosition(position);
+//             //Toast.makeText(parent.getContext(), selectDiscount, Toast.LENGTH_SHORT).show();
+
+        switch(parent.getId()) {
+            case R.id.spinnerCategory:
+                String cat = String.valueOf(parent.getItemAtPosition(position));
+                //Toast.makeText(this, cat, Toast.LENGTH_SHORT).show();
+            case R.id.spinnerPrice:
+                String px = String.valueOf(parent.getItemAtPosition(position));
+                //Toast.makeText(this, px, Toast.LENGTH_SHORT).show();
+            case R.id.spinnerDiscounts:
+                String disc = String.valueOf(parent.getItemAtPosition(position));
+                //Toast.makeText(this, disc, Toast.LENGTH_SHORT).show();
+        }
+    }
+
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
