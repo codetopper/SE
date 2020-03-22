@@ -1,4 +1,5 @@
 package com.example.karat.Customer.CHome;
+import com.example.karat.Customer.Cart.CartManager;
 import com.example.karat.inventory.Inventory;
 import com.example.karat.inventory.Listing;
 
@@ -8,6 +9,7 @@ import java.util.List;
 public class CHomeManager {
     Inventory inventory = Inventory.getInstance();
     ArrayList<Listing> searchList = inventory.getList();
+	CartManager cart_manager;
 
 	public CHomeManager(){}
 
@@ -37,4 +39,10 @@ public class CHomeManager {
 		return searchList;
 	}
 	// cart manager
+	public void cart_adder(){
+		CartManager cart_manager = new CartManager();
+
+
+	}
+
 }

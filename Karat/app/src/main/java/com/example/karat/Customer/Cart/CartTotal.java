@@ -9,15 +9,17 @@ public class CartTotal {
 
     protected static int cartAmount = 0;
     private static ArrayList<Cart> cartlist = new ArrayList<>();
-
-
+    private static ArrayList<String> cartlistname = new ArrayList<>();
     /* Getters */
 
     public static int getCartAmount() {
         return cartAmount;
     }
-    static ArrayList<Cart> getCartlist() {
+    public static ArrayList<Cart> getCartlist() {
         return cartlist;
+    }
+    public static ArrayList<String> getNamelist(){
+        return cartlistname;
     }
 
 
@@ -30,6 +32,7 @@ public class CartTotal {
 
 
     public static void addtoCart(double price, String name, int quantity,int mImageResource) {
+
         cartlist.add(new Cart(price, name, quantity, mImageResource));
         cartAmount++;
     }

@@ -76,8 +76,8 @@
 
     <EditText
         android:id="@+id/lastName"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:layout_width="287dp"
+        android:layout_height="28dp"
         android:ems="10"
         android:hint="Last Name"
         android:inputType="textPersonName"

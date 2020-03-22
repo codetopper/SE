@@ -12,7 +12,7 @@ public class CartManager {
     CartTotal total = new CartTotal();
     List <Cart>  cartList;
 
-    CartManager() {
+    public CartManager() {
         cartList = new ArrayList<>();
         for (Cart c: total.getCartlist()){
             cartList.add(c);
