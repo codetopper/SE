@@ -38,6 +38,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderVH> {
         Receipt order = orderList.get(position);
         holder.titleTextView.setText("Order" + order.receiptNum);
         holder.itemIdTextView.setText("Item Name: " + order.getItemName());
+        holder.date.setText("Date Ordered: " + order.getDate());
+        holder.quantity.setText("Quantity: " + order.getQuantity());
+        holder.price.setText("Total Price: " + order.getPrice());
+        holder.place.setText("@ " + order.getSupName());
+
 
         boolean isExpanded = orderList.get(position).isExpanded();
         holder.expandableLayout.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
@@ -55,12 +60,16 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderVH> {
 
         CardView container;
         ConstraintLayout expandableLayout;
-        TextView titleTextView, itemIdTextView;
+        TextView titleTextView, itemIdTextView, date, quantity, price, place;
 
         public OrderVH(@NonNull final View itemView) {
             super(itemView);
 
             titleTextView = itemView.findViewById(R.id.order_number);
+            date = itemView.findViewById(R.id.order_date);
+            quantity = itemView.findViewById(R.id.order_quantity);
+            price = itemView.findViewById(R.id.order_price);
+            place = itemView.findViewById(R.id.order_place);
             itemIdTextView = itemView.findViewById(R.id.item_name);
             expandableLayout = itemView.findViewById(R.id.expandableLayout);
             container = itemView.findViewById(R.id.order_card);

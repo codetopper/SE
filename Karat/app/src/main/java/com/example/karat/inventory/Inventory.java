@@ -8,7 +8,7 @@ public class Inventory{
 
     private Inventory() {}
     
-    public ArrayList<Listing> getList(){
+    public ArrayList<com.example.karat.inventory.Listing> getList(){
         return inventoryList;
     }
 

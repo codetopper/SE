@@ -1,0 +1,24 @@
+<resources>
+    <!--
+    TODO: Before you run your application, you need a Google MapDisplay API key.
+
+    To get one, follow this link, follow the directions and press "Create" at the end:
+
+    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=80:84:C4:D0:88:85:A2:94:60:65:9A:22:D0:EB:47:D8:FF:FA:7E:D1%3Bcom.example.karat.Customer.CSuperMap
+
+    You can also add your credentials to an existing key, using these values:
+
+    Package name:
+    com.example.karat.Customer.CSuperMap
+
+    SHA-1 certificate fingerprint:
+    80:84:C4:D0:88:85:A2:94:60:65:9A:22:D0:EB:47:D8:FF:FA:7E:D1
+
+    Alternatively, follow the directions here:
+    https://developers.google.com/maps/documentation/android/start#get-key
+
+    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
+    string in this file.
+    -->
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyBipQtYUPaBThggJ2MCoucc3K5nJYWgdCY</string>
+</resources>
