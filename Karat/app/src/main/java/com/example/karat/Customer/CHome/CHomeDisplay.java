@@ -17,6 +17,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.karat.Customer.COrder.OrderAdapter;
+import com.example.karat.Customer.CSuperMap.MapDisplay;
 import com.example.karat.Customer.Cart.CartDisplay;
 import com.example.karat.R;
 import com.example.karat.Customer.COrder.COrderDisplay;
@@ -126,6 +127,12 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
 
     public void goToCart(View v) {
         Intent i = new Intent(getBaseContext(), CartDisplay.class);
+        startActivity(i);
+        overridePendingTransition(0,0);
+    }
+
+    public void goToMap(View v) {
+        Intent i = new Intent(getBaseContext(), MapDisplay.class);
         startActivity(i);
         overridePendingTransition(0,0);
     }
