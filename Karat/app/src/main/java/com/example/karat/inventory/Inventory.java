@@ -43,8 +43,6 @@ public class Inventory{
         }
     }
 
-
-
     public static Inventory getInstance(){
         if(single_instance == null){
             single_instance = new Inventory();

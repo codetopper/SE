@@ -31,26 +31,25 @@
             android:value="@string/google_maps_key" />
 
         <activity android:name=".Customer.CSuperMap.MapDisplay">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".Staff.SProfile.SEditProfileDisplay" />
         <activity android:name=".Customer.CProfile.CEditProfileDisplay" />
         <activity android:name=".Login.RegisterDisplay" />
         <activity android:name=".Login.ResetPwDisplay" />
-        <activity android:name=".Login.LoginDisplay" />
+        <activity android:name=".Customer.CHome.CHomeDisplay" />
         <activity android:name=".Staff.SProfile.SProfileDisplay" />
         <activity android:name=".Staff.SOrder.SOrderDisplay" />
         <activity android:name=".Staff.SHome.SHomeDisplay" />
         <activity android:name=".Customer.Cart.CartDisplay" />
         <activity android:name=".Customer.CProfile.CProfileDisplay" />
         <activity android:name=".Customer.COrder.COrderDisplay" />
-        <activity android:name=".Customer.CHome.CHomeDisplay">
+        <activity android:name=".Login.LoginDisplay">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <meta-data

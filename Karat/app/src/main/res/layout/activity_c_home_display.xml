@@ -14,8 +14,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_width="409dp"
-        android:layout_height="373dp"
+        android:layout_width="411dp"
+        android:layout_height="306dp"
         android:layout_alignParentBottom="true"
         android:background="#00FFFFFF"
         android:clipChildren="true"
@@ -23,6 +23,7 @@
         android:isScrollContainer="false"
         android:scrollbars="vertical"
         android:visibility="visible"
+        android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@id/bottom_navi"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -57,15 +58,15 @@
         app:srcCompat="@drawable/ic_shopping_cart" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="320dp"
-        android:layout_height="233dp"
+        android:layout_width="356dp"
+        android:layout_height="230dp"
         android:background="#33FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.114">
+        app:layout_constraintVertical_bias="0.22">
 
         <Button
             android:id="@+id/buttonViewMkt"
@@ -90,7 +91,6 @@
             android:layout_width="125dp"
             android:layout_height="25dp"
             android:background="#FFFFFF"
-            android:popupBackground="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.1"
@@ -103,7 +103,6 @@
             android:layout_width="125dp"
             android:layout_height="25dp"
             android:background="#FFFFFF"
-            android:popupBackground="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.85"
@@ -116,7 +115,6 @@
             android:layout_width="125dp"
             android:layout_height="25dp"
             android:background="#FFFFFF"
-            android:popupBackground="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.1"
@@ -129,7 +127,6 @@
             android:layout_width="125dp"
             android:layout_height="25dp"
             android:background="#FFFFFF"
-            android:popupBackground="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.85"
@@ -155,8 +152,8 @@
 
         <TextView
             android:id="@+id/textViewDiscounts"
-            android:layout_width="131dp"
-            android:layout_height="25dp"
+            android:layout_width="147dp"
+            android:layout_height="28dp"
             android:fontFamily="@font/lato"
             android:text="Discounts (%min)"
             android:textColor="#FFFFFF"
@@ -167,7 +164,7 @@
             app:layout_constraintHorizontal_bias="0.113"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.605" />
+            app:layout_constraintVertical_bias="0.62" />
 
         <TextView
             android:id="@+id/textViewPrice"
@@ -187,8 +184,8 @@
 
         <TextView
             android:id="@+id/textViewLocation"
-            android:layout_width="65dp"
-            android:layout_height="24dp"
+            android:layout_width="86dp"
+            android:layout_height="26dp"
             android:fontFamily="@font/lato"
             android:text="Location"
             android:textColor="#FFFFFF"
@@ -196,10 +193,10 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.658"
+            app:layout_constraintHorizontal_bias="0.748"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.602" />
+            app:layout_constraintVertical_bias="0.606" />
 
         <Button
             android:id="@+id/ExecuteSearch"
