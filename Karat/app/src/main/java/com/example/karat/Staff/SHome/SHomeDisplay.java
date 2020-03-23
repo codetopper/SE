@@ -24,6 +24,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+import static com.example.karat.Customer.COrder.CustomerOrders.purchase;
+
 public class SHomeDisplay extends AppCompatActivity {
 
     private TextView nameTV, addressTV, timeTV;
@@ -64,6 +66,7 @@ public class SHomeDisplay extends AppCompatActivity {
                         finish();
                         return true;
                     case R.id.Orders:
+                        initData();
                         startActivity(new Intent(getApplicationContext(), SOrderDisplay.class));
                         overridePendingTransition(0,0);
                         finish();
@@ -78,6 +81,7 @@ public class SHomeDisplay extends AppCompatActivity {
             }
         });
     }
+
 
     private void setHeader(){
         final String email = mAuth.getCurrentUser().getEmail().replace("@", "")
@@ -110,3 +114,13 @@ public class SHomeDisplay extends AppCompatActivity {
         timeTV = findViewById(R.id.timeTV);
     }
 }
+
+    private void initData() {
+        purchase(1, "Apple", 1, 1, 0.5, "1/3/2020", 1, "Giant");
+        purchase(2, "Orange", 1, 2, 1.0, "1/3/2020", 1, "Giant");
+        purchase(3, "Pear", 1, 1, 0.8, "3/3/2020", 1, "Giant");
+        purchase(4, "Pineapple", 1, 2, 7.8, "4/3/2020", 1, "Giant");
+        purchase(5, "Durian", 2, 4, 50, "10/3/2020", 1, "Giant");
+    }
+}
+
