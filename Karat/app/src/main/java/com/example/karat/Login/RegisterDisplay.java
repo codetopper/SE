@@ -97,6 +97,7 @@ public class RegisterDisplay extends AppCompatActivity {
                             writeUserToDatabase(task.getResult().getUser(), password, firstName, lastName, mobileNum);
                             Intent LoginIntent = new Intent(getApplicationContext(), LoginDisplay.class);
                             startActivity(LoginIntent);
+                            finish();
                         } else {
                             Toast.makeText(RegisterDisplay.this, "Sign Up Failed.\n Error message: "+ task.getException().getMessage(),
                                     Toast.LENGTH_SHORT).show();

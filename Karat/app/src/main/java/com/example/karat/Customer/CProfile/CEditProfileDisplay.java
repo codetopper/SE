@@ -112,6 +112,7 @@ public class CEditProfileDisplay extends AppCompatActivity {
         editUserToDatabase(firstName, lastName, mobileNum);
         Intent ProfileIntent = new Intent(getApplicationContext(), CProfileDisplay.class);
         startActivity(ProfileIntent);
+        finish();
     }
 
     private void editUserToDatabase( String firstName, String lastName, String mobileNum){

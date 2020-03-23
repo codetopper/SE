@@ -125,6 +125,7 @@ public class SEditProfileDisplay extends AppCompatActivity {
         editStoreToDatabase(firstName, lastName, openTime, closeTime, mobileNum, address);
         Intent ProfileIntent = new Intent(getApplicationContext(), SProfileDisplay.class);
         startActivity(ProfileIntent);
+        finish();
     }
 
     private void editStoreToDatabase( String firstName, String lastName, String openTime, String closeTime, String mobileNum, String address){
