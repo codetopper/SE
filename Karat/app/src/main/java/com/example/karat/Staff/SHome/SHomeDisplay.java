@@ -17,11 +17,13 @@ import com.example.karat.Customer.CProfile.CProfileDisplay;
 import com.example.karat.R;
 import com.example.karat.Staff.SOrder.SOrderDisplay;
 import com.example.karat.Staff.SProfile.SProfileDisplay;
+import com.example.karat.inventory.Listing;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import static com.example.karat.Customer.COrder.CustomerOrders.purchase;
@@ -32,14 +34,44 @@ public class SHomeDisplay extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private Button addListingBtn;
+    private Button editListing1Btn;
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s_home_display);
 
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
         initialiseUI();
-        //setHeader();
+        setHeader();
+
+        //Generate recycler view with buttons?
+        //Where each button has a extra intent of productID
+        editListing1Btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Test if listing exists
+                mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.child("Inventory").child(1 + "").getValue(Listing.class)==null) {
+                            Toast.makeText(getApplicationContext(), "Listing does not exist!", Toast.LENGTH_LONG).show();
+                        } else {
+                            Intent SListingIntent = new Intent(getApplicationContext(), SHomeManageListingDisplay.class);
+                            SListingIntent.putExtra("com.example.karat.listingID", "1");
+                            startActivity(SListingIntent);
+                            overridePendingTransition(0,0);
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Toast.makeText(getApplicationContext(), databaseError.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        });
 
         addListingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,7 +122,7 @@ public class SHomeDisplay extends AppCompatActivity {
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String name = dataSnapshot.child("UserDatabase").child(email).child("firstName").getValue(String.class) +
+                String name = dataSnapshot.child("UserDatabase").child(email).child("firstName").getValue(String.class) + " " +
                         dataSnapshot.child("UserDatabase").child(email).child("lastName").getValue(String.class);
                 String address = dataSnapshot.child("UserDatabase").child(email).child("address").getValue(String.class);
                 String timeStart = dataSnapshot.child("UserDatabase").child(email).child("openingHour").getValue(String.class);
@@ -104,17 +136,17 @@ public class SHomeDisplay extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), databaseError.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
-
     }
 
     private void initialiseUI(){
         addListingBtn = findViewById(R.id.addListing);
+        editListing1Btn = findViewById(R.id.editp1);
         nameTV = findViewById(R.id.nameTV);
         addressTV = findViewById(R.id.addressTV);
         timeTV = findViewById(R.id.timeTV);
     }
 
-
+    /*
     private void initData() {
         purchase(1, "Apple", 1, 1, 0.5, "1/3/2020", 1, "Giant");
         purchase(2, "Orange", 1, 2, 1.0, "1/3/2020", 1, "Giant");
@@ -122,5 +154,6 @@ public class SHomeDisplay extends AppCompatActivity {
         purchase(4, "Pineapple", 1, 2, 7.8, "4/3/2020", 1, "Giant");
         purchase(5, "Durian", 2, 4, 50, "10/3/2020", 1, "Giant");
     }
+    */
 }
 
