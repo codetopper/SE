@@ -117,9 +117,7 @@ public class LoginDisplay extends AppCompatActivity {
                                             Intent CHomeIntent = new Intent(getApplicationContext(), CHomeDisplay.class);
                                             startActivity(CHomeIntent);
                                         }
-                                        usernameEditText.setText("");
                                         passwordEditText.setText((""));
-                                        domain.setChecked(false);
                                     } else {
                                         Toast.makeText(LoginDisplay.this, "Authentication failed.",
                                                 Toast.LENGTH_SHORT).show();

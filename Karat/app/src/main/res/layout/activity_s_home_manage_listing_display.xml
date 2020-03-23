@@ -12,11 +12,10 @@ tools:context=".Staff.SHome.SHomeManageListingDisplay">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="375dp"
-        android:layout_height="98dp"
+        android:layout_height="95dp"
         android:layout_marginTop="16dp"
         android:background="#33FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.444"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -48,7 +47,7 @@ tools:context=".Staff.SHome.SHomeManageListingDisplay">
             app:layout_constraintHorizontal_bias="0.08"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.95" />
+            app:layout_constraintVertical_bias="0.92" />
 
         <TextView
             android:id="@+id/addressTV"
@@ -79,14 +78,14 @@ tools:context=".Staff.SHome.SHomeManageListingDisplay">
             app:layout_constraintHorizontal_bias="0.02"
             app:layout_constraintStart_toEndOf="@+id/textView5"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.95" />
+            app:layout_constraintVertical_bias="0.92" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
         android:layout_width="236dp"
         android:layout_height="39dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:background="#33FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -110,7 +109,7 @@ tools:context=".Staff.SHome.SHomeManageListingDisplay">
         android:id="@+id/upload"
         android:layout_width="127dp"
         android:layout_height="36dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:text="Upload Image"
         app:layout_constraintEnd_toStartOf="@+id/uploadImg"
         app:layout_constraintHorizontal_bias="0.595"
@@ -159,7 +158,7 @@ tools:context=".Staff.SHome.SHomeManageListingDisplay">
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/itemPrice" />
 
-<EditText
+    <EditText
     android:id="@+id/itemDisc"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -174,9 +173,24 @@ tools:context=".Staff.SHome.SHomeManageListingDisplay">
     app:layout_constraintTop_toBottomOf="@+id/itemQty" />
 
     <EditText
+        android:id="@+id/itemCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="#C4EFEFEF"
+        android:ems="10"
+        android:gravity="center"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.81"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/itemDisc" />
+
+    <EditText
         android:id="@+id/description"
         android:layout_width="336dp"
         android:layout_height="88dp"
+        android:layout_marginTop="5dp"
         android:background="#C4EFEFEF"
         android:ems="10"
         android:gravity="start|center_horizontal"
@@ -184,14 +198,14 @@ tools:context=".Staff.SHome.SHomeManageListingDisplay">
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/itemDisc"
-        app:layout_constraintVertical_bias="0.3" />
+        app:layout_constraintTop_toBottomOf="@+id/textView12"
+        app:layout_constraintVertical_bias="0.110000014" />
 
     <ImageView
         android:id="@+id/uploadImg"
         android:layout_width="62dp"
         android:layout_height="54dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:background="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.633"
@@ -287,17 +301,30 @@ tools:context=".Staff.SHome.SHomeManageListingDisplay">
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
-<TextView
-    android:id="@+id/textView12"
-    android:layout_width="105dp"
-    android:layout_height="24dp"
-    android:layout_marginTop="10dp"
-    android:background="#FFFFFF"
-    android:gravity="center"
-    android:text="Description"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.12"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/textView11" />
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="105dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="10dp"
+        android:background="#FFFFFF"
+        android:gravity="center"
+        android:text="Description"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.12"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="105dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="10dp"
+        android:background="#FFFFFF"
+        android:gravity="center"
+        android:text="Category"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.12"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

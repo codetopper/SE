@@ -12,8 +12,8 @@ public class Inventory{
         return inventoryList;
     }
 
-    public void addListing(double price, double discount, String location, String name, String category) {
-        inventoryList.add(new Listing(price, discount, location, name, category));
+    public void addListing(double price, double discount, String location, String name, String category, String description, int quantity) {
+        inventoryList.add(new Listing(price, discount, location, name, category, description, quantity));
     }
 
     public int purchase(int listingId){
