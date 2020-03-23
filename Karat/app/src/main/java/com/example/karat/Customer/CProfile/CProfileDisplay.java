@@ -119,10 +119,8 @@ public class CProfileDisplay extends AppCompatActivity {
         logOffBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent logOffIntent = new Intent(getApplicationContext(), LoginDisplay.class);
-                startActivity(logOffIntent);
-                overridePendingTransition(0,0);
                 mAuth.signOut();
+                finish();
             }
         });
 
@@ -156,14 +154,17 @@ public class CProfileDisplay extends AppCompatActivity {
                     case R.id.Home:
                         startActivity(new Intent(getApplicationContext(), CHomeDisplay.class));
                         overridePendingTransition(0,0);
+                        finish();
                         return true;
                     case R.id.Orders:
                         startActivity(new Intent(getApplicationContext(), COrderDisplay.class));
                         overridePendingTransition(0,0);
+                        finish();
                         return true;
                     case R.id.Profile:
                         startActivity(new Intent(getApplicationContext(), CProfileDisplay.class));
                         overridePendingTransition(0,0);
+                        finish();
                         return true;
                 }
                 return false;

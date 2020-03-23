@@ -78,14 +78,17 @@ public class CartDisplay extends AppCompatActivity {
                     case R.id.Home:
                         startActivity(new Intent(getApplicationContext(), CHomeDisplay.class));
                         overridePendingTransition(0,0);
+                        finish();
                         return true;
                     case R.id.Orders:
                         startActivity(new Intent(getApplicationContext(), COrderDisplay.class));
                         overridePendingTransition(0,0);
+                        finish();
                         return true;
                     case R.id.Profile:
                         startActivity(new Intent(getApplicationContext(), CProfileDisplay.class));
                         overridePendingTransition(0,0);
+                        finish();
                         return true;
                 }
                 return false;

@@ -34,14 +34,17 @@ public class SOrderDisplay extends AppCompatActivity {
                     case R.id.Home:
                         startActivity(new Intent(getApplicationContext(), SHomeDisplay.class));
                         overridePendingTransition(0,0);
+                        finish();
                         return true;
                     case R.id.Orders:
                         startActivity(new Intent(getApplicationContext(), SOrderDisplay.class));
                         overridePendingTransition(0,0);
+                        finish();
                         return true;
                     case R.id.Profile:
                         startActivity(new Intent(getApplicationContext(), SProfileDisplay.class));
                         overridePendingTransition(0,0);
+                        finish();
                         return true;
                 }
                 return false;

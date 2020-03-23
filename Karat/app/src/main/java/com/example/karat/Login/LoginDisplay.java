@@ -54,6 +54,7 @@ public class LoginDisplay extends AppCompatActivity {
             public void onClick(View v) {
                 Intent regIntent = new Intent(getApplicationContext(), RegisterDisplay.class);
                 startActivity(regIntent);
+                finish();
             }
         });
 
@@ -69,6 +70,7 @@ public class LoginDisplay extends AppCompatActivity {
             public void onClick(View v) {
                 Intent resetPwIntent = new Intent(getApplicationContext(), ResetPwDisplay.class);
                 startActivity(resetPwIntent);
+                finish();
             }
         });
     }
@@ -113,9 +115,11 @@ public class LoginDisplay extends AppCompatActivity {
                                         if(isStaff){
                                             Intent SHomeIntent = new Intent(getApplicationContext(), SHomeDisplay.class);
                                             startActivity(SHomeIntent);
+                                            finish();
                                         } else {
                                             Intent CHomeIntent = new Intent(getApplicationContext(), CHomeDisplay.class);
                                             startActivity(CHomeIntent);
+                                            finish();
                                         }
                                     } else {
                                         Toast.makeText(LoginDisplay.this, "Authentication failed.",

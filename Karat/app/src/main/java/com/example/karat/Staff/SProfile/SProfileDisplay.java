@@ -89,6 +89,7 @@ public class SProfileDisplay extends AppCompatActivity {
                 Intent logOffIntent = new Intent(getApplicationContext(), LoginDisplay.class);
                 startActivity(logOffIntent);
                 overridePendingTransition(0,0);
+                finish();
             }
         });
 
@@ -99,6 +100,7 @@ public class SProfileDisplay extends AppCompatActivity {
                 Intent changePwIntent = new Intent(getApplicationContext(), ResetPwDisplay.class);
                 startActivity(changePwIntent);
                 overridePendingTransition(0,0);
+                finish();
             }
         });
 
@@ -109,6 +111,7 @@ public class SProfileDisplay extends AppCompatActivity {
                 Intent editProfileIntent = new Intent(getApplicationContext(), SEditProfileDisplay.class);
                 startActivity(editProfileIntent);
                 overridePendingTransition(0,0);
+                finish();
             }
         });
 
