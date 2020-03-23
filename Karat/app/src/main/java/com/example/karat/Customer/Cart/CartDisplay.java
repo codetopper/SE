@@ -16,6 +16,7 @@ import com.example.karat.Customer.COrder.COrderDisplay;
 import com.example.karat.Customer.CProfile.CProfileDisplay;
 import com.example.karat.Customer.Cart.*;
 import com.example.karat.R;
+import com.example.karat.Staff.SHome.SHomeDisplay;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.w3c.dom.Text;
@@ -76,26 +77,26 @@ public class CartDisplay extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.Home:
-                        startActivity(new Intent(getApplicationContext(), CHomeDisplay.class));
+                        Intent CHomeIntent = new Intent(getApplicationContext(), CHomeDisplay.class);
+                        CHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(CHomeIntent);
                         overridePendingTransition(0,0);
-                        finish();
                         return true;
                     case R.id.Orders:
-                        startActivity(new Intent(getApplicationContext(), COrderDisplay.class));
+                        Intent COrderIntent = new Intent(getApplicationContext(), COrderDisplay.class);
+                        COrderIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(COrderIntent);
                         overridePendingTransition(0,0);
-                        finish();
                         return true;
                     case R.id.Profile:
-                        startActivity(new Intent(getApplicationContext(), CProfileDisplay.class));
+                        Intent CProfileIntent = new Intent(getApplicationContext(), CProfileDisplay.class);
+                        CProfileIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(CProfileIntent);
                         overridePendingTransition(0,0);
-                        finish();
                         return true;
                 }
                 return false;
             }
         });
-
-
-
     }
 }

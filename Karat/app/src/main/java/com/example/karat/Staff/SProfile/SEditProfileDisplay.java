@@ -80,6 +80,8 @@ public class SEditProfileDisplay extends AppCompatActivity {
                 editStoreDetails();
             }
         });
+
+        finish();
     }
 
     private void editStoreDetails() {
@@ -123,9 +125,10 @@ public class SEditProfileDisplay extends AppCompatActivity {
         }
 
         editStoreToDatabase(firstName, lastName, openTime, closeTime, mobileNum, address);
-        Intent ProfileIntent = new Intent(getApplicationContext(), SProfileDisplay.class);
-        startActivity(ProfileIntent);
-        finish();
+        Intent SProfileIntent = new Intent(getApplicationContext(), SProfileDisplay.class);
+        SProfileIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(SProfileIntent);
+        overridePendingTransition(0,0);
     }
 
     private void editStoreToDatabase( String firstName, String lastName, String openTime, String closeTime, String mobileNum, String address){

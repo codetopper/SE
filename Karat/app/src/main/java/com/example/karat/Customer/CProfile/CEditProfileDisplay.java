@@ -110,9 +110,9 @@ public class CEditProfileDisplay extends AppCompatActivity {
         }
 
         editUserToDatabase(firstName, lastName, mobileNum);
-        Intent ProfileIntent = new Intent(getApplicationContext(), CProfileDisplay.class);
-        startActivity(ProfileIntent);
-        finish();
+        Intent CProfileIntent = new Intent(getApplicationContext(), CProfileDisplay.class);
+        CProfileIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(CProfileIntent);
     }
 
     private void editUserToDatabase( String firstName, String lastName, String mobileNum){

@@ -120,7 +120,10 @@ public class CProfileDisplay extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mAuth.signOut();
-                finish();
+                Intent LoginIntent = new Intent(getApplicationContext(), LoginDisplay.class);
+                LoginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(LoginIntent);
+                overridePendingTransition(0,0);
             }
         });
 
@@ -152,19 +155,22 @@ public class CProfileDisplay extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.Home:
-                        startActivity(new Intent(getApplicationContext(), CHomeDisplay.class));
+                        Intent CHomeIntent = new Intent(getApplicationContext(), CHomeDisplay.class);
+                        CHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(CHomeIntent);
                         overridePendingTransition(0,0);
-                        finish();
                         return true;
                     case R.id.Orders:
-                        startActivity(new Intent(getApplicationContext(), COrderDisplay.class));
+                        Intent COrderIntent = new Intent(getApplicationContext(), COrderDisplay.class);
+                        COrderIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(COrderIntent);
                         overridePendingTransition(0,0);
-                        finish();
                         return true;
                     case R.id.Profile:
-                        startActivity(new Intent(getApplicationContext(), CProfileDisplay.class));
+                        Intent CProfileIntent = new Intent(getApplicationContext(), CProfileDisplay.class);
+                        CProfileIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(CProfileIntent);
                         overridePendingTransition(0,0);
-                        finish();
                         return true;
                 }
                 return false;
@@ -180,6 +186,7 @@ public class CProfileDisplay extends AppCompatActivity {
 
     public void goToCart(View v) {
         Intent i = new Intent(getBaseContext(), CartDisplay.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(i);
         overridePendingTransition(0,0);
     }

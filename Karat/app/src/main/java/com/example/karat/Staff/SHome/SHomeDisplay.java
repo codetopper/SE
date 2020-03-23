@@ -44,13 +44,11 @@ public class SHomeDisplay extends AppCompatActivity {
         addListingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent smt = new Intent(getApplicationContext(), SHomeManageListingDisplay.class);
-                startActivity(smt);
-                finish();
+                Intent SListingIntent = new Intent(getApplicationContext(), SHomeManageListingDisplay.class);
+                startActivity(SListingIntent);
+                overridePendingTransition(0,0);
             }
         });
-
-
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navi);
 
@@ -61,20 +59,22 @@ public class SHomeDisplay extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.Home:
-                        startActivity(new Intent(getApplicationContext(), SHomeDisplay.class));
+                        Intent SHomeIntent = new Intent(getApplicationContext(), SHomeDisplay.class);
+                        SHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(SHomeIntent);
                         overridePendingTransition(0,0);
-                        finish();
                         return true;
                     case R.id.Orders:
-                        initData();
-                        startActivity(new Intent(getApplicationContext(), SOrderDisplay.class));
+                        Intent SOrderIntent = new Intent(getApplicationContext(), SOrderDisplay.class);
+                        SOrderIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(SOrderIntent);
                         overridePendingTransition(0,0);
-                        finish();
                         return true;
                     case R.id.Profile:
-                        startActivity(new Intent(getApplicationContext(), SProfileDisplay.class));
+                        Intent SProfileIntent = new Intent(getApplicationContext(), SProfileDisplay.class);
+                        SProfileIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(SProfileIntent);
                         overridePendingTransition(0,0);
-                        finish();
                         return true;
                 }
                 return false;
@@ -113,7 +113,7 @@ public class SHomeDisplay extends AppCompatActivity {
         addressTV = findViewById(R.id.addressTV);
         timeTV = findViewById(R.id.timeTV);
     }
-}
+
 
     private void initData() {
         purchase(1, "Apple", 1, 1, 0.5, "1/3/2020", 1, "Giant");
