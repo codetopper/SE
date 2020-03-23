@@ -44,6 +44,7 @@ public class ResetPwDisplay extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     Toast.makeText(ResetPwDisplay.this, "Email sent!",
                                             Toast.LENGTH_SHORT).show();
+                                    finish();
                                 } else {
                                     Toast.makeText(ResetPwDisplay.this, "Reset Password Failed.\n Error message: "+ task.getException().getMessage(),
                                             Toast.LENGTH_SHORT).show();

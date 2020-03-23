@@ -39,19 +39,22 @@ public class SOrderDisplay extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.Home:
-                        startActivity(new Intent(getApplicationContext(), SHomeDisplay.class));
+                        Intent SHomeIntent = new Intent(getApplicationContext(), SHomeDisplay.class);
+                        SHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(SHomeIntent);
                         overridePendingTransition(0,0);
-                        finish();
                         return true;
                     case R.id.Orders:
-                        startActivity(new Intent(getApplicationContext(), SOrderDisplay.class));
+                        Intent SOrderIntent = new Intent(getApplicationContext(), SOrderDisplay.class);
+                        SOrderIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(SOrderIntent);
                         overridePendingTransition(0,0);
-                        finish();
                         return true;
                     case R.id.Profile:
-                        startActivity(new Intent(getApplicationContext(), SProfileDisplay.class));
+                        Intent SProfileIntent = new Intent(getApplicationContext(), SProfileDisplay.class);
+                        SProfileIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(SProfileIntent);
                         overridePendingTransition(0,0);
-                        finish();
                         return true;
                 }
                 return false;

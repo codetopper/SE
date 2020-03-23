@@ -51,7 +51,10 @@ public class SHomeManageListingDisplay extends AppCompatActivity {
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                Intent SHomeIntent = new Intent(getApplicationContext(), SHomeDisplay.class);
+                SHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(SHomeIntent);
+                overridePendingTransition(0,0);
             }
         });
 
@@ -66,12 +69,6 @@ public class SHomeManageListingDisplay extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 addListingToDatabase();
-
-                //Optional return to Staff Home
-
-
-                //Intent SHomeIntent = new Intent(getApplicationContext(), SHomeDisplay.class);
-                //startActivity(SHomeIntent);
             }
         });
 
@@ -79,33 +76,6 @@ public class SHomeManageListingDisplay extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 deleteListingFromDatabase();
-            }
-        });
-
-        //Bottom navigation bar
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navi);
-        bottomNavigationView.setSelectedItemId(R.id.Profile);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.Home:
-                        startActivity(new Intent(getApplicationContext(), SHomeDisplay.class));
-                        overridePendingTransition(0,0);
-                        finish();
-                        return true;
-                    case R.id.Orders:
-                        startActivity(new Intent(getApplicationContext(), SOrderDisplay.class));
-                        overridePendingTransition(0,0);
-                        finish();
-                        return true;
-                    case R.id.Profile:
-                        startActivity(new Intent(getApplicationContext(), SProfileDisplay.class));
-                        overridePendingTransition(0,0);
-                        finish();
-                        return true;
-                }
-                return false;
             }
         });
     }
@@ -168,6 +138,11 @@ public class SHomeManageListingDisplay extends AppCompatActivity {
         mDatabase.child("Inventory").child(supermarket).child(listingName).setValue(null);
 
         Toast.makeText(getApplicationContext(), "Listing deleted!", Toast.LENGTH_LONG).show();
+
+        Intent SHomeIntent = new Intent(getApplicationContext(), SHomeDisplay.class);
+        SHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(SHomeIntent);
+        overridePendingTransition(0,0);
     }
 
     private void addListingToDatabase(){
@@ -206,6 +181,11 @@ public class SHomeManageListingDisplay extends AppCompatActivity {
         mDatabase.child("Inventory").child(supermarket).child(listingName).child("description").setValue(description);
 
         Toast.makeText(getApplicationContext(), "Listing updated!", Toast.LENGTH_LONG).show();
+
+        Intent SHomeIntent = new Intent(getApplicationContext(), SHomeDisplay.class);
+        SHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(SHomeIntent);
+        overridePendingTransition(0,0);
     }
 
     private void initialiseUI(){
