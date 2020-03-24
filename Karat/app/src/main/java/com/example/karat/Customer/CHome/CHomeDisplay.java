@@ -5,9 +5,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -33,7 +35,9 @@ import static com.example.karat.Customer.COrder.CustomerOrders.purchase;
 
 public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     RecyclerView recyclerView;
-    ArrayList searchList;
+    private static final int Num_Columns = 2;
+    ArrayList<Listing> searchList = new ArrayList<>();
+
     String catparam;
     String locparam;
     double pxparam;
@@ -102,6 +106,8 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
                     //add api for location
                 CHomeManager manager = new CHomeManager();
                 searchList = manager.search(pxparam, catparam, discparam, locparam);
+
+
             }
         });
 
@@ -160,24 +166,6 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-// zy version most likely wrong cause i haven't get cyrus' update
-//         Spinner spin = (Spinner)parent;
-//         Spinner spin2 = (Spinner)parent;
-//         Spinner spin3 = (Spinner)parent;
-//         if(spin.getId() == R.id.spinnerCategory) {
-//             String selectCategory = parent.getItemAtPosition(position).toString();
-//             //Toast.makeText(parent.getContext(), selectCategory, Toast.LENGTH_SHORT).show();
-//         }
-
-//         if(spin2.getId() == R.id.spinnerPrice) {
-//             Integer selectPrice = (Integer) parent.getItemAtPosition(position);
-//             //Toast.makeText(parent.getContext(), selectPrice, Toast.LENGTH_SHORT).show();
-//         }
-
-//         if(spin.getId() == R.id.spinnerDiscounts) {
-//             Integer selectDiscount = (Integer) parent.getItemAtPosition(position);
-//             //Toast.makeText(parent.getContext(), selectDiscount, Toast.LENGTH_SHORT).show();
-
         switch(parent.getId()) {
             case R.id.spinnerCategory:
                 String cat = String.valueOf(parent.getItemAtPosition(position));
@@ -193,5 +181,13 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
 
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    private void initRecyclerView(){
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        StaggeredRecyclerViewAdapter staggeredRecyclerViewAdapter = new StaggeredRecyclerViewAdapter(this, searchList);
+        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(Num_Columns, LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(staggeredGridLayoutManager);
+        recyclerView.setAdapter(staggeredRecyclerViewAdapter);
     }
 }
