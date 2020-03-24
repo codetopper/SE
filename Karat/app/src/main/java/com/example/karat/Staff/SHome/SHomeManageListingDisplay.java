@@ -1,8 +1,10 @@
 package com.example.karat.Staff.SHome;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -13,6 +15,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.karat.Customer.CProfile.CProfileDisplay;
+import com.example.karat.Login.LoginDisplay;
 import com.example.karat.R;
 import com.example.karat.Staff.SOrder.SOrderDisplay;
 import com.example.karat.Staff.SProfile.SProfileDisplay;
@@ -50,10 +54,7 @@ public class SHomeManageListingDisplay extends AppCompatActivity {
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent SHomeIntent = new Intent(getApplicationContext(), SHomeDisplay.class);
-                SHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(SHomeIntent);
-                overridePendingTransition(0,0);
+                confirmbox("Are you sure you discard changes?", 3);
             }
         });
 
@@ -67,14 +68,14 @@ public class SHomeManageListingDisplay extends AppCompatActivity {
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addListingToDatabase();
+                confirmbox("Are you sure you update listing?", 1);
             }
         });
 
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteListingFromDatabase();
+                confirmbox("Are you sure you delete listing", 2);
             }
         });
     }
@@ -208,5 +209,27 @@ public class SHomeManageListingDisplay extends AppCompatActivity {
         deleteBtn = findViewById(R.id.delete);
         addBtn = findViewById(R.id.add);
         cancelBtn = findViewById(R.id.cancel);
+    }
+
+    private void confirmbox(String message, final int choice){
+        AlertDialog.Builder builder = new AlertDialog.Builder(SHomeManageListingDisplay.this);
+        builder.setMessage(message)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (choice == 1)
+                            addListingToDatabase();
+                        else if (choice == 2)
+                            deleteListingFromDatabase();
+                        else if (choice == 3){
+                            Intent SHomeIntent = new Intent(getApplicationContext(), SHomeDisplay.class);
+                            SHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(SHomeIntent);
+                            overridePendingTransition(0,0);
+                        }
+                    }
+                }).setNegativeButton("No", null);
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 }
