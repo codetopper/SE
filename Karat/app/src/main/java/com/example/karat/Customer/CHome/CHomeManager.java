@@ -39,9 +39,6 @@ public class CHomeManager {
 		return searchList;
 	}
 	// cart manager
-	public void cart_adder(){
-		CartManager cart_manager = new CartManager();
-
 
 	}
 

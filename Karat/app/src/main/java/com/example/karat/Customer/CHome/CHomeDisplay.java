@@ -17,6 +17,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.karat.Customer.COrder.OrderAdapter;
+import com.example.karat.Customer.CSuperMap.MapDisplay;
 import com.example.karat.Customer.Cart.CartDisplay;
 import com.example.karat.R;
 import com.example.karat.Customer.COrder.COrderDisplay;
@@ -117,11 +118,11 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
     }
 
     private void initData() {
-        purchase(1, "Apple", 1);
-        purchase(2, "Orange", 1);
-        purchase(3, "Pear", 1);
-        purchase(4, "Pineapple", 1);
-        purchase(5, "Durian", 2);
+        purchase(1, "Apple", 1, 1, 0.5, "1/3/2020", 1, "Giant");
+        purchase(2, "Orange", 1, 2, 1.0, "1/3/2020", 1, "Giant");
+        purchase(3, "Pear", 1, 1, 0.8, "3/3/2020", 1, "Giant");
+        purchase(4, "Pineapple", 1, 2, 7.8, "4/3/2020", 1, "Giant");
+        purchase(5, "Durian", 2, 4, 50, "10/3/2020", 1, "Giant");
     }
 
     public void goToCart(View v) {
@@ -130,8 +131,32 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
         overridePendingTransition(0,0);
     }
 
+    public void goToMap(View v) {
+        Intent i = new Intent(getBaseContext(), MapDisplay.class);
+        startActivity(i);
+        overridePendingTransition(0,0);
+    }
+
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+// zy version most likely wrong cause i haven't get cyrus' update
+//         Spinner spin = (Spinner)parent;
+//         Spinner spin2 = (Spinner)parent;
+//         Spinner spin3 = (Spinner)parent;
+//         if(spin.getId() == R.id.spinnerCategory) {
+//             String selectCategory = parent.getItemAtPosition(position).toString();
+//             //Toast.makeText(parent.getContext(), selectCategory, Toast.LENGTH_SHORT).show();
+//         }
+
+//         if(spin2.getId() == R.id.spinnerPrice) {
+//             Integer selectPrice = (Integer) parent.getItemAtPosition(position);
+//             //Toast.makeText(parent.getContext(), selectPrice, Toast.LENGTH_SHORT).show();
+//         }
+
+//         if(spin.getId() == R.id.spinnerDiscounts) {
+//             Integer selectDiscount = (Integer) parent.getItemAtPosition(position);
+//             //Toast.makeText(parent.getContext(), selectDiscount, Toast.LENGTH_SHORT).show();
+
         switch(parent.getId()) {
             case R.id.spinnerCategory:
                 String cat = String.valueOf(parent.getItemAtPosition(position));

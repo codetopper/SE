@@ -75,6 +75,7 @@
             android:background="#C8DDC5"
             android:drawableLeft="@drawable/ic_location"
             android:fontFamily="@font/lato"
+            android:onClick="goToMap"
             android:text="View Nearby Supermarkets"
             android:textAllCaps="false"
             android:textSize="16sp"

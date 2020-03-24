@@ -3,6 +3,7 @@
     <string name="home">Home</string>
     <string name="orders">Orders</string>
     <string name="profile">Profile</string>
+    <string name="title_activity_maps">Map</string>
     <string-array name="Categories">
         <item>--</item>
         <item>Meats</item>
