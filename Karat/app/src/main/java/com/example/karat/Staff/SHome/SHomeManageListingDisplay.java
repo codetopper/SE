@@ -25,9 +25,12 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -76,12 +79,13 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SHomeManageListingDisplay extends AppCompatActivity {
+public class SHomeManageListingDisplay extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private static final int GET_FROM_GALLERY = 3;
+    private Spinner spinner;
     private ImageView imageView;
     private TextView nameTV, addressTV, timeTV;
-    private EditText listingNameET, itemPriceET, itemQtyET, itemDiscET, descriptionET, itemCategoryET;
+    private EditText listingNameET, itemPriceET, itemQtyET, itemDiscET, descriptionET;
     private Button uploadBtn, deleteBtn, addBtn, cancelBtn;
 
     private FirebaseStorage mStorage;
@@ -218,14 +222,14 @@ public class SHomeManageListingDisplay extends AppCompatActivity {
     }
 
     private void addListingToDatabase(){
-        final String listingName, itemPrice, itemQty, itemDiscount, description, supermarket, itemCategory;
+        String listingName, itemPrice, itemQty, itemDiscount, description, supermarket, itemCategory;
         supermarket = nameTV.getText().toString();
         listingName = listingNameET.getText().toString();
         itemPrice = itemPriceET.getText().toString();
         itemQty = itemQtyET.getText().toString();
         itemDiscount = itemDiscET.getText().toString();
         description = descriptionET.getText().toString();
-        itemCategory = itemCategoryET.getText().toString();
+        itemCategory = spinner.getSelectedItem().toString();
 
         if (TextUtils.isEmpty(listingNameET.getText().toString())) {
             Toast.makeText(getApplicationContext(), "Please enter the product name...", Toast.LENGTH_LONG).show();
@@ -245,6 +249,10 @@ public class SHomeManageListingDisplay extends AppCompatActivity {
         }
         if (TextUtils.isEmpty(descriptionET.getText().toString())) {
             Toast.makeText(getApplicationContext(), "Please enter the description...", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (spinner.getSelectedItem().toString().equals("--")) {
+            Toast.makeText(getApplicationContext(), "Please enter the category...", Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -311,7 +319,6 @@ public class SHomeManageListingDisplay extends AppCompatActivity {
         itemQtyET = findViewById(R.id.itemQty);
         itemDiscET = findViewById(R.id.itemDisc);
         descriptionET = findViewById(R.id.description);
-        itemCategoryET = findViewById(R.id.itemCategory);
 
         uploadBtn = findViewById(R.id.upload);
         deleteBtn = findViewById(R.id.delete);
@@ -319,6 +326,20 @@ public class SHomeManageListingDisplay extends AppCompatActivity {
         cancelBtn = findViewById(R.id.cancel);
 
         imageView = findViewById(R.id.uploadImg);
+
+        Spinner spinner = findViewById(R.id.spinnerCategoryEdit);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.Categories, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        String cat = String.valueOf(parent.getItemAtPosition(position));
+    }
+
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 
     private void confirmbox(String message, final int choice){
