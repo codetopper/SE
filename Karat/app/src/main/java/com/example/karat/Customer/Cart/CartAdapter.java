@@ -1,3 +1,4 @@
+
 package com.example.karat.Customer.Cart;
 
 import android.view.LayoutInflater;
@@ -20,6 +21,15 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
     /* Instance Variable */
 
     private ArrayList<Cart> cartArrayList;
+    private OnItemClickListener mListener;
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener){
+        mListener = listener;
+    }
 
 
     /* ExampleViewHolders */
@@ -31,12 +41,24 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
         public TextView mTextView3;
 
 
-        public ExampleViewHolder(@NonNull View itemView) {
+        public ExampleViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             mImageView =itemView.findViewById(R.id.imageView);
             mTextView1 =itemView.findViewById(R.id.priceView);
             mTextView2 =itemView.findViewById(R.id.itemView);
             mTextView3 =itemView.findViewById(R.id.quantity);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null){
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION){
+                            listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
 
         }
 
@@ -56,7 +78,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
     @Override
     public ExampleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cart_item,parent,false);
-        ExampleViewHolder evh = new ExampleViewHolder(v);
+        ExampleViewHolder evh = new ExampleViewHolder(v,mListener);
         return evh;
     }
 
