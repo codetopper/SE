@@ -289,8 +289,8 @@ public class SHomeManageListingDisplay extends AppCompatActivity {
             }
         });
 
-        String image_url = mStorage.getReference().child("InventoryImages").child(listingID+".jpg")
-                .getName().toString();
+        String image_url = String.valueOf(mStorage.getReference().child("InventoryImages").child(listingID+".jpg")
+                .getDownloadUrl());
 
         mDatabase.child("Inventory").child(listingID+"").child("imageUrl").setValue(image_url);
 

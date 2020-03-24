@@ -44,7 +44,7 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_c_home_display);
 
-        initImageBitmaps();
+        //initImageBitmaps();
 
         final Spinner categorySpinner = findViewById(R.id.spinnerCategory);
         final ArrayAdapter<CharSequence> categoryAdapter = ArrayAdapter.createFromResource(this, R.array.Categories, android.R.layout.simple_spinner_item);
@@ -84,14 +84,14 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
 
                 String pxhold = priceSpinner.getSelectedItem().toString();
                 if (pxhold.equals("--")){
-                    pxparam = -1;
+                    pxparam = -1.0;
                 }
                 else
                     pxparam = Double.parseDouble(pxhold);
 
                 String dischold = discountSpinner.getSelectedItem().toString();
                 if (dischold.equals("--")){
-                    discparam = -1;
+                    discparam = -1.0;
                 }
                 else
                     discparam = Double.parseDouble(dischold);
@@ -152,7 +152,7 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
         purchase(5, "Durian", 2, 4, 50, "10/3/2020", 1, "Giant");
     }
 
-    private void initImageBitmaps(){
+    /*private void initImageBitmaps(){
 
         mImageUrls.add("https://c1.staticflickr.com/5/4636/25316407448_de5fbf183d_o.jpg");
         mNames.add("Havasu Falls");
@@ -185,7 +185,7 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
 
         initRecyclerView();
 
-    }
+    }*/
 
     public void goToCart(View v) {
         Intent i = new Intent(getApplicationContext(), CartDisplay.class);

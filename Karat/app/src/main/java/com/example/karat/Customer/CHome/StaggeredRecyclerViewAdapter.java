@@ -32,15 +32,20 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
     private ArrayList<String> mImageUrls = new ArrayList<>();
     private Context mContext;
 
-    public StaggeredRecyclerViewAdapter(Context context, ArrayList<Listing> Listing /*ArrayList<String> names, ArrayList<String> imageUrls*/){
+    public StaggeredRecyclerViewAdapter(Context context,
+                                        ArrayList<Listing> Listing
+                                        //ArrayList<String> names, ArrayList<String> imageUrls
+    ){
+
         for(Listing listing: Listing) {
             mNames.add(listing.getListingName());
             mImageUrls.add(listing.getImage_url());
-            mContext = context;
         }
+        mContext = context;
+
         /*mNames = names;
         mImageUrls = imageUrls;
-        mContext = context; */
+        mContext = context;*/
     }
 
     @Override

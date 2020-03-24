@@ -1,7 +1,5 @@
 package com.example.karat.inventory;
 
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -10,12 +8,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.example.karat.inventory.Listing;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class Inventory{
     private static Inventory single_instance = null;
-    public static ArrayList<Listing> inventoryList = new ArrayList<>();
+    public ArrayList<Listing> inventoryList = new ArrayList<>();
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
 
@@ -25,25 +24,22 @@ public class Inventory{
         DatabaseReference mDatabase;
         FirebaseAuth mAuth;
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference inventoryRef = mDatabase.child("Inventory");
         mAuth = FirebaseAuth.getInstance();
-        inventoryList.clear();
 
-        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+        ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Listing currentListing = snapshot.child("Inventory").getValue(Listing.class);
-                    inventoryList.add(currentListing);
+                for(DataSnapshot ds : dataSnapshot.getChildren()){
+                    Listing listing = (Listing) ds.getValue();
+                    inventoryList.add(listing);
                 }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        //return inventoryList;
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
+        };
+        inventoryRef.addListenerForSingleValueEvent(eventListener);
     }
 
 
