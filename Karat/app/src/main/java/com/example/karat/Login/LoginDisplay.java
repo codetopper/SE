@@ -90,6 +90,7 @@ public class LoginDisplay extends AppCompatActivity {
             return;
         }
 
+
         mAuth.signInWithEmailAndPassword(user, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override

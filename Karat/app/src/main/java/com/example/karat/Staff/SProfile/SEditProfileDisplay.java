@@ -1,8 +1,10 @@
 package com.example.karat.Staff.SProfile;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.karat.Customer.CProfile.CProfileDisplay;
+import com.example.karat.Login.LoginDisplay;
 import com.example.karat.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -77,12 +80,20 @@ public class SEditProfileDisplay extends AppCompatActivity {
         confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editStoreDetails();
-            }
-        });
+                AlertDialog.Builder builder = new AlertDialog.Builder(SEditProfileDisplay.this);
+                builder.setMessage("Are you sure you want to edit store details?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                editStoreDetails();
+                            }
+                        }).setNegativeButton("No", null);
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
 
-        finish();
-    }
+            });
+        }
 
     private void editStoreDetails() {
         final String firstName, lastName, openTime, closeTime, mobileNum, address;
@@ -149,7 +160,6 @@ public class SEditProfileDisplay extends AppCompatActivity {
         openFET = findViewById(id.openHours);
         openTET = findViewById(id.closeHours);
         mobileNumET = findViewById(R.id.mobileNum);
-        addressET = findViewById(id.address);
         confirmBtn = findViewById(R.id.confirm);
     }
 }

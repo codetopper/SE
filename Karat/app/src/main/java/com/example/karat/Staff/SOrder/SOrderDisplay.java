@@ -41,6 +41,7 @@ public class SOrderDisplay extends AppCompatActivity {
                     case R.id.Home:
                         Intent SHomeIntent = new Intent(getApplicationContext(), SHomeDisplay.class);
                         SHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                        overridePendingTransition(0,0);
                         startActivity(SHomeIntent);
                         overridePendingTransition(0,0);
                         return true;
