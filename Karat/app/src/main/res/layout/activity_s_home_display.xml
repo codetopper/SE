@@ -16,7 +16,7 @@ tools:context=".Staff.SHome.SHomeDisplay">
         android:layout_marginTop="16dp"
         android:background="#33FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.46"
+        app:layout_constraintHorizontal_bias="0.555"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -24,65 +24,71 @@ tools:context=".Staff.SHome.SHomeDisplay">
             android:id="@+id/nameTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="4dp"
             android:fontFamily="@font/fredoka_one"
-            android:text="NAME"
+            android:includeFontPadding="false"
             android:textColor="#F4980E"
             android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.069"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="4dp"
             android:fontFamily="@font/fredoka_one"
+            android:includeFontPadding="false"
             android:text="Opening Hours: "
-
             android:textColor="#EED0A3"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.08"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.92" />
+            app:layout_constraintTop_toBottomOf="@+id/addressTV"
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/addressTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="4dp"
             android:fontFamily="@font/fredoka_one"
-            android:text="ADDRESS"
+            android:includeFontPadding="false"
             android:textColor="#EED0A3"
             android:textSize="16sp"
-
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.07"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/nameTV"
-            app:layout_constraintVertical_bias="0.13999999" />
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/timeTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:fontFamily="@font/fredoka_one"
-            android:text="hhmm-hhmm"
+            android:includeFontPadding="false"
             android:textColor="#EED0A3"
             android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.02"
             app:layout_constraintStart_toEndOf="@+id/textView5"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.92" />
+            app:layout_constraintTop_toBottomOf="@+id/addressTV" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-<com.google.android.material.bottomnavigation.BottomNavigationView
+    <com.google.android.material.bottomnavigation.BottomNavigationView
     android:id="@+id/bottom_navi"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"

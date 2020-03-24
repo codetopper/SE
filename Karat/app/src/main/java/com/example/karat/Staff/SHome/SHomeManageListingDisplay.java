@@ -1,16 +1,16 @@
 package com.example.karat.Staff.SHome;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.annotation.GlideModule;
-import com.bumptech.glide.module.AppGlideModule;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.app.Activity;
 import android.app.ProgressDialog;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -32,6 +32,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
@@ -46,6 +47,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
 import com.example.karat.R;
 import com.example.karat.Staff.SOrder.SOrderDisplay;
 import com.example.karat.Staff.SProfile.SProfileDisplay;
@@ -104,10 +106,7 @@ public class SHomeManageListingDisplay extends AppCompatActivity {
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent SHomeIntent = new Intent(getApplicationContext(), SHomeDisplay.class);
-                SHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(SHomeIntent);
-                overridePendingTransition(0,0);
+                confirmbox("Are you sure you discard changes?", 3);
             }
         });
 
@@ -122,14 +121,14 @@ public class SHomeManageListingDisplay extends AppCompatActivity {
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addListingToDatabase();
+                confirmbox("Are you sure you update listing?", 1);
             }
         });
 
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteListingFromDatabase();
+                confirmbox("Are you sure you delete listing", 2);
             }
         });
     }
@@ -314,5 +313,27 @@ public class SHomeManageListingDisplay extends AppCompatActivity {
         cancelBtn = findViewById(R.id.cancel);
 
         imageView = findViewById(R.id.uploadImg);
+    }
+
+    private void confirmbox(String message, final int choice){
+        AlertDialog.Builder builder = new AlertDialog.Builder(SHomeManageListingDisplay.this);
+        builder.setMessage(message)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (choice == 1)
+                            addListingToDatabase();
+                        else if (choice == 2)
+                            deleteListingFromDatabase();
+                        else if (choice == 3){
+                            Intent SHomeIntent = new Intent(getApplicationContext(), SHomeDisplay.class);
+                            SHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(SHomeIntent);
+                            overridePendingTransition(0,0);
+                        }
+                    }
+                }).setNegativeButton("No", null);
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 }

@@ -89,8 +89,6 @@ public class LoginDisplay extends AppCompatActivity {
             return;
         }
 
-        Toast.makeText(LoginDisplay.this, "Logging in...", Toast.LENGTH_SHORT).show();
-
         mAuth.signInWithEmailAndPassword(user, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
