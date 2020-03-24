@@ -85,8 +85,9 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
     private static final int GET_FROM_GALLERY = 3;
     private ImageView imageView;
     private TextView nameTV, addressTV, timeTV;
-    private EditText listingNameET, itemPriceET, itemQtyET, itemDiscET, descriptionET, categoryET;
+    private EditText listingNameET, itemPriceET, itemQtyET, itemDiscET, descriptionET;
     private Button uploadBtn, deleteBtn, addBtn, cancelBtn;
+    private Spinner catspinner;
 
     private FirebaseStorage mStorage;
     private DatabaseReference mDatabase;
@@ -231,7 +232,7 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
         itemQty = itemQtyET.getText().toString();
         itemDiscount = itemDiscET.getText().toString();
         description = descriptionET.getText().toString();
-        itemCategory = categoryET.getText().toString();
+        itemCategory = catspinner.getSelectedItem().toString();
 
         if (TextUtils.isEmpty(listingNameET.getText().toString())) {
             Toast.makeText(getApplicationContext(), "Please enter the product name...", Toast.LENGTH_LONG).show();
@@ -253,7 +254,7 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
             Toast.makeText(getApplicationContext(), "Please enter the description...", Toast.LENGTH_LONG).show();
             return;
         }
-        if (TextUtils.isEmpty(categoryET.getText().toString())) {
+        if (catspinner.getSelectedItem().toString().equals("--")) {
             Toast.makeText(getApplicationContext(), "Please enter the category...", Toast.LENGTH_LONG).show();
             return;
         }
@@ -329,7 +330,10 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
 
         imageView = findViewById(R.id.uploadImg);
 
-        categoryET = findViewById(R.id.category);
+        catspinner = findViewById(R.id.spinnerCategoryEdit);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.Categories, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        catspinner.setAdapter(adapter);
     }
 
 
