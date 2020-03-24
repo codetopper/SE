@@ -46,22 +46,6 @@ public class Inventory{
         //return inventoryList;
     }
 
-    /*public int purchase(int listingId){
-        for (Listing l: inventoryList) {
-            if (listingId == l.getListingId()){
-                if (l.getListingAvailable() == true){
-                    int quant = l.getListingQuantity();
-                    quant--;
-                    l.setListingQuantity(quant);
-                    if (l.getListingQuantity() == 0) {
-                        l.setListingAvailable(false);
-                    }
-                    return 1;
-                }
-            }
-        }    
-        return 0;
-    } */
 
     public static Inventory getInstance(){
         if(single_instance == null){

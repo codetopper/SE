@@ -5,7 +5,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.app.Activity;
@@ -269,7 +268,7 @@ public class SHomeManageListingDisplay extends AppCompatActivity {
 
         //Upload image to firebase
         StorageReference StoreRef = mStorage.getReference();
-        StorageReference uploadImgPath = StoreRef.child("InventoryImages").child(listingID+".bmp");
+        StorageReference uploadImgPath = StoreRef.child("InventoryImages").child(listingID+".jpg");
         imageView.setDrawingCacheEnabled(true);
         imageView.buildDrawingCache();
         Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
@@ -289,6 +288,11 @@ public class SHomeManageListingDisplay extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Listing updated!", Toast.LENGTH_SHORT).show();
             }
         });
+
+        String image_url = mStorage.getReference().child("InventoryImages").child(listingID+".jpg")
+                .getName().toString();
+
+        mDatabase.child("Inventory").child(listingID+"").child("imageUrl").setValue(image_url);
 
         //Return to home activity
         Intent SHomeIntent = new Intent(getApplicationContext(), SHomeDisplay.class);

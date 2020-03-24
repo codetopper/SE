@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.karat.R;
 import com.example.karat.inventory.Listing;
+import com.google.firebase.storage.FirebaseStorage;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -26,19 +27,20 @@ import java.util.List;
 public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<StaggeredRecyclerViewAdapter.Viewholder>{
 
     private static final String TAG = "StaggeredRecyclerViewAd";
+    private FirebaseStorage mStorage;
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<String> mImageUrls = new ArrayList<>();
     private Context mContext;
 
-    public StaggeredRecyclerViewAdapter(Context context, /*ArrayList<Listing> Listing*/ ArrayList<String> names, ArrayList<String> imageUrls){
-        /*for(Listing listing: Listing) {
+    public StaggeredRecyclerViewAdapter(Context context, ArrayList<Listing> Listing /*ArrayList<String> names, ArrayList<String> imageUrls*/){
+        for(Listing listing: Listing) {
             mNames.add(listing.getListingName());
-            //mImageUrls.add();
+            mImageUrls.add(listing.getImage_url());
             mContext = context;
-        }*/
-        mNames = names;
+        }
+        /*mNames = names;
         mImageUrls = imageUrls;
-        mContext = context;
+        mContext = context; */
     }
 
     @Override
