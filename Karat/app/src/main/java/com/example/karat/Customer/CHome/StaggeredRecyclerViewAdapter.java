@@ -30,15 +30,17 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
     private ArrayList<String> mImageUrls = new ArrayList<>();
     private Context mContext;
 
-    public StaggeredRecyclerViewAdapter(Context context, ArrayList<Listing> Listing){
-        for(Listing listing: Listing) {
+    public StaggeredRecyclerViewAdapter(Context context, /*ArrayList<Listing> Listing*/ ArrayList<String> names, ArrayList<String> imageUrls){
+        /*for(Listing listing: Listing) {
             mNames.add(listing.getListingName());
             //mImageUrls.add();
             mContext = context;
-        }
+        }*/
+        mNames = names;
+        mImageUrls = imageUrls;
+        mContext = context;
     }
 
-    @NonNull
     @Override
     public Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_display, parent, false);
@@ -47,7 +49,6 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
 
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, final int position) {
-        Log.d(TAG, "onBindViewHolder: called.");
 
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.placeholder(R.drawable.ic_launcher_background);
@@ -67,7 +68,7 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
 
     @Override
     public int getItemCount() {
-        return mNames.size();
+        return mImageUrls.size();
     }
 
     public class Viewholder extends RecyclerView.ViewHolder /*extends RecyclerView.ViewHolder */{
