@@ -19,7 +19,8 @@ public class Inventory{
     private FirebaseAuth mAuth;
 
     private Inventory() {}
-    
+
+    //check this method
     public void updateList(){
         DatabaseReference mDatabase;
         FirebaseAuth mAuth;
