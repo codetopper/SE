@@ -7,14 +7,15 @@ import java.util.List;
 
 public class CHomeManager {
     Inventory inventory = Inventory.getInstance();
-    ArrayList<Listing> searchList;
+    public ArrayList<Listing> searchList = new ArrayList<>();
 
 	public CHomeManager(){}
 
-	public ArrayList search(double price, String category, double discount/*, String location*/) {
-		searchList = inventory.getList();
-		for (Listing l : searchList) {
-			if (price != -1) {
+	public ArrayList<Listing> search(double price, String category, double discount, String location) {
+		inventory.updateList();
+		searchList = (ArrayList<Listing>) inventory.inventoryList.clone();
+		/*for (Listing l : searchList) {
+			if (price != -1.0) {
 				if (l.getListingPrice() <= price)
 					searchList.remove(l);
 			}
@@ -24,16 +25,17 @@ public class CHomeManager {
 				searchList.remove(l);
 			}
 
-			if (discount != -1) {
+			if (discount != -1.0) {
 				if (l.getListingDiscount() >= discount)
 					searchList.remove(l);
 			}
 
-			/*if (location != "empty") {
+			//need to build search location logic
+			if (location != "empty") {
 				if (l.getListingLocation() != location)
 					searchList.remove(l);
-			}*/
-		}
+			}
+		}*/
 		return searchList;
 	}
 	// cart manager

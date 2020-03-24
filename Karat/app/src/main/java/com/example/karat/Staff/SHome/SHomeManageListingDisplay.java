@@ -5,7 +5,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.app.Activity;
@@ -181,6 +180,8 @@ public class SHomeManageListingDisplay extends AppCompatActivity {
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                //header
                 String name = dataSnapshot.child("UserDatabase").child(email).child("firstName").getValue(String.class) + " " +
                         dataSnapshot.child("UserDatabase").child(email).child("lastName").getValue(String.class);
                 String address = dataSnapshot.child("UserDatabase").child(email).child("address").getValue(String.class);
@@ -267,7 +268,7 @@ public class SHomeManageListingDisplay extends AppCompatActivity {
 
         //Upload image to firebase
         StorageReference StoreRef = mStorage.getReference();
-        StorageReference uploadImgPath = StoreRef.child("InventoryImages").child(listingID+".bmp");
+        StorageReference uploadImgPath = StoreRef.child("InventoryImages").child(listingID+".jpg");
         imageView.setDrawingCacheEnabled(true);
         imageView.buildDrawingCache();
         Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
@@ -287,6 +288,11 @@ public class SHomeManageListingDisplay extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Listing updated!", Toast.LENGTH_SHORT).show();
             }
         });
+
+        String image_url = String.valueOf(mStorage.getReference().child("InventoryImages").child(listingID+".jpg")
+                .getDownloadUrl());
+
+        mDatabase.child("Inventory").child(listingID+"").child("imageUrl").setValue(image_url);
 
         //Return to home activity
         Intent SHomeIntent = new Intent(getApplicationContext(), SHomeDisplay.class);

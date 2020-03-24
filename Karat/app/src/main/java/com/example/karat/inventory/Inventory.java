@@ -1,47 +1,48 @@
 package com.example.karat.inventory;
 
+import androidx.annotation.NonNull;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class Inventory{
     private static Inventory single_instance = null;
-    public static ArrayList<Listing> inventoryList = new ArrayList<>();
+    public ArrayList<Listing> inventoryList = new ArrayList<>();
+    private DatabaseReference mDatabase;
+    private FirebaseAuth mAuth;
 
     private Inventory() {}
-    
-    public ArrayList<com.example.karat.inventory.Listing> getList(){
-        return inventoryList;
-    }
 
-    public void addListing(double price, double discount, String location, String name, String category, String description, int quantity) {
-        inventoryList.add(new Listing(price, discount, location, name, category, description, quantity));
-    }
+    //check this method
+    public void updateList(){
+        DatabaseReference mDatabase;
+        FirebaseAuth mAuth;
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference inventoryRef = mDatabase.child("Inventory");
+        mAuth = FirebaseAuth.getInstance();
 
-    public int purchase(int listingId){
-        for (Listing l: inventoryList) {
-            if (listingId == l.getListingId()){
-                if (l.getListingAvailable() == true){
-                    int quant = l.getListingQuantity();
-                    quant--;
-                    l.setListingQuantity(quant);
-                    if (l.getListingQuantity() == 0) {
-                        l.setListingAvailable(false);
-                    }
-                    return 1;
+        ValueEventListener eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds : dataSnapshot.getChildren()){
+                    Listing listing = (Listing) ds.getValue();
+                    inventoryList.add(listing);
                 }
             }
-        }    
-        return 0;
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
+        };
+        inventoryRef.addListenerForSingleValueEvent(eventListener);
     }
 
-    public void removeListing(int listingId){
-        for (Listing l: inventoryList) {
-            if (listingId == l.getListingId()){
-                if (l.getListingAvailable() == true){
-                    l.setListingAvailable(false);
-                }
-            }
-        }
-    }
 
     public static Inventory getInstance(){
         if(single_instance == null){
