@@ -24,6 +24,7 @@ import com.example.karat.Customer.COrder.COrderDisplay;
 import com.example.karat.Customer.CProfile.CProfileDisplay;
 import com.example.karat.inventory.Listing;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.w3c.dom.Text;
 
@@ -37,10 +38,15 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
     String catparam;
     double pxparam;
     double discparam;
+    Button addItem;
+    FirebaseDatabase mDatabase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_c_home_display);
+
+        mDatabase =
 
         final Spinner categorySpinner = findViewById(R.id.spinnerCategory);
         final ArrayAdapter<CharSequence> categoryAdapter = ArrayAdapter.createFromResource(this, R.array.Categories, android.R.layout.simple_spinner_item);
@@ -61,6 +67,16 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
         discountSpinner.setOnItemSelectedListener(this);
 
         Button search = (Button) findViewById(R.id.ExecuteSearch);
+
+        //Implementation of add Button to Cart
+
+        Button item = findViewById(R.id.addItem);
+        item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         search.setOnClickListener(new View.OnClickListener() {
             @Override
