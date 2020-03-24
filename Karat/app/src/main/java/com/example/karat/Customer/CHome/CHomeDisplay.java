@@ -224,8 +224,8 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
 
     private void initRecyclerView(){
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        StaggeredRecyclerViewAdapter staggeredRecyclerViewAdapter =
-                new StaggeredRecyclerViewAdapter(this, mNames, mImageUrls);
+        StaggeredRecyclerViewAdapter staggeredRecyclerViewAdapter = new StaggeredRecyclerViewAdapter(this, mNames, mImageUrls);
+        //StaggeredRecyclerViewAdapter staggeredRecyclerViewAdapter = new StaggeredRecyclerViewAdapter(this, searchList);
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(Num_Columns, LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(staggeredGridLayoutManager);
         recyclerView.setAdapter(staggeredRecyclerViewAdapter);
