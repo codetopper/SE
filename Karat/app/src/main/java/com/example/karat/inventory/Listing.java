@@ -23,7 +23,7 @@ public class Listing{
     public Map<String, Boolean> stars = new HashMap<>();
 
     public Listing(){
-        listingId = count.incrementAndGet();
+        listingId = count.get();
     }
 
     public Listing(double price, double discount, String location, String name, String category, String description, int quantity){
