@@ -106,7 +106,7 @@ public class SHomeDisplay extends AppCompatActivity {
                         Intent SProfileIntent = new Intent(getApplicationContext(), SProfileDisplay.class);
                         SProfileIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(SProfileIntent);
-                        overridePendingTransition(0,0);
+                        overridePendingTransition(R.anim.nav_default_enter_anim, R.anim.nav_default_enter_anim);
                         return true;
                 }
                 return false;

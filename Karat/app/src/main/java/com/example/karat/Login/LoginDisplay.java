@@ -74,7 +74,6 @@ public class LoginDisplay extends AppCompatActivity {
     }
 
     private void loginUserAccount() {
-
         final String user, password;
         final boolean isStaff = domain.isChecked();
 
@@ -89,6 +88,8 @@ public class LoginDisplay extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Please enter password!", Toast.LENGTH_LONG).show();
             return;
         }
+
+        Toast.makeText(LoginDisplay.this, "Logging in...", Toast.LENGTH_SHORT).show();
 
         mAuth.signInWithEmailAndPassword(user, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {

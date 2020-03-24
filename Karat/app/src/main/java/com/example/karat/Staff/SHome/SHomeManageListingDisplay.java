@@ -3,20 +3,55 @@ package com.example.karat.Staff.SHome;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.annotation.GlideModule;
+import com.bumptech.glide.module.AppGlideModule;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Base64;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.karat.R;
 import com.example.karat.Staff.SOrder.SOrderDisplay;
 import com.example.karat.Staff.SProfile.SProfileDisplay;
 import com.example.karat.inventory.Listing;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -24,13 +59,31 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SHomeManageListingDisplay extends AppCompatActivity {
 
+    private static final int GET_FROM_GALLERY = 3;
+    private ImageView imageView;
     private TextView nameTV, addressTV, timeTV;
     private EditText listingNameET, itemPriceET, itemQtyET, itemDiscET, descriptionET, itemCategoryET;
     private Button uploadBtn, deleteBtn, addBtn, cancelBtn;
 
+    private FirebaseStorage mStorage;
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
     private Listing currentListing = null;
@@ -42,6 +95,7 @@ public class SHomeManageListingDisplay extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
+        mStorage = FirebaseStorage.getInstance();
 
         initialiseUI();
         initPage();
@@ -60,7 +114,8 @@ public class SHomeManageListingDisplay extends AppCompatActivity {
         uploadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Dunno how upload image
+                Context context = SHomeManageListingDisplay.this;
+                selectImage(context);
             }
         });
 
@@ -79,6 +134,47 @@ public class SHomeManageListingDisplay extends AppCompatActivity {
         });
     }
 
+    private void selectImage(Context context) {
+        final CharSequence[] options = {"Choose from Gallery","Cancel" };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Choose your picture");
+
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                if (options[item].equals("Choose from Gallery")) {
+                    startActivityForResult(new Intent(Intent.ACTION_PICK,
+                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI), GET_FROM_GALLERY);
+                } else if (options[item].equals("Cancel")) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //Detects request codes
+        if(requestCode==GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
+            Uri selectedImage = data.getData();
+            Bitmap bitmap = null;
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                imageView.setImageBitmap(bitmap);
+            } catch (FileNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
+
     private void initPage(){
         final String email = mAuth.getCurrentUser().getEmail().replace("@", "")
                 .replace(".", "");
@@ -94,19 +190,6 @@ public class SHomeManageListingDisplay extends AppCompatActivity {
                 nameTV.setText(name);
                 addressTV.setText(address);
                 timeTV.setText(timeStart + "-" + timeEnd);
-
-                //Retrieve Application Context and use to fill
-                String listingID;
-                if (getIntent().hasExtra("com.example.karat.listingID")) {
-                    listingID = getIntent().getExtras().getString("com.example.karat.listingID");
-                    currentListing = dataSnapshot.child("Inventory").child(listingID + "").getValue(Listing.class);
-                    listingNameET.setText(currentListing.getListingName());
-                    itemPriceET.setText(currentListing.getListingPrice() + "");
-                    itemQtyET.setText(currentListing.getListingQuantity() + "");
-                    itemDiscET.setText(currentListing.getListingDiscount() + "");
-                    itemCategoryET.setText(currentListing.getListingCategory());
-                    descriptionET.setText(currentListing.getDescription());
-                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -177,15 +260,36 @@ public class SHomeManageListingDisplay extends AppCompatActivity {
         }
 
         mDatabase.child("Inventory").child(listingID+"").setValue(newProduct);
-
         //Patching issues with listingID increments
         if (getIntent().hasExtra("com.example.karat.listingID")) {
             listingID = Integer.parseInt(getIntent().getExtras().getString("com.example.karat.listingID"));
             mDatabase.child("Inventory").child(listingID+"").child("listingId").setValue(listingID);
         }
 
-        Toast.makeText(getApplicationContext(), "Listing updated!", Toast.LENGTH_LONG).show();
+        //Upload image to firebase
+        StorageReference StoreRef = mStorage.getReference();
+        StorageReference uploadImgPath = StoreRef.child("InventoryImages").child(listingID+".bmp");
+        imageView.setDrawingCacheEnabled(true);
+        imageView.buildDrawingCache();
+        Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
 
+        UploadTask uploadTask = uploadImgPath.putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Toast.makeText(getApplicationContext(), "Listing updated!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //Return to home activity
         Intent SHomeIntent = new Intent(getApplicationContext(), SHomeDisplay.class);
         SHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(SHomeIntent);
@@ -208,5 +312,7 @@ public class SHomeManageListingDisplay extends AppCompatActivity {
         deleteBtn = findViewById(R.id.delete);
         addBtn = findViewById(R.id.add);
         cancelBtn = findViewById(R.id.cancel);
+
+        imageView = findViewById(R.id.uploadImg);
     }
 }
