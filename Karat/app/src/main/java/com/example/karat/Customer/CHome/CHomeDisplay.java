@@ -127,6 +127,7 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.Orders:
+                        initData();
                         Intent COrderIntent = new Intent(getApplicationContext(), COrderDisplay.class);
                         COrderIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(COrderIntent);
