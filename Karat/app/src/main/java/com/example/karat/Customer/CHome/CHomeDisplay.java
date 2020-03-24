@@ -107,6 +107,7 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
                 CHomeManager manager = new CHomeManager();
                 searchList = manager.search(pxparam, catparam, discparam, locparam);
 
+                initRecyclerView();
 
             }
         });

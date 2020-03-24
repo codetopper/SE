@@ -15,35 +15,18 @@ import java.util.ArrayList;
 
 public class Inventory{
     private static Inventory single_instance = null;
-    //public static ArrayList<Listing> inventoryList = new ArrayList<>();
+    public static ArrayList<Listing> inventoryList = new ArrayList<>();
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
 
-    private Inventory() {
-        /*mDatabase = FirebaseDatabase.getInstance().getReference();
-        mAuth = FirebaseAuth.getInstance();
-
-        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Listing currentListing = snapshot.child("Inventory").getValue(Listing.class);
-                    inventoryList.add(currentListing);
-                    System.out.println(currentListing.getListingId());
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        }); */
-    }
+    private Inventory() {}
     
-    public ArrayList<com.example.karat.inventory.Listing> getList(){
-        final ArrayList<Listing> inventoryList = new ArrayList<>();
+    public void updateList(){
+        DatabaseReference mDatabase;
+        FirebaseAuth mAuth;
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
+        inventoryList.clear();
 
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -51,7 +34,6 @@ public class Inventory{
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Listing currentListing = snapshot.child("Inventory").getValue(Listing.class);
                     inventoryList.add(currentListing);
-                    System.out.println(currentListing.getListingId());
                 }
             }
 
@@ -61,7 +43,7 @@ public class Inventory{
             }
         });
 
-        return inventoryList;
+        //return inventoryList;
     }
 
     /*public int purchase(int listingId){

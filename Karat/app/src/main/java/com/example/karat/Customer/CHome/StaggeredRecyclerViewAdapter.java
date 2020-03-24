@@ -33,7 +33,7 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
     public StaggeredRecyclerViewAdapter(Context context, ArrayList<Listing> Listing){
         for(Listing listing: Listing) {
             mNames.add(listing.getListingName());
-            //initialize listing mImageUrls arraylist
+            //mImageUrls.add();
             mContext = context;
         }
     }
