@@ -74,7 +74,6 @@ public class LoginDisplay extends AppCompatActivity {
     }
 
     private void loginUserAccount() {
-
         final String user, password;
         final boolean isStaff = domain.isChecked();
 

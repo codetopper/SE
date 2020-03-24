@@ -1,9 +1,11 @@
 package com.example.karat.Staff.SProfile;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.IntentCompat;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -86,11 +88,20 @@ public class SProfileDisplay extends AppCompatActivity {
         logOffBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mAuth.signOut();
-                Intent LoginIntent = new Intent(getApplicationContext(), LoginDisplay.class);
-                LoginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(LoginIntent);
-                overridePendingTransition(0,0);
+                AlertDialog.Builder builder = new AlertDialog.Builder(SProfileDisplay.this);
+                builder.setMessage("Are you sure you want to log off?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mAuth.signOut();
+                                Intent LoginIntent = new Intent(getApplicationContext(), LoginDisplay.class);
+                                LoginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(LoginIntent);
+                                overridePendingTransition(0,0);
+                            }
+                        }).setNegativeButton("No", null);
+                AlertDialog alert = builder.create();
+                alert.show();
             }
         });
 
