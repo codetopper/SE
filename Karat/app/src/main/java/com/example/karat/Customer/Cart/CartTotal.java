@@ -35,6 +35,7 @@ public class CartTotal {
 
         cartlist.add(new Cart(price, name, quantity, mImageResource));
         cartAmount++;
+        cartlistname.add(name);
     }
 
 }

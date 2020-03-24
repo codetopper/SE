@@ -30,6 +30,9 @@ public class CartManager {
     public double gst() {
         return (subtotal() * 0.07);
     }
+
+
+
 }
 
 

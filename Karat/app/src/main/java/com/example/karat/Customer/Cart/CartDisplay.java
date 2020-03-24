@@ -73,6 +73,16 @@ public class CartDisplay extends AppCompatActivity {
             public void onItemClick(int position) {
                 cartManager.total.getCartlist().get(position);
             }
+
+            @Override
+            public void onAddClick(int position) {
+
+            }
+
+            @Override
+            public void onDeleteClick(int position) {
+
+            }
         });
     }
 
