@@ -86,6 +86,8 @@ public class SHomeManageListingDisplay extends AppCompatActivity {
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                //header
                 String name = dataSnapshot.child("UserDatabase").child(email).child("firstName").getValue(String.class) + " " +
                         dataSnapshot.child("UserDatabase").child(email).child("lastName").getValue(String.class);
                 String address = dataSnapshot.child("UserDatabase").child(email).child("address").getValue(String.class);

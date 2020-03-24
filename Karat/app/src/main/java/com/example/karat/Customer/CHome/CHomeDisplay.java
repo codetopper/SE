@@ -35,6 +35,7 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
     RecyclerView recyclerView;
     ArrayList searchList;
     String catparam;
+    String locparam;
     double pxparam;
     double discparam;
     @Override
@@ -60,13 +61,19 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
         discountSpinner.setAdapter(discountAdapter);
         discountSpinner.setOnItemSelectedListener(this);
 
+        final Spinner locationSpinner = findViewById(R.id.spinnerLocation);
+        final ArrayAdapter<CharSequence> locationAdapter = ArrayAdapter.createFromResource(this, R.array.Location, android.R.layout.simple_spinner_item);
+        locationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        locationSpinner.setAdapter(locationAdapter);
+        locationSpinner.setOnItemSelectedListener(this);
+
         Button search = (Button) findViewById(R.id.ExecuteSearch);
 
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String cathold = categorySpinner.getSelectedItem().toString();
-                if(cathold.equals( "--")) {
+                if(cathold.equals("--")) {
                     catparam = "empty";
                 }
                 else
@@ -85,8 +92,16 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
                 }
                 else
                     discparam = Double.parseDouble(dischold);
+
+                String lochold = locationSpinner.getSelectedItem().toString();
+                if (lochold.equals("All")){
+                    locparam = "empty";
+                }
+                else
+                    locparam = lochold;
+                    //add api for location
                 CHomeManager manager = new CHomeManager();
-                searchList = manager.search(pxparam, catparam, discparam);
+                searchList = manager.search(pxparam, catparam, discparam, locparam);
             }
         });
 

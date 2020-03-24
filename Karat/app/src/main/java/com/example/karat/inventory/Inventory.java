@@ -1,22 +1,70 @@
 package com.example.karat.inventory;
 
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.example.karat.inventory.Listing;
 import java.util.ArrayList;
 
 public class Inventory{
     private static Inventory single_instance = null;
-    public static ArrayList<Listing> inventoryList = new ArrayList<>();
+    //public static ArrayList<Listing> inventoryList = new ArrayList<>();
+    private DatabaseReference mDatabase;
+    private FirebaseAuth mAuth;
 
-    private Inventory() {}
+    private Inventory() {
+        /*mDatabase = FirebaseDatabase.getInstance().getReference();
+        mAuth = FirebaseAuth.getInstance();
+
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Listing currentListing = snapshot.child("Inventory").getValue(Listing.class);
+                    inventoryList.add(currentListing);
+                    System.out.println(currentListing.getListingId());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        }); */
+    }
     
     public ArrayList<com.example.karat.inventory.Listing> getList(){
+        final ArrayList<Listing> inventoryList = new ArrayList<>();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mAuth = FirebaseAuth.getInstance();
+
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Listing currentListing = snapshot.child("Inventory").getValue(Listing.class);
+                    inventoryList.add(currentListing);
+                    System.out.println(currentListing.getListingId());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
         return inventoryList;
     }
 
-    public void addListing(double price, double discount, String location, String name, String category, String description, int quantity) {
-        inventoryList.add(new Listing(price, discount, location, name, category, description, quantity));
-    }
-
-    public int purchase(int listingId){
+    /*public int purchase(int listingId){
         for (Listing l: inventoryList) {
             if (listingId == l.getListingId()){
                 if (l.getListingAvailable() == true){
@@ -31,17 +79,7 @@ public class Inventory{
             }
         }    
         return 0;
-    }
-
-    public void removeListing(int listingId){
-        for (Listing l: inventoryList) {
-            if (listingId == l.getListingId()){
-                if (l.getListingAvailable() == true){
-                    l.setListingAvailable(false);
-                }
-            }
-        }
-    }
+    } */
 
     public static Inventory getInstance(){
         if(single_instance == null){

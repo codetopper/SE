@@ -11,7 +11,7 @@ public class CHomeManager {
 
 	public CHomeManager(){}
 
-	public ArrayList search(double price, String category, double discount/*, String location*/) {
+	public ArrayList search(double price, String category, double discount, String location) {
 		searchList = inventory.getList();
 		for (Listing l : searchList) {
 			if (price != -1) {
@@ -29,10 +29,11 @@ public class CHomeManager {
 					searchList.remove(l);
 			}
 
-			/*if (location != "empty") {
+			//need to build search location logic
+			if (location != "empty") {
 				if (l.getListingLocation() != location)
 					searchList.remove(l);
-			}*/
+			}
 		}
 		return searchList;
 	}
