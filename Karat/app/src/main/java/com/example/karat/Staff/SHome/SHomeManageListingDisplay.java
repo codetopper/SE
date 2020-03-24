@@ -77,15 +77,15 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
-public class SHomeManageListingDisplay extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class SHomeManageListingDisplay extends AppCompatActivity{
 
     private static final int GET_FROM_GALLERY = 3;
-    private Spinner spinner;
     private ImageView imageView;
     private TextView nameTV, addressTV, timeTV;
-    private EditText listingNameET, itemPriceET, itemQtyET, itemDiscET, descriptionET;
+    private EditText listingNameET, itemPriceET, itemQtyET, itemDiscET, descriptionET, categoryET;
     private Button uploadBtn, deleteBtn, addBtn, cancelBtn;
 
     private FirebaseStorage mStorage;
@@ -109,7 +109,7 @@ public class SHomeManageListingDisplay extends AppCompatActivity implements Adap
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                confirmbox("Are you sure you discard changes?", 3);
+                //confirmbox("Discard changes?", 3);
             }
         });
 
@@ -124,14 +124,16 @@ public class SHomeManageListingDisplay extends AppCompatActivity implements Adap
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                confirmbox("Are you sure you update listing?", 1);
+                //confirmbox("Are you sure you update listing?", 1);
+                addListingToDatabase();
             }
         });
 
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                confirmbox("Are you sure you delete listing", 2);
+                //confirmbox("Are you sure you delete listing", 2);
+                deleteListingFromDatabase();
             }
         });
     }
@@ -229,7 +231,7 @@ public class SHomeManageListingDisplay extends AppCompatActivity implements Adap
         itemQty = itemQtyET.getText().toString();
         itemDiscount = itemDiscET.getText().toString();
         description = descriptionET.getText().toString();
-        itemCategory = spinner.getSelectedItem().toString();
+        itemCategory = categoryET.getText().toString();
 
         if (TextUtils.isEmpty(listingNameET.getText().toString())) {
             Toast.makeText(getApplicationContext(), "Please enter the product name...", Toast.LENGTH_LONG).show();
@@ -251,7 +253,7 @@ public class SHomeManageListingDisplay extends AppCompatActivity implements Adap
             Toast.makeText(getApplicationContext(), "Please enter the description...", Toast.LENGTH_LONG).show();
             return;
         }
-        if (spinner.getSelectedItem().toString().equals("--")) {
+        if (TextUtils.isEmpty(categoryET.getText().toString())) {
             Toast.makeText(getApplicationContext(), "Please enter the category...", Toast.LENGTH_LONG).show();
             return;
         }
@@ -327,20 +329,9 @@ public class SHomeManageListingDisplay extends AppCompatActivity implements Adap
 
         imageView = findViewById(R.id.uploadImg);
 
-        Spinner spinner = findViewById(R.id.spinnerCategoryEdit);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.Categories, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        categoryET = findViewById(R.id.category);
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String cat = String.valueOf(parent.getItemAtPosition(position));
-    }
-
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
 
     private void confirmbox(String message, final int choice){
         AlertDialog.Builder builder = new AlertDialog.Builder(SHomeManageListingDisplay.this);
