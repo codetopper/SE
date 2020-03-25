@@ -50,12 +50,17 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.karat.R;
 import com.example.karat.Staff.SOrder.SOrderDisplay;
 import com.example.karat.Staff.SProfile.SProfileDisplay;
 import com.example.karat.inventory.Listing;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -88,6 +93,7 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
     private EditText listingNameET, itemPriceET, itemQtyET, itemDiscET, descriptionET;
     private Button uploadBtn, deleteBtn, addBtn, cancelBtn;
     private Spinner catspinner;
+    private ArrayAdapter<CharSequence> adapter;
 
     private FirebaseStorage mStorage;
     private DatabaseReference mDatabase;
@@ -110,7 +116,20 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //confirmbox("Discard changes?", 3);
+                String message = "Exit without applying changes?";
+                AlertDialog.Builder builder = new AlertDialog.Builder(SHomeManageListingDisplay.this);
+                builder.setMessage(message)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                    Intent SHomeIntent = new Intent(getApplicationContext(), SHomeDisplay.class);
+                                    SHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(SHomeIntent);
+                                    overridePendingTransition(0,0);
+                            }
+                        }).setNegativeButton("No", null);
+                AlertDialog alert = builder.create();
+                alert.show();
             }
         });
 
@@ -125,16 +144,42 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //confirmbox("Are you sure you update listing?", 1);
-                addListingToDatabase();
+                String message = "Do you want to apply changes?";
+                AlertDialog.Builder builder = new AlertDialog.Builder(SHomeManageListingDisplay.this);
+                builder.setMessage(message)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                addListingToDatabase();
+                                Intent SHomeIntent = new Intent(getApplicationContext(), SHomeDisplay.class);
+                                SHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(SHomeIntent);
+                                overridePendingTransition(0,0);
+                            }
+                        }).setNegativeButton("No", null);
+                AlertDialog alert = builder.create();
+                alert.show();
             }
         });
 
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //confirmbox("Are you sure you delete listing", 2);
-                deleteListingFromDatabase();
+                String message = "Are you sure you want to delete this listing?";
+                AlertDialog.Builder builder = new AlertDialog.Builder(SHomeManageListingDisplay.this);
+                builder.setMessage(message)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                deleteListingFromDatabase();
+                                Intent SHomeIntent = new Intent(getApplicationContext(), SHomeDisplay.class);
+                                SHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(SHomeIntent);
+                                overridePendingTransition(0,0);
+                            }
+                        }).setNegativeButton("No", null);
+                AlertDialog alert = builder.create();
+                alert.show();
             }
         });
     }
@@ -184,6 +229,7 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
         final String email = mAuth.getCurrentUser().getEmail().replace("@", "")
                 .replace(".", "");
 
+        //Initialising Header
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -203,6 +249,43 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
                 Toast.makeText(getApplicationContext(), databaseError.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
+
+        //Preloading existing listing
+        final int loadListingID;
+        if (getIntent().hasExtra("com.example.karat.listingID")) {
+            loadListingID = Integer.parseInt(getIntent().getExtras().getString("com.example.karat.listingID"));
+            mDatabase.child("Inventory").child(loadListingID+"").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    Listing loadListing = dataSnapshot.getValue(Listing.class);
+                    String loadName, loadDesc, loadCat;
+                    Double loadPrice, loadDisc;
+                    int loadQty;
+                    loadName = loadListing.getListingName();
+                    loadQty = loadListing.getListingQuantity();
+                    loadPrice = loadListing.getListingPrice();
+                    loadDisc = loadListing.getListingDiscount();
+                    loadDesc = loadListing.getDescription();
+                    loadCat = loadListing.getListingCategory();
+                    listingNameET.setText(loadName);
+                    itemPriceET.setText(Double.toString(loadPrice));
+                    itemQtyET.setText(Integer.toString(loadQty));
+                    itemDiscET.setText(Double.toString(loadDisc));
+                    descriptionET.setText(loadDesc);
+                    int spinnerPos = adapter.getPosition(loadCat);
+                    catspinner.setSelection(spinnerPos);
+
+                    //load image
+                    RequestOptions requestOptions = new RequestOptions();
+                    requestOptions.placeholder(R.drawable.ic_launcher_background);
+                    String loadURL = dataSnapshot.child("imageUrl").getValue(String.class);
+                    Glide.with(getApplicationContext()).load(loadURL).apply(requestOptions).into(imageView);
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
+            });
+        }
     }
 
     private void deleteListingFromDatabase(){
@@ -277,9 +360,11 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
             mDatabase.child("Inventory").child(listingID+"").child("listingId").setValue(listingID);
         }
 
-        //Upload image to firebase
+        final int imageID = listingID;
+
+        //Upload image to firebase storage and url to realtime database
         StorageReference StoreRef = mStorage.getReference();
-        StorageReference uploadImgPath = StoreRef.child("InventoryImages").child(listingID+".jpg");
+        final StorageReference uploadImgPath = StoreRef.child("InventoryImages").child(listingID+".jpg");
         imageView.setDrawingCacheEnabled(true);
         imageView.buildDrawingCache();
         Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
@@ -300,10 +385,27 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
             }
         });
 
-        String image_url = String.valueOf(mStorage.getReference().child("InventoryImages").child(listingID+".jpg")
-                .getDownloadUrl());
+        Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if (!task.isSuccessful()) {
+                    throw task.getException();
+                }
 
-        mDatabase.child("Inventory").child(listingID+"").child("imageUrl").setValue(image_url);
+                // Continue with the task to get the download URL
+                return uploadImgPath.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    Uri downloadUri = task.getResult();
+                    String downloadURL = downloadUri.toString();
+                    mDatabase.child("Inventory").child(imageID+"").child("imageUrl").setValue(downloadURL);
+                } else {
+                }
+            }
+        });
 
         //Return to home activity
         Intent SHomeIntent = new Intent(getApplicationContext(), SHomeDisplay.class);
@@ -331,31 +433,8 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
         imageView = findViewById(R.id.uploadImg);
 
         catspinner = findViewById(R.id.spinnerCategoryEdit);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.Categories, android.R.layout.simple_spinner_item);
+        adapter = ArrayAdapter.createFromResource(this, R.array.Categories, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         catspinner.setAdapter(adapter);
-    }
-
-
-    private void confirmbox(String message, final int choice){
-        AlertDialog.Builder builder = new AlertDialog.Builder(SHomeManageListingDisplay.this);
-        builder.setMessage(message)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (choice == 1)
-                            addListingToDatabase();
-                        else if (choice == 2)
-                            deleteListingFromDatabase();
-                        else if (choice == 3){
-                            Intent SHomeIntent = new Intent(getApplicationContext(), SHomeDisplay.class);
-                            SHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(SHomeIntent);
-                            overridePendingTransition(0,0);
-                        }
-                    }
-                }).setNegativeButton("No", null);
-        AlertDialog alert = builder.create();
-        alert.show();
     }
 }
