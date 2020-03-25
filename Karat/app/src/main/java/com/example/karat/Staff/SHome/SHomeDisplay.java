@@ -3,6 +3,7 @@ package com.example.karat.Staff.SHome;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.karat.Customer.CHome.CHomeDisplay;
+import com.example.karat.Customer.CHome.StaggeredRecyclerViewAdapter;
 import com.example.karat.Customer.COrder.COrderDisplay;
 import com.example.karat.Customer.CProfile.CProfileDisplay;
 import com.example.karat.R;
@@ -26,6 +28,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+
 import static com.example.karat.Customer.COrder.CustomerOrders.purchase;
 
 public class SHomeDisplay extends AppCompatActivity {
@@ -34,7 +40,10 @@ public class SHomeDisplay extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private Button addListingBtn;
-    private Button editListing1Btn;
+    private static final int Num_Columns = 1;
+    private RecyclerView recyclerView;
+    private EditListingAdapter editListingAdapter;
+
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +55,21 @@ public class SHomeDisplay extends AppCompatActivity {
 
         initialiseUI();
         setHeader();
+
+        ////////changes somewhere here///////////////
+        @Override
+        public void onNoteClick(int position) {
+            Intent intent = new Intent(this, NoteActivity.class);
+            intent.putExtra("selected_note", mNotes.get(position));
+            startActivity(intent);
+        }
+
+        @Override
+        public void onClick(View view) {
+            Intent intent = new Intent(this, NoteActivity.class);
+            startActivity(intent);
+        }
+
 
         //Generate recycler view with buttons?
         //Where each button has a extra intent of productID
@@ -72,6 +96,8 @@ public class SHomeDisplay extends AppCompatActivity {
                 });
             }
         });
+
+        ////////changes somewhere here///////////////
 
         addListingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,10 +166,15 @@ public class SHomeDisplay extends AppCompatActivity {
 
     private void initialiseUI(){
         addListingBtn = findViewById(R.id.addListing);
-        editListing1Btn = findViewById(R.id.editp1);
         nameTV = findViewById(R.id.nameTV);
         addressTV = findViewById(R.id.addressTV);
         timeTV = findViewById(R.id.timeTV);
+        recyclerView = findViewById(R.id.recyclerViewEdit);
+        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(Num_Columns, LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(staggeredGridLayoutManager);
+        Context context = getApplicationContext();
+        editListingAdapter = new EditListingAdapter(context);
+        recyclerView.setAdapter(editListingAdapter);
     }
 
     /*
