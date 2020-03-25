@@ -3,7 +3,7 @@ package com.example.karat.Customer.Cart;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Cart {
-    private int quantity;
+    public int quantity;
     private double price;
     private String name;
     private int mImageResource;

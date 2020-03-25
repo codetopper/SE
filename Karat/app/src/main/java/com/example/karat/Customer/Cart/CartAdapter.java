@@ -7,15 +7,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import java.text.DecimalFormat;
+
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.karat.R;
 
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHolder> {
@@ -23,6 +22,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
 
     private ArrayList<Cart> cartArrayList;
     private OnItemClickListener mListener;
+    private static DecimalFormat df2 = new DecimalFormat("#.##");
+    DecimalFormat df = new DecimalFormat("#.00"); // Set your desired format here.
 
     public interface OnItemClickListener {
         void onItemClick(int position);
@@ -42,57 +43,16 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
         public TextView mTextView1;
         public TextView mTextView2;
         public TextView mTextView3;
-        public Button plusButton;
-        public Button minusButton;
-
+        public Button add;
+        public Button minus;
         public ExampleViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             mImageView =itemView.findViewById(R.id.imageView);
             mTextView1 =itemView.findViewById(R.id.priceView);
             mTextView2 =itemView.findViewById(R.id.itemView);
             mTextView3 =itemView.findViewById(R.id.quantity);
-            plusButton = itemView.findViewById(R.id.plus);
-            minusButton = itemView.findViewById(R.id.minus);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (listener != null){
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION){
-                            listener.onItemClick(position);
-                        }
-                    }
-                }
-            });
-
-            plusButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (listener != null){
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION){
-                            listener.onAddClick(position);
-                        }
-                    }
-
-                }
-            });
-            minusButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (listener != null){
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION){
-                            listener.onDeleteClick(position);
-                        }
-                    }
-
-                }
-            });
-
-
-
+            add = itemView.findViewById(R.id.plus);
+            minus = itemView.findViewById(R.id.minus);
         }
 
     }
@@ -117,19 +77,53 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
 
     @Override
     public void onBindViewHolder(@NonNull ExampleViewHolder holder, int position) {
-        Cart currentItem = cartArrayList.get(position);
+        final Cart currentItem = cartArrayList.get(position);
 
         //holder.mImageView.setImageResource(currentItem.getmImageResource());
-        holder.mTextView1.setText(String.valueOf(currentItem.getPrice()));
+        holder.mTextView1.setText("$" + String.valueOf(currentItem.getPrice()));
         holder.mTextView2.setText(String.valueOf(currentItem.getName()));
         holder.mTextView3.setText(String.valueOf(currentItem.getQuantity()));
 
+        holder.add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CartManager.total.addtoCart(currentItem.getPrice(),currentItem.getName(),1,1);
+                CartDisplay.getSubtotal().setText("SUBTOTAL: $" + String.valueOf(df2.format(CartManager.subtotal() * 0.93)));
+                CartDisplay.getGST().setText("GST: $" + String.valueOf(df2.format(CartManager.gst())));
+                CartDisplay.getTotal().setText("TOTAL PAYABLE: $" + String.valueOf(df2.format(CartManager.total())));
 
+                notifyDataSetChanged();
+
+
+            }
+        });
+        holder.minus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CartManager.total.removefromCart(currentItem.getName());
+                CartDisplay.getSubtotal().setText("SUBTOTAL: $" + String.valueOf(df2.format(CartManager.subtotal() * 0.93)));
+                CartDisplay.getGST().setText("GST: $" + String.valueOf(df2.format(CartManager.gst())));
+                CartDisplay.getTotal().setText("TOTAL PAYABLE: $" + String.valueOf(df2.format(CartManager.total())));
+
+                notifyDataSetChanged();
+
+
+
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return cartArrayList.size();
+    }
+
+    public void change(){
+        CartDisplay.getSubtotal().setText("SUBTOTAL: $" + String.valueOf(df2.format(CartManager.subtotal() * 0.93)));
+        CartDisplay.getGST().setText("GST: $" + String.valueOf(df2.format(CartManager.gst())));
+        CartDisplay.getTotal().setText("TOTAL PAYABLE: $" + String.valueOf(df2.format(CartManager.total())));;
+
+        notifyDataSetChanged();
     }
 
 }

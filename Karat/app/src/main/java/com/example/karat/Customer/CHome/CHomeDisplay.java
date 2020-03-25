@@ -46,8 +46,6 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_c_home_display);
 
-        mDatabase =
-
         final Spinner categorySpinner = findViewById(R.id.spinnerCategory);
         final ArrayAdapter<CharSequence> categoryAdapter = ArrayAdapter.createFromResource(this, R.array.Categories, android.R.layout.simple_spinner_item);
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

@@ -4,10 +4,16 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
+import androidx.appcompat.app.AlertDialog;
+import android.content.DialogInterface;
+import android.view.View;
+import android.widget.Button;
+import android.os.Build;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.karat.Customer.CHome.CHomeDisplay;
@@ -20,11 +26,26 @@ public class CartDisplay extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private CartAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private TextView subtotal;
-    private TextView GST;
+    private static TextView subtotal;
+    private static TextView GST;
+    private static TextView total;
+    private Button EmptyCart;
 
     CartManager cartManager;
 
+    public static TextView getSubtotal() {
+        return subtotal;
+    }
+
+    public static TextView getGST() {
+        return GST;
+    }
+
+    public static TextView getTotal() {
+        return total;
+    }
+    AlertDialog dialog;
+    AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,22 +58,38 @@ public class CartDisplay extends AppCompatActivity {
         cartManager= new CartManager();
         createExampleList();
         buildRecyclerView();
-
-        /* Initialise Values */
-
-
-        subtotal = (TextView) findViewById(R.id.subTotal);
-        GST = (TextView) findViewById(R.id.GST);
-        subtotal.setText(String.valueOf(cartManager.subtotal()));
-        GST.setText(String.valueOf(cartManager.gst()));
-
+        EmptyCart = findViewById(R.id.emptyCart);
+        EmptyCart.setOnClickListener(new View.OnClickListener() {
+                                         @Override
+                                         public void onClick(View v) {
+                                             EmptyCartdialog();
+                                         }
+                                     }
+        );
+        /* Initialise Values *
         /* Initialise Bottom Navigation Menu */
-
         NavigationMenu();
+        calculatePrices();
 
 
     }
     /* Methods */
+
+    public void EmptyCartdialog(){
+        builder = new AlertDialog.Builder(CartDisplay.this);
+        builder.setTitle("Are you sure you want to empty the shopping cart?");
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                CartManager.total.emptyCart();
+                //recreate();
+
+            }
+        });
+        builder.setNegativeButton("Cancel", null);
+        dialog = builder.create();
+        dialog.show();
+    }
     public void createExampleList(){
         cartManager.total.addtoCart(3.5,"Chicken",3,R.drawable.ic_person);
         cartManager.total.addtoCart(4.5,"Duck",3,R.drawable.ic_history);
@@ -60,33 +97,16 @@ public class CartDisplay extends AppCompatActivity {
     }
 
     public void buildRecyclerView(){
-        mRecyclerView = (RecyclerView) findViewById(R.id.RecyclerView2);
+        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView2);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mAdapter = new CartAdapter(cartManager.total.getCartlist());
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
-
-        mAdapter.setOnItemClickListener(new CartAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                cartManager.total.getCartlist().get(position);
-            }
-
-            @Override
-            public void onAddClick(int position) {
-
-            }
-
-            @Override
-            public void onDeleteClick(int position) {
-
-            }
-        });
     }
 
-    public void NavigationMenu(){
+    public void NavigationMenu() {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navi);
 
         bottomNavigationView.findViewById(R.id.Home).setSelected(false);
@@ -94,23 +114,34 @@ public class CartDisplay extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.Home:
                         startActivity(new Intent(getApplicationContext(), CHomeDisplay.class));
-                        overridePendingTransition(0,0);
+                        overridePendingTransition(0, 0);
                         return true;
                     case R.id.Orders:
                         startActivity(new Intent(getApplicationContext(), COrderDisplay.class));
-                        overridePendingTransition(0,0);
+                        overridePendingTransition(0, 0);
                         return true;
                     case R.id.Profile:
                         startActivity(new Intent(getApplicationContext(), CProfileDisplay.class));
-                        overridePendingTransition(0,0);
+                        overridePendingTransition(0, 0);
                         return true;
                 }
                 return false;
             }
         });
-
     }
-}
+
+
+        public void calculatePrices(){
+            subtotal = findViewById(R.id.subTotal);
+            GST =  findViewById(R.id.GST);
+            total = findViewById(R.id.total);
+            subtotal.setText("SUBTOTAL: $" + String.valueOf(cartManager.subtotal()));
+            GST.setText("GST: $" + String.valueOf(Math.round(cartManager.gst()* 100)/100));
+            total.setText("TOTAL PAYABLE: $" + String.valueOf(Math.round(100 * (cartManager.gst() + cartManager.subtotal()))/100));
+        }
+    }
+
+

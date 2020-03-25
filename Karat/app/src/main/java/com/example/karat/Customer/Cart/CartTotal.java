@@ -31,11 +31,50 @@ public class CartTotal {
     /* Methods */
 
 
-    public static void addtoCart(double price, String name, int quantity,int mImageResource) {
+    public void addtoCart(double price, String name, int quantity,int mImageResource) {
 
-        cartlist.add(new Cart(price, name, quantity, mImageResource));
-        cartAmount++;
-        cartlistname.add(name);
+        if (checkInCart(name) == true){
+            for (Cart c: cartlist) {
+                if (c.getName() == name) {
+                    c.setQuantity(c.getQuantity() + 1);
+                    return;
+                }
+            }
+        }
+
+        else {
+            cartlist.add(new Cart(price, name, quantity, mImageResource));
+            cartAmount++;
+            cartlistname.add(name);
+        }
+    }
+
+    public void removefromCart(String name){
+        int position = 0;
+        for (Cart c: cartlist) {
+            if (c.getName() == name) {
+                if (c.getQuantity() == 1) {
+                    cartlist.remove(position);
+                    return;
+                }
+                else {
+                    c.quantity -= 1;
+                    return;
+                }
+            }
+            position++;
+        }
+    }
+
+    public static void emptyCart() {
+        cartlist = null;
+        cartlistname = null;
+        return;
+    }
+
+
+    public boolean checkInCart(String name){
+        return(cartlistname.contains(name));
     }
 
 }
