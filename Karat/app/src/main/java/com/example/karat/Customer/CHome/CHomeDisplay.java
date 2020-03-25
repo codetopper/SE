@@ -39,6 +39,7 @@ import static com.example.karat.Customer.COrder.CustomerOrders.purchase;
 public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     private static final int Num_Columns = 2;
     private ArrayList<Listing> searchList = new ArrayList<>();
+    private ArrayList<Listing> searched = new ArrayList<>();
     private DatabaseReference mDatabase= FirebaseDatabase.getInstance().getReference();
     private RecyclerView recyclerView;
     private StaggeredRecyclerViewAdapter staggeredRecyclerViewAdapter;
@@ -57,33 +58,13 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
 
         initUI();
 
-        //Setting spinners
-        final ArrayAdapter<CharSequence> categoryAdapter = ArrayAdapter.createFromResource(this, R.array.Categories, android.R.layout.simple_spinner_item);
-        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        categorySpinner.setAdapter(categoryAdapter);
-        categorySpinner.setOnItemSelectedListener(this);
-
-        final ArrayAdapter<CharSequence> priceAdapter = ArrayAdapter.createFromResource(this, R.array.Prices, android.R.layout.simple_spinner_item);
-        priceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        priceSpinner.setAdapter(priceAdapter);
-        priceSpinner.setOnItemSelectedListener(this);
-
-        final ArrayAdapter<CharSequence> discountAdapter = ArrayAdapter.createFromResource(this, R.array.Discounts, android.R.layout.simple_spinner_item);
-        discountAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        discountSpinner.setAdapter(discountAdapter);
-        discountSpinner.setOnItemSelectedListener(this);
-
-        final ArrayAdapter<CharSequence> locationAdapter = ArrayAdapter.createFromResource(this, R.array.Location, android.R.layout.simple_spinner_item);
-        locationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        locationSpinner.setAdapter(locationAdapter);
-        locationSpinner.setOnItemSelectedListener(this);
-
         //Do search
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Extracting data from asynchronous database
                 searchList.clear();
+                searched.clear();
                 mDatabase.child("Inventory").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -127,34 +108,42 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
                             locparam = lochold;
 
                         //Filtering results
-                        for (Listing l : searchList) {
-                            double price = l.getListingPrice();
-                            if (price != -1.0) {
-                                if (price > Integer.parseInt(pxhold))
-                                    searchList.remove(l);
+                        try {
+                            for (Listing l : searchList) {
+                                boolean add = true;
+                                double price = l.getListingPrice();
+                                if (pxparam != -1.0) {
+                                    if (price > pxparam)
+                                        add = false;
+                                }
+
+                                String category = l.getListingCategory();
+                                if (!catparam.equals("empty")) {
+                                    if (!category.equals(catparam))
+                                        add = false;
+                                }
+
+                                double discount = l.getListingDiscount();
+                                if (discparam > -1.0) {
+                                    if (discount < discparam)
+                                        add = false;
+                                }
+
+                                if (add){
+                                    searched.add(l);
+                                }
                             }
-
-                            //String category = l.getListingCategory();
-                            //if (category != "empty") {
-                            //    if (l.getListingCategory() != cathold)
-                            //    searchList.remove(l);
-                            //}
-
-                            double discount = l.getListingDiscount();
-                            if (discount != -1.0) {
-                                if (discount < Integer.parseInt(dischold));
-                                    searchList.remove(l);
-                            }
-
+                        }catch (Exception e) {
+                            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
                             //need to build search location logic
                             //if (location != "empty") {
                             //    if (l.getListingLocation() != lochold)
                             //        searchList.remove(l);
                             //}
-                        }
 
                         //setting recycler view
-                        staggeredRecyclerViewAdapter.reset(searchList);
+                        staggeredRecyclerViewAdapter.reset(searched);
                         staggeredRecyclerViewAdapter.notifyDataSetChanged();
                     }
                     @Override
@@ -255,5 +244,21 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
         recyclerView.setAdapter(staggeredRecyclerViewAdapter);
         search = findViewById(R.id.ExecuteSearch);
 
+        //Setting spinners
+        ArrayAdapter<CharSequence> categoryAdapter = ArrayAdapter.createFromResource(this, R.array.Categories, android.R.layout.simple_spinner_item);
+        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        categorySpinner.setAdapter(categoryAdapter);
+
+        ArrayAdapter<CharSequence> priceAdapter = ArrayAdapter.createFromResource(this, R.array.Prices, android.R.layout.simple_spinner_item);
+        priceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        priceSpinner.setAdapter(priceAdapter);
+
+        ArrayAdapter<CharSequence> discountAdapter = ArrayAdapter.createFromResource(this, R.array.Discounts, android.R.layout.simple_spinner_item);
+        discountAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        discountSpinner.setAdapter(discountAdapter);
+
+        ArrayAdapter<CharSequence> locationAdapter = ArrayAdapter.createFromResource(this, R.array.Location, android.R.layout.simple_spinner_item);
+        locationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        locationSpinner.setAdapter(locationAdapter);
     }
 }
