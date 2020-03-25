@@ -27,10 +27,14 @@ import java.util.List;
 public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<StaggeredRecyclerViewAdapter.Viewholder>{
 
     private static final String TAG = "StaggeredRecyclerViewAd";
-    private FirebaseStorage mStorage;
+    private ArrayList<Listing> Listing;
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<String> mImageUrls = new ArrayList<>();
     private Context mContext;
+
+    public StaggeredRecyclerViewAdapter(Context context){
+        mContext = context;
+    }
 
     public StaggeredRecyclerViewAdapter(Context context,
                                         ArrayList<Listing> Listing
@@ -46,6 +50,15 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
         /*mNames = names;
         mImageUrls = imageUrls;
         mContext = context;*/
+    }
+
+    public void reset(ArrayList<Listing> Listing){
+        mNames.clear();
+        mImageUrls.clear();
+        for(Listing listing: Listing) {
+            mNames.add(listing.getListingName());
+            mImageUrls.add(listing.getImage_url());
+        }
     }
 
     @Override

@@ -1,7 +1,10 @@
 package com.example.karat.inventory;
 
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 
+import com.example.karat.Customer.CHome.CHomeDisplay;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -13,42 +16,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Inventory{
-    private static Inventory single_instance = null;
-    public ArrayList<Listing> inventoryList = new ArrayList<>();
-    private DatabaseReference mDatabase;
-    private FirebaseAuth mAuth;
+    private final ArrayList<Listing> inventoryList = new ArrayList<>();
+    private DatabaseReference mDatabase= FirebaseDatabase.getInstance().getReference();
 
-    private Inventory() {}
-
-    //check this method
-    public void updateList(){
-        DatabaseReference mDatabase;
-        FirebaseAuth mAuth;
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference inventoryRef = mDatabase.child("Inventory");
-        mAuth = FirebaseAuth.getInstance();
-
-        ValueEventListener eventListener = new ValueEventListener() {
+    public Inventory() {
+    }
+    public void update(final DataCallback myCallback){
+        mDatabase.child("Inventory").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot ds : dataSnapshot.getChildren()){
-                    Listing listing = (Listing) ds.getValue();
+                    Listing listing = ds.getValue(Listing.class);
+                    assert listing != null;
+                    String a = "hi";
                     inventoryList.add(listing);
                 }
+                myCallback.onCallback(inventoryList);
             }
-
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {}
-        };
-        inventoryRef.addListenerForSingleValueEvent(eventListener);
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                throw databaseError.toException();
+            }
+        });
     }
-
-
-    public static Inventory getInstance(){
-        if(single_instance == null){
-            single_instance = new Inventory();
-        }
-
-        return single_instance;
+    public ArrayList<Listing> getInventory(){
+        return (ArrayList<Listing>)inventoryList.clone();
     }
 }

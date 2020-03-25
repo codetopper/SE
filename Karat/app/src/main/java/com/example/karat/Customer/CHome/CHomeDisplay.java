@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -14,107 +15,161 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.karat.Customer.CSuperMap.MapDisplay;
 import com.example.karat.Customer.Cart.CartDisplay;
 import com.example.karat.R;
 import com.example.karat.Customer.COrder.COrderDisplay;
 import com.example.karat.Customer.CProfile.CProfileDisplay;
+import com.example.karat.inventory.DataCallback;
+import com.example.karat.inventory.Inventory;
 import com.example.karat.inventory.Listing;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
 import static com.example.karat.Customer.COrder.CustomerOrders.purchase;
 
 public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
-    RecyclerView recyclerView;
     private static final int Num_Columns = 2;
-    ArrayList<Listing> searchList = new ArrayList<>();
-    ArrayList<String> mNames = new ArrayList<String>();
-    ArrayList<String> mImageUrls = new ArrayList<String>();
+    private ArrayList<Listing> searchList = new ArrayList<>();
+    private DatabaseReference mDatabase= FirebaseDatabase.getInstance().getReference();
+    private RecyclerView recyclerView;
+    private StaggeredRecyclerViewAdapter staggeredRecyclerViewAdapter;
+    private Spinner categorySpinner, priceSpinner, discountSpinner, locationSpinner;
+    private Button search;
 
+    private String catparam;
+    private String locparam;
+    private double pxparam;
+    private double discparam;
 
-    String catparam;
-    String locparam;
-    double pxparam;
-    double discparam;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_c_home_display);
 
-        //initImageBitmaps();
+        initUI();
 
-        final Spinner categorySpinner = findViewById(R.id.spinnerCategory);
+        //Setting spinners
         final ArrayAdapter<CharSequence> categoryAdapter = ArrayAdapter.createFromResource(this, R.array.Categories, android.R.layout.simple_spinner_item);
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(categoryAdapter);
         categorySpinner.setOnItemSelectedListener(this);
 
-        final Spinner priceSpinner = findViewById(R.id.spinnerPrice);
-        ArrayAdapter<CharSequence> priceAdapter = ArrayAdapter.createFromResource(this, R.array.Prices, android.R.layout.simple_spinner_item);
+        final ArrayAdapter<CharSequence> priceAdapter = ArrayAdapter.createFromResource(this, R.array.Prices, android.R.layout.simple_spinner_item);
         priceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         priceSpinner.setAdapter(priceAdapter);
         priceSpinner.setOnItemSelectedListener(this);
 
-        final Spinner discountSpinner = findViewById(R.id.spinnerDiscounts);
         final ArrayAdapter<CharSequence> discountAdapter = ArrayAdapter.createFromResource(this, R.array.Discounts, android.R.layout.simple_spinner_item);
         discountAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         discountSpinner.setAdapter(discountAdapter);
         discountSpinner.setOnItemSelectedListener(this);
 
-        final Spinner locationSpinner = findViewById(R.id.spinnerLocation);
         final ArrayAdapter<CharSequence> locationAdapter = ArrayAdapter.createFromResource(this, R.array.Location, android.R.layout.simple_spinner_item);
         locationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         locationSpinner.setAdapter(locationAdapter);
         locationSpinner.setOnItemSelectedListener(this);
 
-        Button search = (Button) findViewById(R.id.ExecuteSearch);
-
+        //Do search
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String cathold = categorySpinner.getSelectedItem().toString();
-                if(cathold.equals("--")) {
-                    catparam = "empty";
-                }
-                else
-                    catparam = cathold;
+                //Extracting data from asynchronous database
+                searchList.clear();
+                mDatabase.child("Inventory").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for(DataSnapshot ds : dataSnapshot.getChildren()){
+                            Listing listing = ds.getValue(Listing.class);
+                            listing.setImage_url(ds.child("imageUrl").getValue(String.class));
+                            assert listing != null;
+                            String a = "hi";
+                            searchList.add(listing);
+                        }
+                        //Data extracted
 
-                String pxhold = priceSpinner.getSelectedItem().toString();
-                if (pxhold.equals("--")){
-                    pxparam = -1.0;
-                }
-                else
-                    pxparam = Double.parseDouble(pxhold);
+                        /////////////////////////////////////////
+                        //Getting input
+                        String cathold = categorySpinner.getSelectedItem().toString();
+                        if(cathold.equals("--")) {
+                            catparam = "empty";
+                        }
+                        else
+                            catparam = cathold;
 
-                String dischold = discountSpinner.getSelectedItem().toString();
-                if (dischold.equals("--")){
-                    discparam = -1.0;
-                }
-                else
-                    discparam = Double.parseDouble(dischold);
+                        String pxhold = priceSpinner.getSelectedItem().toString();
+                        if (pxhold.equals("--")){
+                            pxparam = -1.0;
+                        }
+                        else
+                            pxparam = Double.parseDouble(pxhold);
 
-                String lochold = locationSpinner.getSelectedItem().toString();
-                if (lochold.equals("All")){
-                    locparam = "empty";
-                }
-                else
-                    locparam = lochold;
+                        String dischold = discountSpinner.getSelectedItem().toString();
+                        if (dischold.equals("--")){
+                            discparam = -1.0;
+                        }
+                        else
+                            discparam = Double.parseDouble(dischold);
+
+                        String lochold = locationSpinner.getSelectedItem().toString();
+                        if (lochold.equals("All")){
+                            locparam = "empty";
+                        }
+                        else
+                            locparam = lochold;
+
+                        //Filtering results
+                        for (Listing l : searchList) {
+                            double price = l.getListingPrice();
+                            if (price != -1.0) {
+                                if (price > Integer.parseInt(pxhold))
+                                    searchList.remove(l);
+                            }
+
+                            //String category = l.getListingCategory();
+                            //if (category != "empty") {
+                            //    if (l.getListingCategory() != cathold)
+                            //    searchList.remove(l);
+                            //}
+
+                            double discount = l.getListingDiscount();
+                            if (discount != -1.0) {
+                                if (discount < Integer.parseInt(dischold));
+                                    searchList.remove(l);
+                            }
+
+                            //need to build search location logic
+                            //if (location != "empty") {
+                            //    if (l.getListingLocation() != lochold)
+                            //        searchList.remove(l);
+                            //}
+                        }
+
+                        //setting recycler view
+                        staggeredRecyclerViewAdapter.reset(searchList);
+                        staggeredRecyclerViewAdapter.notifyDataSetChanged();
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        throw databaseError.toException();
+                    }
+                });
                     //add api for location
-                CHomeManager manager = new CHomeManager();
-                searchList = manager.search(pxparam, catparam, discparam, locparam);
-
-                initRecyclerView();
 
             }
         });
 
+        //Navigation bar
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navi);
-
         bottomNavigationView.setSelectedItemId(R.id.Home);
-
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -152,41 +207,6 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
         purchase(5, "Durian", 2, 4, 50, "10/3/2020", 1, "Giant");
     }
 
-    /*private void initImageBitmaps(){
-
-        mImageUrls.add("https://c1.staticflickr.com/5/4636/25316407448_de5fbf183d_o.jpg");
-        mNames.add("Havasu Falls");
-
-        mImageUrls.add("https://i.redd.it/tpsnoz5bzo501.jpg");
-        mNames.add("Trondheim");
-
-        mImageUrls.add("https://i.redd.it/qn7f9oqu7o501.jpg");
-        mNames.add("Portugal");
-
-        mImageUrls.add("https://i.redd.it/j6myfqglup501.jpg");
-        mNames.add("Rocky Mountain National Park");
-
-
-        mImageUrls.add("https://i.redd.it/0h2gm1ix6p501.jpg");
-        mNames.add("Mahahual");
-
-        mImageUrls.add("https://i.redd.it/k98uzl68eh501.jpg");
-        mNames.add("Frozen Lake");
-
-
-        mImageUrls.add("https://i.redd.it/glin0nwndo501.jpg");
-        mNames.add("White Sands Desert");
-
-        mImageUrls.add("https://i.redd.it/obx4zydshg601.jpg");
-        mNames.add("Austrailia");
-
-        mImageUrls.add("https://i.imgur.com/ZcLLrkY.jpg");
-        mNames.add("Washington");
-
-        initRecyclerView();
-
-    }*/
-
     public void goToCart(View v) {
         Intent i = new Intent(getApplicationContext(), CartDisplay.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -222,12 +242,18 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
-    private void initRecyclerView(){
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        //StaggeredRecyclerViewAdapter staggeredRecyclerViewAdapter = new StaggeredRecyclerViewAdapter(this, mNames, mImageUrls);
-        StaggeredRecyclerViewAdapter staggeredRecyclerViewAdapter = new StaggeredRecyclerViewAdapter(this, searchList);
+    private void initUI(){
+        recyclerView = findViewById(R.id.recyclerView);
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(Num_Columns, LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(staggeredGridLayoutManager);
+        locationSpinner = findViewById(R.id.spinnerLocation);
+        discountSpinner = findViewById(R.id.spinnerDiscounts);
+        priceSpinner = findViewById(R.id.spinnerPrice);
+        categorySpinner = findViewById(R.id.spinnerCategory);
+        Context context = getApplicationContext();
+        staggeredRecyclerViewAdapter = new StaggeredRecyclerViewAdapter(context);
         recyclerView.setAdapter(staggeredRecyclerViewAdapter);
+        search = findViewById(R.id.ExecuteSearch);
+
     }
 }

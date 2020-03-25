@@ -18,7 +18,7 @@ public class Listing{
     private String category;
     private String location;
     private String description;
-    private String image_url;
+    private String imageUrl;
     private boolean available;
     public Map<String, Boolean> stars = new HashMap<>();
 
@@ -27,7 +27,7 @@ public class Listing{
     }
 
     public Listing(double price, double discount, String location, String name, String category,
-                   String image_url, String description, int quantity){
+                   String imageUrl, String description, int quantity){
             listingId = count.incrementAndGet();
             this.price = price;
             this.discount = discount;
@@ -37,7 +37,7 @@ public class Listing{
             this.quantity = quantity;
             this.description = description;
             this.available = true;
-            this.image_url = image_url;
+            this.imageUrl = imageUrl;
         }
 
     public Listing(double price, double discount, String location, String name, String category
@@ -64,7 +64,7 @@ public class Listing{
         result.put("quantity", quantity);
         result.put("description", description);
         result.put("available", true);
-        result.put("imageUrl", image_url);
+        result.put("imageUrl", imageUrl);
 
         return result;
     }
@@ -103,7 +103,7 @@ public class Listing{
 
     public void setListingAvailable(boolean available) {this.available = available;}
 
-    public String getImage_url() { return image_url; }
+    public String getImage_url() { return imageUrl; }
 
-    public void setImage_url(String image_url) { this.image_url = image_url; }
+    public void setImage_url(String image_url) { this.imageUrl = image_url; }
 }
