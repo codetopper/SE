@@ -66,7 +66,8 @@ public class SProfileDisplay extends AppCompatActivity {
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener(){
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String SName = dataSnapshot.child("UserDatabase").child(email).child("name").getValue(String.class);
+                String SName = dataSnapshot.child("UserDatabase").child(email).child("firstName").getValue(String.class) + " " +
+                        dataSnapshot.child("UserDatabase").child(email).child("lastName").getValue(String.class);
                 String address = dataSnapshot.child("UserDatabase").child(email).child("address").getValue(String.class);
                 String openh = dataSnapshot.child("UserDatabase").child(email).child("openingHour").getValue(String.class);
                 String closeh = dataSnapshot.child("UserDatabase").child(email).child("closingHour").getValue(String.class);

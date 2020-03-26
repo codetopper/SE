@@ -65,9 +65,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
     }
 
 
-    public void setData(ArrayList<Cart> cartArrayList){
-        this.cartArrayList = cartArrayList;
-    }
+
 
     @NonNull
     @Override
@@ -95,6 +93,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
                 CartDisplay.getTotal().setText("TOTAL PAYABLE: $" + String.valueOf(df2.format(CartManager.total())));
 
                 notifyDataSetChanged();
+
+
             }
         });
         holder.minus.setOnClickListener(new View.OnClickListener() {
