@@ -23,6 +23,8 @@ import com.example.karat.R;
 import com.example.karat.Staff.SHome.SHomeDisplay;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.text.DecimalFormat;
+
 public class CartDisplay extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private CartAdapter mAdapter;
@@ -31,6 +33,8 @@ public class CartDisplay extends AppCompatActivity {
     private static TextView GST;
     private static TextView total;
     private Button EmptyCart;
+    private static DecimalFormat df2 = new DecimalFormat("#.##");
+    DecimalFormat df = new DecimalFormat("#.00"); // Set your desired format here.
 
     CartManager cartManager;
 
@@ -83,7 +87,10 @@ public class CartDisplay extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 CartManager.total.emptyCart();
-                //recreate();
+                mAdapter.notifyDataSetChanged();
+                CartDisplay.getSubtotal().setText("SUBTOTAL: $" + String.valueOf(df2.format(CartManager.subtotal())));
+                CartDisplay.getGST().setText("GST: $" + String.valueOf(df2.format(CartManager.gst())));
+                CartDisplay.getTotal().setText("TOTAL PAYABLE: $" + String.valueOf(df2.format(CartManager.total())));
 
             }
         });

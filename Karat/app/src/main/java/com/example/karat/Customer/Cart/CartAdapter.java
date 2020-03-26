@@ -88,7 +88,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
             @Override
             public void onClick(View v) {
                 CartManager.total.addtoCart(currentItem.getPrice(),currentItem.getName(),1,1);
-                CartDisplay.getSubtotal().setText("SUBTOTAL: $" + String.valueOf(df2.format(CartManager.subtotal() * 0.93)));
+                CartDisplay.getSubtotal().setText("SUBTOTAL: $" + String.valueOf(df2.format(CartManager.subtotal())));
                 CartDisplay.getGST().setText("GST: $" + String.valueOf(df2.format(CartManager.gst())));
                 CartDisplay.getTotal().setText("TOTAL PAYABLE: $" + String.valueOf(df2.format(CartManager.total())));
 
@@ -101,7 +101,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
             @Override
             public void onClick(View v) {
                 CartManager.total.removefromCart(currentItem.getName());
-                CartDisplay.getSubtotal().setText("SUBTOTAL: $" + String.valueOf(df2.format(CartManager.subtotal() * 0.93)));
+                CartDisplay.getSubtotal().setText("SUBTOTAL: $" + String.valueOf(df2.format(CartManager.subtotal())));
                 CartDisplay.getGST().setText("GST: $" + String.valueOf(df2.format(CartManager.gst())));
                 CartDisplay.getTotal().setText("TOTAL PAYABLE: $" + String.valueOf(df2.format(CartManager.total())));
 

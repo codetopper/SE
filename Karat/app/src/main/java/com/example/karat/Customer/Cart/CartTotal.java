@@ -67,8 +67,8 @@ public class CartTotal {
     }
 
     public static void emptyCart() {
-        cartlist = null;
-        cartlistname = null;
+        cartlist.clear();
+        cartlistname.clear();
         return;
     }
 
