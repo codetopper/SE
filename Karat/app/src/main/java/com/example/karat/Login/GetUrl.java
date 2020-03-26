@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -23,7 +22,7 @@ public class GetUrl extends AppCompatActivity {
     private static String finalUrl;
     private String url = "https://data.gov.sg/api/action/datastore_search?resource_id=3561a136-4ee4-4029-a5cd-ddf591cce643";
 
-    public static void setFinalUrl(String final_url) {
+    private static void setFinalUrl(String final_url) {
         finalUrl = final_url;
     }
     public static String getFinalUrl() {

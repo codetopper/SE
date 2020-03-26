@@ -65,7 +65,7 @@ public class GetData extends AppCompatActivity {
                             address.add(blk + ", " + street + ", #" + lvl + " - " + unit + ", S" + postalCode);
                         }
                     }
-                    Toast.makeText(getApplicationContext(), GetUrl.getFinalUrl() + "\nsize: " + code.size(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Number of Stores: " + code.size(), Toast.LENGTH_SHORT).show();
                 }catch (JSONException e){
                     e.printStackTrace();
                 }
@@ -73,7 +73,7 @@ public class GetData extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.i("api data gg","Error :" + error.toString());
+                Toast.makeText(getApplicationContext(), "Restart Application", Toast.LENGTH_SHORT).show();;
             }
         });
         mRequestQueue.add(mObjectRequest);
