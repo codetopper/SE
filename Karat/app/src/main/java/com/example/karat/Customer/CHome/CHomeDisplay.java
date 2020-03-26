@@ -1,11 +1,12 @@
 package com.example.karat.Customer.CHome;
 
-import com.example.karat.Customer.CHome.CHomeManager;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -16,113 +17,168 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.karat.Customer.COrder.OrderAdapter;
 import com.example.karat.Customer.CSuperMap.MapDisplay;
 import com.example.karat.Customer.Cart.CartDisplay;
 import com.example.karat.R;
 import com.example.karat.Customer.COrder.COrderDisplay;
 import com.example.karat.Customer.CProfile.CProfileDisplay;
+import com.example.karat.inventory.DataCallback;
+import com.example.karat.inventory.Inventory;
 import com.example.karat.inventory.Listing;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import org.w3c.dom.Text;
-
+import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 import static com.example.karat.Customer.COrder.CustomerOrders.purchase;
 
 public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
-    RecyclerView recyclerView;
-    ArrayList searchList;
-    String catparam;
-    double pxparam;
-    double discparam;
-    Button addItem;
-    FirebaseDatabase mDatabase;
+    private static final int Num_Columns = 2;
+    private ArrayList<Listing> searchList = new ArrayList<>();
+    private ArrayList<Listing> searched = new ArrayList<>();
+    private DatabaseReference mDatabase= FirebaseDatabase.getInstance().getReference();
+    private RecyclerView recyclerView;
+    private StaggeredRecyclerViewAdapter staggeredRecyclerViewAdapter;
+    private Spinner categorySpinner, priceSpinner, discountSpinner, locationSpinner;
+    private Button search;
+
+    private String catparam;
+    private String locparam;
+    private double pxparam;
+    private double discparam;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_c_home_display);
+        initUI();
 
-        final Spinner categorySpinner = findViewById(R.id.spinnerCategory);
-        final ArrayAdapter<CharSequence> categoryAdapter = ArrayAdapter.createFromResource(this, R.array.Categories, android.R.layout.simple_spinner_item);
-        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        categorySpinner.setAdapter(categoryAdapter);
-        categorySpinner.setOnItemSelectedListener(this);
-
-        final Spinner priceSpinner = findViewById(R.id.spinnerPrice);
-        ArrayAdapter<CharSequence> priceAdapter = ArrayAdapter.createFromResource(this, R.array.Prices, android.R.layout.simple_spinner_item);
-        priceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        priceSpinner.setAdapter(priceAdapter);
-        priceSpinner.setOnItemSelectedListener(this);
-
-        final Spinner discountSpinner = findViewById(R.id.spinnerDiscounts);
-        final ArrayAdapter<CharSequence> discountAdapter = ArrayAdapter.createFromResource(this, R.array.Discounts, android.R.layout.simple_spinner_item);
-        discountAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        discountSpinner.setAdapter(discountAdapter);
-        discountSpinner.setOnItemSelectedListener(this);
-
-        Button search = (Button) findViewById(R.id.ExecuteSearch);
-
-        //Implementation of add Button to Cart
-
-        Button item = findViewById(R.id.addItem);
-        item.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
+        //Do search
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String cathold = categorySpinner.getSelectedItem().toString();
-                if(cathold.equals( "--")) {
-                    catparam = "empty";
-                }
-                else
-                    catparam = cathold;
+                //Extracting data from asynchronous database
+                searchList.clear();
+                searched.clear();
+                mDatabase.child("Inventory").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for(DataSnapshot ds : dataSnapshot.getChildren()){
+                            Listing listing = ds.getValue(Listing.class);
+                            listing.setImage_url(ds.child("imageUrl").getValue(String.class));
+                            assert listing != null;
+                            String a = "hi";
+                            searchList.add(listing);
+                        }
+                        //Data extracted
 
-                String pxhold = priceSpinner.getSelectedItem().toString();
-                if (pxhold.equals("--")){
-                    pxparam = -1;
-                }
-                else
-                    pxparam = Double.parseDouble(pxhold);
+                        /////////////////////////////////////////
+                        //Getting input
+                        String cathold = categorySpinner.getSelectedItem().toString();
+                        if(cathold.equals("--")) {
+                            catparam = "empty";
+                        }
+                        else
+                            catparam = cathold;
 
-                String dischold = discountSpinner.getSelectedItem().toString();
-                if (dischold.equals("--")){
-                    discparam = -1;
-                }
-                else
-                    discparam = Double.parseDouble(dischold);
-                CHomeManager manager = new CHomeManager();
-                searchList = manager.search(pxparam, catparam, discparam);
+                        String pxhold = priceSpinner.getSelectedItem().toString();
+                        if (pxhold.equals("--")){
+                            pxparam = -1.0;
+                        }
+                        else
+                            pxparam = Double.parseDouble(pxhold);
+
+                        String dischold = discountSpinner.getSelectedItem().toString();
+                        if (dischold.equals("--")){
+                            discparam = -1.0;
+                        }
+                        else
+                            discparam = Double.parseDouble(dischold);
+
+
+                        String lochold = locationSpinner.getSelectedItem().toString();
+                        if (lochold.equals("All")){
+                            locparam = "empty";
+                        }
+                        else
+                            locparam = lochold;
+                        //Filtering results
+                        try {
+                            for (Listing l : searchList) {
+                                boolean add = true;
+                                double price = l.getListingPrice();
+                                if (pxparam != -1.0) {
+                                    if (price > pxparam)
+                                        add = false;
+                                }
+
+                                String category = l.getListingCategory();
+                                if (!catparam.equals("empty")) {
+                                    if (!category.equals(catparam))
+                                        add = false;
+                                }
+
+                                double discount = l.getListingDiscount();
+                                if (discparam > -1.0) {
+                                    if (discount < discparam)
+                                        add = false;
+                                }
+
+                                if (add){
+                                    searched.add(l);
+                                }
+                            }
+                        }catch (Exception e) {
+                            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                            //need to build search location logic
+                            //if (location != "empty") {
+                            //    if (l.getListingLocation() != lochold)
+                            //        searchList.remove(l);
+                            //}
+
+                        //setting recycler view
+                        staggeredRecyclerViewAdapter.reset(searched);
+                        staggeredRecyclerViewAdapter.notifyDataSetChanged();
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        throw databaseError.toException();
+                    }
+                });
+                    //add api for location
+
             }
         });
 
+        //Navigation bar
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navi);
-
         bottomNavigationView.setSelectedItemId(R.id.Home);
-
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.Home:
-                        startActivity(new Intent(getApplicationContext(), CHomeDisplay.class));
+                        Intent CHomeIntent = new Intent(getApplicationContext(), CHomeDisplay.class);
+                        CHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(CHomeIntent);
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.Orders:
                         initData();
-                        startActivity(new Intent(getApplicationContext(), COrderDisplay.class));
+                        Intent COrderIntent = new Intent(getApplicationContext(), COrderDisplay.class);
+                        COrderIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(COrderIntent);
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.Profile:
-                        startActivity(new Intent(getApplicationContext(), CProfileDisplay.class));
+                        Intent CProfileIntent = new Intent(getApplicationContext(), CProfileDisplay.class);
+                        CProfileIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(CProfileIntent);
                         overridePendingTransition(0,0);
                         return true;
                 }
@@ -140,7 +196,8 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public void goToCart(View v) {
-        Intent i = new Intent(getBaseContext(), CartDisplay.class);
+        Intent i = new Intent(getApplicationContext(), CartDisplay.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(i);
         overridePendingTransition(0,0);
     }
@@ -153,24 +210,6 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-// zy version most likely wrong cause i haven't get cyrus' update
-//         Spinner spin = (Spinner)parent;
-//         Spinner spin2 = (Spinner)parent;
-//         Spinner spin3 = (Spinner)parent;
-//         if(spin.getId() == R.id.spinnerCategory) {
-//             String selectCategory = parent.getItemAtPosition(position).toString();
-//             //Toast.makeText(parent.getContext(), selectCategory, Toast.LENGTH_SHORT).show();
-//         }
-
-//         if(spin2.getId() == R.id.spinnerPrice) {
-//             Integer selectPrice = (Integer) parent.getItemAtPosition(position);
-//             //Toast.makeText(parent.getContext(), selectPrice, Toast.LENGTH_SHORT).show();
-//         }
-
-//         if(spin.getId() == R.id.spinnerDiscounts) {
-//             Integer selectDiscount = (Integer) parent.getItemAtPosition(position);
-//             //Toast.makeText(parent.getContext(), selectDiscount, Toast.LENGTH_SHORT).show();
-
         switch(parent.getId()) {
             case R.id.spinnerCategory:
                 String cat = String.valueOf(parent.getItemAtPosition(position));
@@ -181,10 +220,44 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
             case R.id.spinnerDiscounts:
                 String disc = String.valueOf(parent.getItemAtPosition(position));
                 //Toast.makeText(this, disc, Toast.LENGTH_SHORT).show();
+            case R.id.spinnerLocation:
+                String loc = String.valueOf(parent.getItemAtPosition(position));
+                //Toast.makeText(this, disc, Toast.LENGTH_SHORT).show();
         }
     }
 
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    private void initUI(){
+        recyclerView = findViewById(R.id.recyclerView);
+        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(Num_Columns, LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(staggeredGridLayoutManager);
+        locationSpinner = findViewById(R.id.spinnerLocation);
+        discountSpinner = findViewById(R.id.spinnerDiscounts);
+        priceSpinner = findViewById(R.id.spinnerPrice);
+        categorySpinner = findViewById(R.id.spinnerCategory);
+        Context context = getApplicationContext();
+        staggeredRecyclerViewAdapter = new StaggeredRecyclerViewAdapter(context);
+            recyclerView.setAdapter(staggeredRecyclerViewAdapter);
+        search = findViewById(R.id.ExecuteSearch);
+
+        //Setting spinners
+        ArrayAdapter<CharSequence> categoryAdapter = ArrayAdapter.createFromResource(this, R.array.Categories, android.R.layout.simple_spinner_item);
+        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        categorySpinner.setAdapter(categoryAdapter);
+
+        ArrayAdapter<CharSequence> priceAdapter = ArrayAdapter.createFromResource(this, R.array.Prices, android.R.layout.simple_spinner_item);
+        priceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        priceSpinner.setAdapter(priceAdapter);
+
+        ArrayAdapter<CharSequence> discountAdapter = ArrayAdapter.createFromResource(this, R.array.Discounts, android.R.layout.simple_spinner_item);
+        discountAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        discountSpinner.setAdapter(discountAdapter);
+
+        ArrayAdapter<CharSequence> locationAdapter = ArrayAdapter.createFromResource(this, R.array.Location, android.R.layout.simple_spinner_item);
+        locationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        locationSpinner.setAdapter(locationAdapter);
     }
 }

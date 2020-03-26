@@ -74,7 +74,6 @@ public class LoginDisplay extends AppCompatActivity {
     }
 
     private void loginUserAccount() {
-
         final String user, password;
         final boolean isStaff = domain.isChecked();
 
@@ -117,6 +116,7 @@ public class LoginDisplay extends AppCompatActivity {
                                             Intent CHomeIntent = new Intent(getApplicationContext(), CHomeDisplay.class);
                                             startActivity(CHomeIntent);
                                         }
+                                        passwordEditText.setText((""));
                                     } else {
                                         Toast.makeText(LoginDisplay.this, "Authentication failed.",
                                                 Toast.LENGTH_SHORT).show();

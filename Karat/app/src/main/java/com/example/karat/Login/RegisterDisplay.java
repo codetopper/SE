@@ -60,9 +60,8 @@ public class RegisterDisplay extends AppCompatActivity {
         firstName = firstNameTV.getText().toString();
         lastName = lastNameTV.getText().toString();
         mobileNum = mobileNumTV.getText().toString();
-        firstDigit = Integer.parseInt(String.valueOf(mobileNum.toCharArray()[0]));
 
-        if (TextUtils.isEmpty(userTV.getText().toString())) {
+        if (TextUtils.isEmpty(user)) {
             Toast.makeText(getApplicationContext(), "Please enter email...", Toast.LENGTH_LONG).show();
             return;
         }
@@ -81,12 +80,15 @@ public class RegisterDisplay extends AppCompatActivity {
         if (TextUtils.isEmpty(mobileNum)) {
             Toast.makeText(getApplicationContext(), "Please enter mobile number!", Toast.LENGTH_LONG).show();
             return;
-        } else if (mobileNum.length()!=8) {
-            Toast.makeText(getApplicationContext(), "Please enter an 8 digit mobile number!", Toast.LENGTH_LONG).show();
-            return;
-        } else if (firstDigit<8) {
-            Toast.makeText(getApplicationContext(), "Please enter a valid mobile number!", Toast.LENGTH_LONG).show();
-            return;
+        } else {
+            firstDigit = Integer.parseInt(String.valueOf(mobileNum.toCharArray()[0]));
+            if (mobileNum.length() != 8) {
+                Toast.makeText(getApplicationContext(), "Please enter an 8 digit mobile number!", Toast.LENGTH_LONG).show();
+                return;
+            } else if (firstDigit < 8) {
+                Toast.makeText(getApplicationContext(), "Please enter a valid mobile number!", Toast.LENGTH_LONG).show();
+                return;
+            }
         }
 
         mAuth.createUserWithEmailAndPassword(user, password)
@@ -95,8 +97,7 @@ public class RegisterDisplay extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             writeUserToDatabase(task.getResult().getUser(), password, firstName, lastName, mobileNum);
-                            Intent LoginIntent = new Intent(getApplicationContext(), LoginDisplay.class);
-                            startActivity(LoginIntent);
+                            finish();
                         } else {
                             Toast.makeText(RegisterDisplay.this, "Sign Up Failed.\n Error message: "+ task.getException().getMessage(),
                                     Toast.LENGTH_SHORT).show();

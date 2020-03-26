@@ -1,53 +1,45 @@
 package com.example.karat.inventory;
 
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+
+import com.example.karat.Customer.CHome.CHomeDisplay;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class Inventory{
-    private static Inventory single_instance = null;
-    public static ArrayList<Listing> inventoryList = new ArrayList<>();
+    private final ArrayList<Listing> inventoryList = new ArrayList<>();
+    private DatabaseReference mDatabase= FirebaseDatabase.getInstance().getReference();
 
-    private Inventory() {}
-    
-    public ArrayList<com.example.karat.inventory.Listing> getList(){
-        return inventoryList;
+    public Inventory() {
     }
-
-    public void addListing(double price, double discount, String location, String name, String category) {
-        inventoryList.add(new Listing(price, discount, location, name, category));
-    }
-
-    public int purchase(int listingId){
-        for (Listing l: inventoryList) {
-            if (listingId == l.getListingId()){
-                if (l.getListingAvailable() == true){
-                    int quant = l.getListingQuantity();
-                    quant--;
-                    l.setListingQuantity(quant);
-                    if (l.getListingQuantity() == 0) {
-                        l.setListingAvailable(false);
-                    }
-                    return 1;
+    public void update(final DataCallback myCallback){
+        mDatabase.child("Inventory").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds : dataSnapshot.getChildren()){
+                    Listing listing = ds.getValue(Listing.class);
+                    assert listing != null;
+                    String a = "hi";
+                    inventoryList.add(listing);
                 }
+                myCallback.onCallback(inventoryList);
             }
-        }    
-        return 0;
-    }
-
-    public void removeListing(int listingId){
-        for (Listing l: inventoryList) {
-            if (listingId == l.getListingId()){
-                if (l.getListingAvailable() == true){
-                    l.setListingAvailable(false);
-                }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                throw databaseError.toException();
             }
-        }
+        });
     }
-
-    public static Inventory getInstance(){
-        if(single_instance == null){
-            single_instance = new Inventory();
-        }
-
-        return single_instance;
+    public ArrayList<Listing> getInventory(){
+        return (ArrayList<Listing>)inventoryList.clone();
     }
 }

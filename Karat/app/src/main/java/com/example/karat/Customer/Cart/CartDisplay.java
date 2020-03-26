@@ -20,6 +20,7 @@ import com.example.karat.Customer.CHome.CHomeDisplay;
 import com.example.karat.Customer.COrder.COrderDisplay;
 import com.example.karat.Customer.CProfile.CProfileDisplay;
 import com.example.karat.R;
+import com.example.karat.Staff.SHome.SHomeDisplay;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class CartDisplay extends AppCompatActivity {
@@ -116,21 +117,28 @@ public class CartDisplay extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.Home:
-                        startActivity(new Intent(getApplicationContext(), CHomeDisplay.class));
-                        overridePendingTransition(0, 0);
+                        Intent CHomeIntent = new Intent(getApplicationContext(), CHomeDisplay.class);
+                        CHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(CHomeIntent);
+                        overridePendingTransition(0,0);
                         return true;
                     case R.id.Orders:
-                        startActivity(new Intent(getApplicationContext(), COrderDisplay.class));
-                        overridePendingTransition(0, 0);
+                        Intent COrderIntent = new Intent(getApplicationContext(), COrderDisplay.class);
+                        COrderIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(COrderIntent);
+                        overridePendingTransition(0,0);
                         return true;
                     case R.id.Profile:
-                        startActivity(new Intent(getApplicationContext(), CProfileDisplay.class));
-                        overridePendingTransition(0, 0);
+                        Intent CProfileIntent = new Intent(getApplicationContext(), CProfileDisplay.class);
+                        CProfileIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(CProfileIntent);
+                        overridePendingTransition(0,0);
                         return true;
                 }
                 return false;
             }
         });
+
     }
 
 
@@ -142,6 +150,7 @@ public class CartDisplay extends AppCompatActivity {
             GST.setText("GST: $" + String.valueOf(Math.round(cartManager.gst()* 100)/100));
             total.setText("TOTAL PAYABLE: $" + String.valueOf(Math.round(100 * (cartManager.gst() + cartManager.subtotal()))/100));
         }
+
     }
 
 

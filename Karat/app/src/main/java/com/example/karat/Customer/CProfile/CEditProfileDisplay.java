@@ -1,8 +1,10 @@
 package com.example.karat.Customer.CProfile;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 import com.example.karat.Login.LoginDisplay;
 import com.example.karat.Login.RegisterDisplay;
 import com.example.karat.R;
+import com.example.karat.Staff.SProfile.SEditProfileDisplay;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -77,8 +80,18 @@ public class CEditProfileDisplay extends AppCompatActivity {
         confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editUserDetails();
+                AlertDialog.Builder builder = new AlertDialog.Builder(CEditProfileDisplay.this);
+                builder.setMessage("Are you sure you want to edit your details?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                editUserDetails();
+                            }
+                        }).setNegativeButton("No", null);
+                AlertDialog alert = builder.create();
+                alert.show();
             }
+
         });
     }
 
@@ -110,8 +123,9 @@ public class CEditProfileDisplay extends AppCompatActivity {
         }
 
         editUserToDatabase(firstName, lastName, mobileNum);
-        Intent ProfileIntent = new Intent(getApplicationContext(), CProfileDisplay.class);
-        startActivity(ProfileIntent);
+        Intent CProfileIntent = new Intent(getApplicationContext(), CProfileDisplay.class);
+        CProfileIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(CProfileIntent);
     }
 
     private void editUserToDatabase( String firstName, String lastName, String mobileNum){

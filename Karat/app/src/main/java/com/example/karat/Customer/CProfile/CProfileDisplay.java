@@ -1,8 +1,10 @@
 package com.example.karat.Customer.CProfile;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -119,10 +121,21 @@ public class CProfileDisplay extends AppCompatActivity {
         logOffBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent logOffIntent = new Intent(getApplicationContext(), LoginDisplay.class);
-                startActivity(logOffIntent);
-                overridePendingTransition(0,0);
-                mAuth.signOut();
+                AlertDialog.Builder builder = new AlertDialog.Builder(CProfileDisplay.this);
+                builder.setMessage("Are you sure you want to log off??")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mAuth.signOut();
+                                Intent LoginIntent = new Intent(getApplicationContext(), LoginDisplay.class);
+                                LoginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(LoginIntent);
+                                overridePendingTransition(0,0);
+                            }
+                        }).setNegativeButton("No", null);
+                AlertDialog alert = builder.create();
+                alert.show();
+
             }
         });
 
@@ -154,15 +167,21 @@ public class CProfileDisplay extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.Home:
-                        startActivity(new Intent(getApplicationContext(), CHomeDisplay.class));
+                        Intent CHomeIntent = new Intent(getApplicationContext(), CHomeDisplay.class);
+                        CHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(CHomeIntent);
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.Orders:
-                        startActivity(new Intent(getApplicationContext(), COrderDisplay.class));
+                        Intent COrderIntent = new Intent(getApplicationContext(), COrderDisplay.class);
+                        COrderIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(COrderIntent);
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.Profile:
-                        startActivity(new Intent(getApplicationContext(), CProfileDisplay.class));
+                        Intent CProfileIntent = new Intent(getApplicationContext(), CProfileDisplay.class);
+                        CProfileIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(CProfileIntent);
                         overridePendingTransition(0,0);
                         return true;
                 }
@@ -179,6 +198,7 @@ public class CProfileDisplay extends AppCompatActivity {
 
     public void goToCart(View v) {
         Intent i = new Intent(getBaseContext(), CartDisplay.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(i);
         overridePendingTransition(0,0);
     }
