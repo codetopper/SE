@@ -9,27 +9,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CartManager {
-    CartTotal total = new CartTotal();
+    static CartTotal total = new CartTotal();
     List <Cart>  cartList;
 
-    CartManager() {
+    public CartManager() {
         cartList = new ArrayList<>();
         for (Cart c: total.getCartlist()){
             cartList.add(c);
         }
     }
 
-    public double subtotal() {
+    public static double total() {
         double sum = 0;
         for (Cart c: total.getCartlist()){
-            sum += c.getPrice();
+            sum += c.getPrice() * c.getQuantity();
         }
         return sum;
     }
 
-    public double gst() {
-        return (subtotal() * 0.07);
+    public static double gst() {
+        return (total() * 0.07);
     }
+    public static double subtotal() {return total() * 0.93;}
+
+
+
 }
 
 

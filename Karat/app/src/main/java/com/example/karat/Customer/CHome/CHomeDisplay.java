@@ -31,7 +31,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 
 import static com.example.karat.Customer.COrder.CustomerOrders.purchase;
@@ -100,13 +99,13 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
                         else
                             discparam = Double.parseDouble(dischold);
 
+
                         String lochold = locationSpinner.getSelectedItem().toString();
                         if (lochold.equals("All")){
                             locparam = "empty";
                         }
                         else
                             locparam = lochold;
-
                         //Filtering results
                         try {
                             for (Listing l : searchList) {
