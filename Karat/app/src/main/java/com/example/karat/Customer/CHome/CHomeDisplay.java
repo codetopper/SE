@@ -54,8 +54,8 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_c_home_display);
 
+        setContentView(R.layout.activity_c_home_display);
         initUI();
 
         //Do search
@@ -241,7 +241,7 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
         categorySpinner = findViewById(R.id.spinnerCategory);
         Context context = getApplicationContext();
         staggeredRecyclerViewAdapter = new StaggeredRecyclerViewAdapter(context);
-        recyclerView.setAdapter(staggeredRecyclerViewAdapter);
+            recyclerView.setAdapter(staggeredRecyclerViewAdapter);
         search = findViewById(R.id.ExecuteSearch);
 
         //Setting spinners
