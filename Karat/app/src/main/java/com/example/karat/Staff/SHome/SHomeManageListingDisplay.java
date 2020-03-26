@@ -213,9 +213,9 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
     }
 
     private void initPage(){
+        deleteBtn.setVisibility(View.INVISIBLE);
         final String email = mAuth.getCurrentUser().getEmail().replace("@", "")
                 .replace(".", "");
-
         //Initialising Header
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -239,6 +239,7 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
         //Preloading existing listing
         final int loadListingID;
         if (getIntent().hasExtra("com.example.karat.listingID")) {
+            deleteBtn.setVisibility(View.VISIBLE);
             loadListingID = Integer.parseInt(getIntent().getExtras().getString("com.example.karat.listingID"));
             mDatabase.child("Inventory").child(loadListingID+"").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
