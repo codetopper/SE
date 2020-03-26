@@ -17,16 +17,17 @@ public class Listing{
     private String name;
     private String category;
     private String location;
-
     private String description;
+    private String imageUrl;
     private boolean available;
     public Map<String, Boolean> stars = new HashMap<>();
 
     public Listing(){
-        listingId = count.incrementAndGet();
+        listingId = count.get();
     }
 
-    public Listing(double price, double discount, String location, String name, String category, String description, int quantity){
+    public Listing(double price, double discount, String location, String name, String category,
+                   String imageUrl, String description, int quantity){
             listingId = count.incrementAndGet();
             this.price = price;
             this.discount = discount;
@@ -36,7 +37,21 @@ public class Listing{
             this.quantity = quantity;
             this.description = description;
             this.available = true;
+            this.imageUrl = imageUrl;
         }
+
+    public Listing(double price, double discount, String location, String name, String category
+            , String description, int quantity){
+        listingId = count.incrementAndGet();
+        this.price = price;
+        this.discount = discount;
+        this.name = name;
+        this.category = category;
+        this.location = location;
+        this.quantity = quantity;
+        this.description = description;
+        this.available = true;
+    }
 
     @Exclude
     public Map<String, Object> toMap() {
@@ -49,6 +64,7 @@ public class Listing{
         result.put("quantity", quantity);
         result.put("description", description);
         result.put("available", true);
+        result.put("imageUrl", imageUrl);
 
         return result;
     }
@@ -86,4 +102,8 @@ public class Listing{
     public boolean getListingAvailable() {return available;}
 
     public void setListingAvailable(boolean available) {this.available = available;}
+
+    public String getImage_url() { return imageUrl; }
+
+    public void setImage_url(String image_url) { this.imageUrl = image_url; }
 }
