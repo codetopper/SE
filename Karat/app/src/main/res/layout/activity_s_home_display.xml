@@ -106,6 +106,7 @@ tools:context=".Staff.SHome.SHomeDisplay">
         android:id="@+id/addListing"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:text="Add New Listing"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navi"
         app:layout_constraintEnd_toEndOf="parent"
