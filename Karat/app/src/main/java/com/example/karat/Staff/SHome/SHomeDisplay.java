@@ -136,13 +136,14 @@ public class SHomeDisplay extends AppCompatActivity {
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String name = dataSnapshot.child("UserDatabase").child(email).child("name").getValue(String.class);
+                String name = dataSnapshot.child("UserDatabase").child(email).child("firstName").getValue(String.class) + " " +
+                        dataSnapshot.child("UserDatabase").child(email).child("lastName").getValue(String.class);
                 String address = dataSnapshot.child("UserDatabase").child(email).child("address").getValue(String.class);
                 String timeStart = dataSnapshot.child("UserDatabase").child(email).child("openingHour").getValue(String.class);
                 String timeEnd = dataSnapshot.child("UserDatabase").child(email).child("closingHour").getValue(String.class);
                 nameTV.setText(name);
                 addressTV.setText(address);
-                timeTV.setText(timeStart+" - "+timeEnd);
+                timeTV.setText(timeStart+"-"+timeEnd);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
