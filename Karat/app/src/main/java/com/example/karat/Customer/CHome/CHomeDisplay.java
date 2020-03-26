@@ -80,21 +80,21 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
                         /////////////////////////////////////////
                         //Getting input
                         String cathold = categorySpinner.getSelectedItem().toString();
-                        if(cathold.equals("--")) {
+                        if(cathold.equals("Category")) {
                             catparam = "empty";
                         }
                         else
                             catparam = cathold;
 
                         String pxhold = priceSpinner.getSelectedItem().toString();
-                        if (pxhold.equals("--")){
+                        if (pxhold.equals("Prices(max$)")){
                             pxparam = -1.0;
                         }
                         else
                             pxparam = Double.parseDouble(pxhold);
 
                         String dischold = discountSpinner.getSelectedItem().toString();
-                        if (dischold.equals("--")){
+                        if (dischold.equals("Discounts(min%)")){
                             discparam = -1.0;
                         }
                         else
@@ -102,7 +102,7 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
 
 
                         String lochold = locationSpinner.getSelectedItem().toString();
-                        if (lochold.equals("All")){
+                        if (lochold.equals("Location")){
                             locparam = "empty";
                         }
                         else
