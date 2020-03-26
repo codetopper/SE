@@ -3,7 +3,6 @@
     package="com.example.karat">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google MapDisplay Android API v2, but you must specify either coarse or fine
@@ -11,7 +10,7 @@
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -20,9 +19,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".Staff.SHome.SHomeManageListingDisplay"></activity>
-
 
         <!--
              The API key for Google MapDisplay-based APIs is defined as a string resource.
@@ -35,11 +31,9 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-
-        <activity android:name=".Customer.CSuperMap.MapDisplay">
-
-        </activity>
-
+        <activity android:name=".Customer.CSuperMap.StoreDetailsDisplay"></activity>
+        <activity android:name=".Staff.SHome.SHomeManageListingDisplay" />
+        <activity android:name=".Customer.CSuperMap.MapDisplay"></activity>
         <activity android:name=".Staff.SProfile.SEditProfileDisplay" />
         <activity android:name=".Customer.CProfile.CEditProfileDisplay" />
         <activity android:name=".Login.RegisterDisplay" />
