@@ -15,10 +15,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.karat.Customer.CHome.CHomeDisplay;
 import com.example.karat.Customer.COrder.COrderDisplay;
 import com.example.karat.Customer.CProfile.CProfileDisplay;
+import com.example.karat.Login.LoginDisplay;
 import com.example.karat.R;
 import com.example.karat.Staff.SHome.SHomeDisplay;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -77,20 +79,27 @@ public class CartDisplay extends AppCompatActivity {
     /* Methods */
 
     public void EmptyCartdialog(){
-        builder = new AlertDialog.Builder(CartDisplay.this);
-        builder.setTitle("Are you sure you want to empty the shopping cart?");
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                CartManager.total.emptyCart();
-                //recreate();
+        AlertDialog.Builder builder = new AlertDialog.Builder(CartDisplay.this);
+        builder.setMessage("Are you sure you want to empty the shopping cart?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        try {
+                            CartManager.total.emptyCart();
+                            mAdapter.setData(cartManager.total.getCartlist());
+                            mAdapter.notifyDataSetChanged();
+                            //recreate();
+                        }catch(Exception e) {
+                            Toast.makeText(getApplicationContext(),e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }).setNegativeButton("No", null);
+        AlertDialog alert = builder.create();
+        alert.show();
 
-            }
-        });
-        builder.setNegativeButton("Cancel", null);
-        dialog = builder.create();
-        dialog.show();
     }
+
+
     public void createExampleList(){
         cartManager.total.addtoCart(3.5,"Chicken",3,R.drawable.ic_person);
         cartManager.total.addtoCart(4.5,"Duck",3,R.drawable.ic_history);

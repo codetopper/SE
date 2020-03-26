@@ -144,21 +144,7 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String message = "Do you want to apply changes?";
-                AlertDialog.Builder builder = new AlertDialog.Builder(SHomeManageListingDisplay.this);
-                builder.setMessage(message)
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                addListingToDatabase();
-                                Intent SHomeIntent = new Intent(getApplicationContext(), SHomeDisplay.class);
-                                SHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(SHomeIntent);
-                                overridePendingTransition(0,0);
-                            }
-                        }).setNegativeButton("No", null);
-                AlertDialog alert = builder.create();
-                alert.show();
+                addListingToDatabase();
             }
         });
 
@@ -226,6 +212,7 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
     }
 
     private void initPage(){
+        deleteBtn.setVisibility(View.INVISIBLE);
         final String email = mAuth.getCurrentUser().getEmail().replace("@", "")
                 .replace(".", "");
 
@@ -250,6 +237,7 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
         //Preloading existing listing
         final int loadListingID;
         if (getIntent().hasExtra("com.example.karat.listingID")) {
+            deleteBtn.setVisibility(View.VISIBLE);
             loadListingID = Integer.parseInt(getIntent().getExtras().getString("com.example.karat.listingID"));
             mDatabase.child("Inventory").child(loadListingID+"").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -305,15 +293,6 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
     }
 
     private void addListingToDatabase(){
-        String listingName, itemPrice, itemQty, itemDiscount, description, supermarket, itemCategory;
-        supermarket = nameTV.getText().toString();
-        listingName = listingNameET.getText().toString();
-        itemPrice = itemPriceET.getText().toString();
-        itemQty = itemQtyET.getText().toString();
-        itemDiscount = itemDiscET.getText().toString();
-        description = descriptionET.getText().toString();
-        itemCategory = catspinner.getSelectedItem().toString();
-
         if (TextUtils.isEmpty(listingNameET.getText().toString())) {
             Toast.makeText(getApplicationContext(), "Please enter the product name...", Toast.LENGTH_LONG).show();
             return;
@@ -339,76 +318,97 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
             return;
         }
 
-        //Create new listing object with the information
-        Listing newProduct = new Listing(Double.parseDouble(itemPrice), Double.parseDouble(itemDiscount), supermarket,
-                listingName, itemCategory, description, Integer.parseInt(itemQty));
 
-        int listingID;
-        if (currentListing==null) {
-            listingID = newProduct.getListingId();
-        } else {
-            listingID = currentListing.getListingId();
-        }
+        String message = "Do you want to apply changes?";
+        AlertDialog.Builder builder = new AlertDialog.Builder(SHomeManageListingDisplay.this);
+        builder.setMessage(message)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String listingName, itemPrice, itemQty, itemDiscount, description, supermarket, itemCategory;
+                        supermarket = nameTV.getText().toString();
+                        listingName = listingNameET.getText().toString();
+                        itemPrice = itemPriceET.getText().toString();
+                        itemQty = itemQtyET.getText().toString();
+                        itemDiscount = itemDiscET.getText().toString();
+                        description = descriptionET.getText().toString();
+                        itemCategory = catspinner.getSelectedItem().toString();
 
-        mDatabase.child("Inventory").child(listingID+"").setValue(newProduct);
-        //Patching issues with listingID increments
-        if (getIntent().hasExtra("com.example.karat.listingID")) {
-            listingID = Integer.parseInt(getIntent().getExtras().getString("com.example.karat.listingID"));
-            mDatabase.child("Inventory").child(listingID+"").child("listingId").setValue(listingID);
-        }
+                        //Create new listing object with the information
+                        Listing newProduct = new Listing(Double.parseDouble(itemPrice), Double.parseDouble(itemDiscount), supermarket,
+                                listingName, itemCategory, description, Integer.parseInt(itemQty));
 
-        final int imageID = listingID;
+                        int listingID;
+                        if (currentListing==null) {
+                            listingID = newProduct.getListingId();
+                        } else {
+                            listingID = currentListing.getListingId();
+                        }
+                        mDatabase.child("Inventory").child(listingID+"").setValue(newProduct);
+                        //Patching issues with listingID increments
+                        if (getIntent().hasExtra("com.example.karat.listingID")) {
+                            listingID = Integer.parseInt(getIntent().getExtras().getString("com.example.karat.listingID"));
+                            mDatabase.child("Inventory").child(listingID+"").child("listingId").setValue(listingID);
+                        }
 
-        //Upload image to firebase storage and url to realtime database
-        StorageReference StoreRef = mStorage.getReference();
-        final StorageReference uploadImgPath = StoreRef.child("InventoryImages").child(listingID+".jpg");
-        imageView.setDrawingCacheEnabled(true);
-        imageView.buildDrawingCache();
-        Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] data = baos.toByteArray();
+                        final int imageID = listingID;
 
-        UploadTask uploadTask = uploadImgPath.putBytes(data);
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Toast.makeText(getApplicationContext(), "Listing updated!", Toast.LENGTH_SHORT).show();
-            }
-        });
+                        //Upload image to firebase storage and url to realtime database
+                        StorageReference StoreRef = mStorage.getReference();
+                        final StorageReference uploadImgPath = StoreRef.child("InventoryImages").child(listingID+".jpg");
+                        imageView.setDrawingCacheEnabled(true);
+                        imageView.buildDrawingCache();
+                        Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                        byte[] data = baos.toByteArray();
 
-        Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-            @Override
-            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                if (!task.isSuccessful()) {
-                    throw task.getException();
-                }
+                        UploadTask uploadTask = uploadImgPath.putBytes(data);
+                        uploadTask.addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+                                Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                Toast.makeText(getApplicationContext(), "Listing updated!", Toast.LENGTH_SHORT).show();
+                            }
+                        });
 
-                // Continue with the task to get the download URL
-                return uploadImgPath.getDownloadUrl();
-            }
-        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-            @Override
-            public void onComplete(@NonNull Task<Uri> task) {
-                if (task.isSuccessful()) {
-                    Uri downloadUri = task.getResult();
-                    String downloadURL = downloadUri.toString();
-                    mDatabase.child("Inventory").child(imageID+"").child("imageUrl").setValue(downloadURL);
-                } else {
-                }
-            }
-        });
+                        Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                            @Override
+                            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                                if (!task.isSuccessful()) {
+                                    throw task.getException();
+                                }
 
-        //Return to home activity
-        Intent SHomeIntent = new Intent(getApplicationContext(), SHomeDisplay.class);
-        SHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(SHomeIntent);
-        overridePendingTransition(0,0);
+                                // Continue with the task to get the download URL
+                                return uploadImgPath.getDownloadUrl();
+                            }
+                        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Uri> task) {
+                                if (task.isSuccessful()) {
+                                    Uri downloadUri = task.getResult();
+                                    String downloadURL = downloadUri.toString();
+                                    mDatabase.child("Inventory").child(imageID+"").child("imageUrl").setValue(downloadURL);
+                                } else {
+                                }
+                            }
+                        });
+
+                        //Return to home activity
+                        Intent SHomeIntent = new Intent(getApplicationContext(), SHomeDisplay.class);
+                        SHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(SHomeIntent);
+                        overridePendingTransition(0,0);
+
+
+                    }
+                }).setNegativeButton("No", null);
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     private void initialiseUI(){
