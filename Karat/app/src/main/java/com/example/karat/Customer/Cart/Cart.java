@@ -4,9 +4,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Cart {
     public int quantity;
-    public double price;
-    public String name;
-    public int mImageResource;
+    private double price;
+    private String name;
+    private int mImageResource;
 
 
 
