@@ -5,7 +5,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
-
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google MapDisplay Android API v2, but you must specify either coarse or fine
@@ -13,7 +12,7 @@
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -22,10 +21,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".Staff.SHome.SHomeManageListingDisplay"></activity>
-
-
+        <activity android:name=".Login.UpdateDatabase"></activity>
+        <activity android:name=".Login.GetData" />
         <!--
              The API key for Google MapDisplay-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -38,10 +35,15 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".Customer.CSuperMap.MapDisplay">
+        <activity android:name=".Login.GetUrl">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
-
+        <activity android:name=".Staff.SHome.SHomeManageListingDisplay" />
+        <activity android:name=".Customer.CSuperMap.MapDisplay" />
         <activity android:name=".Staff.SProfile.SEditProfileDisplay" />
         <activity android:name=".Customer.CProfile.CEditProfileDisplay" />
         <activity android:name=".Login.RegisterDisplay" />
@@ -53,13 +55,7 @@
         <activity android:name=".Customer.Cart.CartDisplay" />
         <activity android:name=".Customer.CProfile.CProfileDisplay" />
         <activity android:name=".Customer.COrder.COrderDisplay" />
-        <activity android:name=".Login.LoginDisplay">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".Login.LoginDisplay" />
 
         <meta-data
             android:name="preloaded_fonts"

@@ -28,7 +28,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class LoginDisplay extends AppCompatActivity {
-
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private EditText usernameEditText, passwordEditText;
@@ -37,7 +36,6 @@ public class LoginDisplay extends AppCompatActivity {
     private Button resetBtn;
     private Switch domain;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +43,6 @@ public class LoginDisplay extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        ///////////////////////////////////////////////////////////////////
         //Login process
         initializeUI();
 
