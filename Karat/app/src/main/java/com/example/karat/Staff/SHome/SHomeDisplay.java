@@ -57,23 +57,11 @@ public class SHomeDisplay extends AppCompatActivity {
         setHeader();
 
         ////////changes somewhere here///////////////
-        @Override
-        public void onNoteClick(int position) {
-            Intent intent = new Intent(this, NoteActivity.class);
-            intent.putExtra("selected_note", mNotes.get(position));
-            startActivity(intent);
-        }
-
-        @Override
-        public void onClick(View view) {
-            Intent intent = new Intent(this, NoteActivity.class);
-            startActivity(intent);
-        }
 
 
         //Generate recycler view with buttons?
         //Where each button has a extra intent of productID
-        editListing1Btn.setOnClickListener(new View.OnClickListener() {
+        /*editListing1Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Test if listing exists
@@ -95,7 +83,7 @@ public class SHomeDisplay extends AppCompatActivity {
                     }
                 });
             }
-        });
+        });*/
 
         ////////changes somewhere here///////////////
 

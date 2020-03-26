@@ -118,6 +118,7 @@ tools:context=".Staff.SHome.SHomeDisplay">
         android:layout_width="391dp"
         android:layout_height="455dp"
         android:id="@+id/recyclerViewEdit"
+        android:background="#33FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navi"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
