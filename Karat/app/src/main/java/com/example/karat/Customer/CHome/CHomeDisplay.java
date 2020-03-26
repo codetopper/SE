@@ -45,6 +45,7 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
     private Spinner categorySpinner, priceSpinner, discountSpinner, locationSpinner;
     private Button search;
 
+
     private String catparam;
     private String locparam;
     private double pxparam;
