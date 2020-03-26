@@ -5,7 +5,7 @@
     <string name="profile">Profile</string>
     <string name="title_activity_maps">Map</string>
     <string-array name="Categories">
-        <item>--</item>
+        <item>Category</item>
         <item>Meats</item>
         <item>Vegetables</item>
         <item>Fruits</item>
@@ -14,7 +14,7 @@
         <item>Others</item>
     </string-array>
     <string-array name="Prices">
-        <item>--</item>
+        <item>Prices(max$)</item>
         <item>5</item>
         <item>10</item>
         <item>15</item>
@@ -27,7 +27,7 @@
         <item>50</item>
     </string-array>
     <string-array name="Discounts">
-        <item>--</item>
+        <item>Discounts(min%)</item>
         <item>5</item>
         <item>10</item>
         <item>15</item>
@@ -40,6 +40,7 @@
         <item>50</item>
     </string-array>
     <string-array name="Location">
+        <item>Location</item>
         <item>All</item>
         <item>Near Me</item>
     </string-array>
