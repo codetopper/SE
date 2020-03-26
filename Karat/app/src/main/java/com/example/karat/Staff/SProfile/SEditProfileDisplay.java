@@ -90,7 +90,7 @@ public class SEditProfileDisplay extends AppCompatActivity {
         }
 
     private void editStoreDetails() {
-        final String firstName, lastName, openTime, closeTime, mobileNum, address;
+        final String openTime, closeTime, mobileNum;
         int firstDigit;
         openTime = openFET.getText().toString();
         closeTime = openTET.getText().toString();

@@ -142,7 +142,7 @@ public class SHomeDisplay extends AppCompatActivity {
                 String timeEnd = dataSnapshot.child("UserDatabase").child(email).child("closingHour").getValue(String.class);
                 nameTV.setText(name);
                 addressTV.setText(address);
-                timeTV.setText(timeStart+" - "+timeEnd);
+                timeTV.setText(timeStart+"-"+timeEnd);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {

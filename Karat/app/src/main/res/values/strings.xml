@@ -14,7 +14,7 @@
         <item>Others</item>
     </string-array>
     <string-array name="Prices">
-        <item>Price (max$)</item>
+        <item>Prices(max$)</item>
         <item>5</item>
         <item>10</item>
         <item>15</item>
@@ -27,7 +27,7 @@
         <item>50</item>
     </string-array>
     <string-array name="Discounts">
-        <item>Discount (min%)</item>
+        <item>Discounts(min%)</item>
         <item>5</item>
         <item>10</item>
         <item>15</item>

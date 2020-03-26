@@ -145,6 +145,7 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 addListingToDatabase();
+
             }
         });
 
@@ -212,7 +213,6 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
     }
 
     private void initPage(){
-        deleteBtn.setVisibility(View.INVISIBLE);
         final String email = mAuth.getCurrentUser().getEmail().replace("@", "")
                 .replace(".", "");
 
@@ -220,6 +220,8 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                //header
                 String name = dataSnapshot.child("UserDatabase").child(email).child("name").getValue(String.class);
                 String address = dataSnapshot.child("UserDatabase").child(email).child("address").getValue(String.class);
                 String timeStart = dataSnapshot.child("UserDatabase").child(email).child("openingHour").getValue(String.class);
@@ -237,7 +239,6 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
         //Preloading existing listing
         final int loadListingID;
         if (getIntent().hasExtra("com.example.karat.listingID")) {
-            deleteBtn.setVisibility(View.VISIBLE);
             loadListingID = Integer.parseInt(getIntent().getExtras().getString("com.example.karat.listingID"));
             mDatabase.child("Inventory").child(loadListingID+"").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -317,7 +318,6 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
             Toast.makeText(getApplicationContext(), "Please enter the category...", Toast.LENGTH_LONG).show();
             return;
         }
-
 
         String message = "Do you want to apply changes?";
         AlertDialog.Builder builder = new AlertDialog.Builder(SHomeManageListingDisplay.this);
@@ -402,13 +402,10 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
                         Intent SHomeIntent = new Intent(getApplicationContext(), SHomeDisplay.class);
                         SHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(SHomeIntent);
-                        overridePendingTransition(0,0);
-
-
-                    }
+                        overridePendingTransition(0,0); }
                 }).setNegativeButton("No", null);
-        AlertDialog alert = builder.create();
-        alert.show();
+            AlertDialog alert = builder.create();
+            alert.show();
     }
 
     private void initialiseUI(){
