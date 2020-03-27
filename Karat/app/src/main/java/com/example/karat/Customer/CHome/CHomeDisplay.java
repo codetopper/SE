@@ -31,7 +31,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 
 import static com.example.karat.Customer.COrder.CustomerOrders.purchase;
@@ -45,6 +44,7 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
     private StaggeredRecyclerViewAdapter staggeredRecyclerViewAdapter;
     private Spinner categorySpinner, priceSpinner, discountSpinner, locationSpinner;
     private Button search;
+
 
     private String catparam;
     private String locparam;
@@ -79,33 +79,33 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
                         /////////////////////////////////////////
                         //Getting input
                         String cathold = categorySpinner.getSelectedItem().toString();
-                        if(cathold.equals("--")) {
+                        if(cathold.equals("Category")) {
                             catparam = "empty";
                         }
                         else
                             catparam = cathold;
 
                         String pxhold = priceSpinner.getSelectedItem().toString();
-                        if (pxhold.equals("--")){
+                        if (pxhold.equals("Prices(max$)")){
                             pxparam = -1.0;
                         }
                         else
                             pxparam = Double.parseDouble(pxhold);
 
                         String dischold = discountSpinner.getSelectedItem().toString();
-                        if (dischold.equals("--")){
+                        if (dischold.equals("Discounts(min%)")){
                             discparam = -1.0;
                         }
                         else
                             discparam = Double.parseDouble(dischold);
 
+
                         String lochold = locationSpinner.getSelectedItem().toString();
-                        if (lochold.equals("All")){
+                        if (lochold.equals("Location")){
                             locparam = "empty";
                         }
                         else
                             locparam = lochold;
-
                         //Filtering results
                         try {
                             for (Listing l : searchList) {

@@ -1,6 +1,5 @@
 package com.example.karat.Customer.CHome;
 import androidx.annotation.NonNull;
-
 import com.example.karat.inventory.DataCallback;
 import com.example.karat.inventory.Inventory;
 import com.example.karat.inventory.Listing;
@@ -17,7 +16,6 @@ public class CHomeManager {
     private Inventory inventory = new Inventory();
     private ArrayList<Listing> searchList = new ArrayList<>();
 	private DatabaseReference mDatabase= FirebaseDatabase.getInstance().getReference();
-
 
 	public CHomeManager(){}
 
@@ -63,4 +61,6 @@ public class CHomeManager {
 		return inventory;
 	}
 	// cart manager
-}
+
+	}
+

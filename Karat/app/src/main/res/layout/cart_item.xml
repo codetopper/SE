@@ -4,22 +4,55 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="4dp">
+    app:cardCornerRadius="40dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        android:background="#3F51B5">
+        android:layout_height="match_parent"
+        android:layout_margin="0dp"
+        android:background="#CC333A7E">
 
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="72dp"
-            android:layout_marginLeft="72dp"
-            android:layout_marginTop="4dp"
-            android:padding="2dp"
+        <Button
+            android:id="@+id/plus"
+            android:layout_width="47dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="332dp"
+            android:layout_marginLeft="332dp"
+            android:layout_marginTop="6dp"
+            android:background="#FAFAFA"
+            android:lineSpacingExtra="10sp"
+            android:text="+"
+            android:textColor="#070707"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/quantity"
+            android:layout_width="51dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="264dp"
+            android:layout_marginLeft="264dp"
+            android:layout_marginTop="6dp"
+            android:background="#FAFAFA"
+            android:fontFamily="@font/lato"
+            android:text="3"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/minus"
+            android:layout_width="46dp"
+            android:layout_height="31dp"
+            android:layout_marginStart="204dp"
+            android:layout_marginLeft="204dp"
+            android:layout_marginTop="6dp"
+            android:background="#FAFAFA"
+            android:fontFamily="@font/lato"
+            android:text="-"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,74 +60,27 @@
             android:id="@+id/itemView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignWithParentIfMissing="false"
-            android:layout_alignParentLeft="false"
-            android:layout_alignParentTop="false"
-            android:layout_centerHorizontal="false"
-            android:layout_toEndOf="@+id/imageView"
-            android:text="Item"
-            android:textColor="@android:color/holo_orange_dark"
-            android:textSize="20sp"
-            android:textStyle="bold"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/fredoka_one"
+            android:text="Food"
+            android:textColor="#EBFF00"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/priceView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignWithParentIfMissing="false"
-            android:layout_below="@+id/itemView"
-            android:layout_alignParentLeft="false"
-
-            android:layout_alignParentTop="false"
-            android:layout_alignParentRight="false"
-            android:layout_alignParentBottom="false"
-            android:layout_marginTop="4dp"
-            android:text="Price"
-            android:textColor="@android:color/holo_blue_dark"
-            android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/fredoka_one"
+            android:text="TextView"
+            android:textColor="#EED0A3"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/itemView" />
-
-        <Button
-            android:id="@+id/plus"
-            android:layout_width="46dp"
-            android:layout_height="45dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginEnd="152dp"
-            android:layout_marginRight="152dp"
-            android:background="#FF9800"
-            android:text="+"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:layout_editor_absoluteY="8dp" />
-
-        <Button
-            android:id="@+id/minus"
-            android:layout_width="54dp"
-            android:layout_height="55dp"
-            android:layout_marginStart="72dp"
-            android:layout_marginLeft="72dp"
-            android:layout_marginTop="4dp"
-            android:text="-"
-            android:textSize="20dp"
-            app:layout_constraintStart_toEndOf="@+id/plus"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/quantity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginEnd="61dp"
-            android:layout_marginRight="61dp"
-            android:text="Quantity"
-            android:textColor="#FFFFFF"
-            app:layout_constraintEnd_toEndOf="@+id/minus"
-            app:layout_constraintStart_toEndOf="@+id/plus"
-            tools:layout_editor_absoluteY="24dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
