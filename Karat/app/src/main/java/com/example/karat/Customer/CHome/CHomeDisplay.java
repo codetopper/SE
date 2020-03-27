@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.karat.Customer.CSuperMap.MapDisplay;
 import com.example.karat.Customer.Cart.CartDisplay;
+import com.example.karat.Login.GetData;
 import com.example.karat.R;
 import com.example.karat.Customer.COrder.COrderDisplay;
 import com.example.karat.Customer.CProfile.CProfileDisplay;
@@ -44,7 +45,6 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
     private StaggeredRecyclerViewAdapter staggeredRecyclerViewAdapter;
     private Spinner categorySpinner, priceSpinner, discountSpinner, locationSpinner;
     private Button search;
-
 
     private String catparam;
     private String locparam;
@@ -185,6 +185,8 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
                 return false;
             }
         });
+
+
     }
 
     private void initData() {

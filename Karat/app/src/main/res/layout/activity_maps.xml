@@ -67,18 +67,4 @@
             map:srcCompat="@drawable/ic_keyboard_arrow_left_black_24dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navi"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="#C6CEFA"
-        map:itemBackground="@drawable/selector"
-        map:itemIconTint="#000000"
-        map:itemTextColor="#000000"
-        map:layout_constraintBottom_toBottomOf="parent"
-        map:layout_constraintEnd_toEndOf="parent"
-        map:layout_constraintStart_toStartOf="parent"
-        map:menu="@menu/menu_navigation" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
