@@ -70,7 +70,7 @@ public class CHomeManager {
 			}
 		}*/
 		return inventory;
-	}
+	}}
 
 // 	static ArrayList[] nearOnes = new ArrayList[GetData.code.size()];
 
