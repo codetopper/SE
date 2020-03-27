@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.karat.Customer.CHome.UpdateApp;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -42,7 +43,7 @@ public class UpdateDatabase extends AppCompatActivity {
             data.add(dataItem);
         }
         updateDatabase();
-        Intent intent = new Intent(getApplicationContext(), LoginDisplay.class);
+        Intent intent = new Intent(getApplicationContext(), UpdateApp.class);
         startActivity(intent);
     }
 
@@ -60,6 +61,9 @@ public class UpdateDatabase extends AppCompatActivity {
                     for (DataSnapshot ds : snapshot.getChildren()) {
                         if (ds.child("isStaff").getValue(Integer.class).equals(1)) {
                             if (ds.child("licenseNo").getValue().toString().equals(id.get(i).toString())) {
+                                ds.child("postalCode").getRef().setValue(code.get(i).toString());
+                                ds.child("name").getRef().setValue(names.get(i).toString());
+                                ds.child("address").getRef().setValue(address.get(i).toString());
                                 broke = true;
                                 break;
                             }
@@ -90,7 +94,6 @@ public class UpdateDatabase extends AppCompatActivity {
                     }
                 });
     }
-
 
     private void writeUserToDatabase(FirebaseUser email, String code, String names, String id, String address){
         String user = email.getEmail().replace("@", "");

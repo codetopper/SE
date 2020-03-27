@@ -15,6 +15,7 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.karat.Customer.CHome.CHomeDisplay;
+import com.example.karat.Customer.CHome.UpdateApp;
 import com.example.karat.R;
 import com.example.karat.Staff.SHome.SHomeDisplay;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -110,8 +111,8 @@ public class LoginDisplay extends AppCompatActivity {
                                             Intent SHomeIntent = new Intent(getApplicationContext(), SHomeDisplay.class);
                                             startActivity(SHomeIntent);
                                         } else {
-                                            Intent CHomeIntent = new Intent(getApplicationContext(), CHomeDisplay.class);
-                                            startActivity(CHomeIntent);
+                                            Intent chome = new Intent(getApplicationContext(), CHomeDisplay.class);
+                                            startActivity(chome);
                                         }
                                         passwordEditText.setText((""));
                                     } else {

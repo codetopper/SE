@@ -24,7 +24,7 @@ public class GetData extends AppCompatActivity {
     private RequestQueue mRequestQueue;
     private JsonObjectRequest mObjectRequest;
     static ArrayList names = new ArrayList<String>();
-    static ArrayList code = new ArrayList<String>();
+    public static ArrayList code = new ArrayList<String>();
     static ArrayList id = new ArrayList<String>();
     static ArrayList address = new ArrayList<String>();
 
@@ -55,17 +55,17 @@ public class GetData extends AppCompatActivity {
                         if (android.text.TextUtils.isDigitsOnly(postalCode)) {
                             String name = object.getString("licensee_name");
                             String num = object.getString("licence_num");
-                            String blk = object.getString("postal_code");
-                            String street = object.getString("postal_code");
-                            String lvl = object.getString("postal_code");
-                            String unit = object.getString("postal_code");
+                            String blk = object.getString("block_house_num");
+                            String street = object.getString("street_name");
+                            String lvl = object.getString("level_num");
+                            String unit = object.getString("unit_num");
                             names.add(name);
                             code.add(postalCode);
                             id.add(num);
                             address.add(blk + ", " + street + ", #" + lvl + " - " + unit + ", S" + postalCode);
                         }
                     }
-                    Toast.makeText(getApplicationContext(), "Number of Stores: " + code.size(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(), "Number of Stores: " + code.size(), Toast.LENGTH_SHORT).show();
                 }catch (JSONException e){
                     e.printStackTrace();
                 }

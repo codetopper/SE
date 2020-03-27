@@ -17,6 +17,7 @@ import android.widget.Spinner;
 
 import com.example.karat.Customer.CSuperMap.MapDisplay;
 import com.example.karat.Customer.Cart.CartDisplay;
+import com.example.karat.Login.GetData;
 import com.example.karat.R;
 import com.example.karat.Customer.COrder.COrderDisplay;
 import com.example.karat.Customer.CProfile.CProfileDisplay;
@@ -33,7 +34,6 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
     ArrayList<Listing> searchList = new ArrayList<>();
     ArrayList<String> mNames = new ArrayList<String>();
     ArrayList<String> mImageUrls = new ArrayList<String>();
-
 
     String catparam;
     String locparam;
@@ -140,6 +140,8 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
                 return false;
             }
         });
+
+
     }
 
     private void initData() {
