@@ -116,7 +116,7 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String message = "Exit without applying changes?";
+                String message = "Are you sure you want to Cancel?";
                 AlertDialog.Builder builder = new AlertDialog.Builder(SHomeManageListingDisplay.this);
                 builder.setMessage(message)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -320,7 +320,7 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
             return;
         }
 
-        String message = "Do you want to apply changes?";
+        String message = "Confirm?";
         AlertDialog.Builder builder = new AlertDialog.Builder(SHomeManageListingDisplay.this);
         builder.setMessage(message)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
