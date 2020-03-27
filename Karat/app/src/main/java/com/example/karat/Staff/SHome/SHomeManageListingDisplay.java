@@ -238,9 +238,9 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
 
         //Preloading existing listing
         final int loadListingID;
-        if (getIntent().hasExtra("com.example.karat.listingID")) {
+        if (getIntent().hasExtra("listingID")) {
             deleteBtn.setVisibility(View.VISIBLE);
-            loadListingID = Integer.parseInt(getIntent().getExtras().getString("com.example.karat.listingID"));
+            loadListingID = Integer.parseInt(getIntent().getExtras().getString("listingID"));
             mDatabase.child("Inventory").child(loadListingID+"").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -277,8 +277,8 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
 
     private void deleteListingFromDatabase(){
         String listingID;
-        if (getIntent().hasExtra("com.example.karat.listingID")){
-            listingID = getIntent().getExtras().getString("com.example.karat.listingID");
+        if (getIntent().hasExtra("listingID")){
+            listingID = getIntent().getExtras().getString("listingID");
         } else {
             Toast.makeText(getApplicationContext(), "Please select a valid listing to delete", Toast.LENGTH_LONG).show();
             return;
@@ -347,8 +347,8 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
                         }
                         mDatabase.child("Inventory").child(listingID+"").setValue(newProduct);
                         //Patching issues with listingID increments
-                        if (getIntent().hasExtra("com.example.karat.listingID")) {
-                            listingID = Integer.parseInt(getIntent().getExtras().getString("com.example.karat.listingID"));
+                        if (getIntent().hasExtra("listingID")) {
+                            listingID = Integer.parseInt(getIntent().getExtras().getString("listingID"));
                             mDatabase.child("Inventory").child(listingID+"").child("listingId").setValue(listingID);
                         }
 

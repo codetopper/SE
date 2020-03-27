@@ -32,6 +32,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.example.karat.Customer.COrder.CustomerOrders.purchase;
 
 public class SHomeDisplay extends AppCompatActivity {
@@ -42,7 +45,9 @@ public class SHomeDisplay extends AppCompatActivity {
     private Button addListingBtn;
     private static final int Num_Columns = 1;
     private RecyclerView recyclerView;
-    private EditListingAdapter editListingAdapter;
+    private staffListingAdapter mAdapter;
+    private ArrayList<Listing> postList = new ArrayList<>();
+    private ArrayList<Listing> filterList = new ArrayList<>();
 
     @Override
 
@@ -56,36 +61,38 @@ public class SHomeDisplay extends AppCompatActivity {
         initialiseUI();
         setHeader();
 
-        ////////changes somewhere here///////////////
-
-
-        //Generate recycler view with buttons?
-        //Where each button has a extra intent of productID
-        /*editListing1Btn.setOnClickListener(new View.OnClickListener() {
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onClick(View v) {
-                //Test if listing exists
-                mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.child("Inventory").child(1 + "").getValue(Listing.class)==null) {
-                            Toast.makeText(getApplicationContext(), "Listing does not exist!", Toast.LENGTH_LONG).show();
-                        } else {
-                            Intent SListingIntent = new Intent(getApplicationContext(), SHomeManageListingDisplay.class);
-                            SListingIntent.putExtra("com.example.karat.listingID", "1");
-                            startActivity(SListingIntent);
-                            overridePendingTransition(0,0);
-                        }
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        Toast.makeText(getApplicationContext(), databaseError.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                });
-            }
-        });*/
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                postList.clear();
+                filterList.clear();
+                //TBC
+                int id = 1;
+                //
+                for(DataSnapshot ds : dataSnapshot.child("Inventory").getChildren()){
+                    Listing listing = ds.getValue(Listing.class);
+                    assert listing != null;
+                    listing.setImage_url(ds.child("imageUrl").getValue(String.class));
+                    listing.setListingId(id);
+                    postList.add(listing);
+                    id ++;
+                }
 
-        ////////changes somewhere here///////////////
+                String location = nameTV.getText().toString();
+
+                for (Listing i : postList){
+                    if (i.getListingLocation().equals(location)){
+                        filterList.add(i);
+                    }
+                }
+                mAdapter.reset(filterList);
+                mAdapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getApplicationContext(), databaseError.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
 
         addListingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,19 +166,8 @@ public class SHomeDisplay extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerViewEdit);
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(Num_Columns, LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(staggeredGridLayoutManager);
-        Context context = getApplicationContext();
-        editListingAdapter = new EditListingAdapter(context);
-        recyclerView.setAdapter(editListingAdapter);
+        mAdapter = new staffListingAdapter(SHomeDisplay.this, new ArrayList<Listing>());
+        recyclerView.setAdapter(mAdapter);
     }
-
-    /*
-    private void initData() {
-        purchase(1, "Apple", 1, 1, 0.5, "1/3/2020", 1, "Giant");
-        purchase(2, "Orange", 1, 2, 1.0, "1/3/2020", 1, "Giant");
-        purchase(3, "Pear", 1, 1, 0.8, "3/3/2020", 1, "Giant");
-        purchase(4, "Pineapple", 1, 2, 7.8, "4/3/2020", 1, "Giant");
-        purchase(5, "Durian", 2, 4, 50, "10/3/2020", 1, "Giant");
-    }
-    */
 }
 
