@@ -13,7 +13,7 @@
         app:cardElevation="2dp"
         android:layout_centerHorizontal="true">
       
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="5dp"
