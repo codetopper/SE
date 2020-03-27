@@ -28,7 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 import static com.example.karat.R.*;
 
 public class SEditProfileDisplay extends AppCompatActivity {
-    private EditText firstNameET, lastNameET, openFET, openTET, mobileNumET, addressET;
+    private EditText  openFET, openTET, mobileNumET;
     private TextView usernameTV;
     private Button confirmBtn;
     private FirebaseAuth mAuth;
@@ -58,19 +58,13 @@ public class SEditProfileDisplay extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String emailOfUser = dataSnapshot.child("UserDatabase").child(email).child("email").getValue(String.class);
-                String firstNameOfUser = dataSnapshot.child("UserDatabase").child(email).child("firstName").getValue(String.class);
-                String lastNameOfUser = dataSnapshot.child("UserDatabase").child(email).child("lastName").getValue(String.class);
                 String openHoursOfUser = dataSnapshot.child("UserDatabase").child(email).child("openingHour").getValue(String.class);
                 String closeHoursOfUser = dataSnapshot.child("UserDatabase").child(email).child("closingHour").getValue(String.class);
                 String mobileNoOfUser = dataSnapshot.child("UserDatabase").child(email).child("mobileNo").getValue(String.class);
-                String addressOfUser = dataSnapshot.child("UserDatabase").child(email).child("address").getValue(String.class);
                 usernameTV.setText(emailOfUser);
-                firstNameET.setText(firstNameOfUser);
-                lastNameET.setText(lastNameOfUser);
                 openFET.setText(openHoursOfUser);
                 openTET.setText(closeHoursOfUser);
                 mobileNumET.setText(mobileNoOfUser);
-                addressET.setText(addressOfUser);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -96,20 +90,13 @@ public class SEditProfileDisplay extends AppCompatActivity {
         }
 
     private void editStoreDetails() {
-        final String firstName, lastName, openTime, closeTime, mobileNum, address;
+        final String openTime, closeTime, mobileNum;
         int firstDigit;
-        firstName = firstNameET.getText().toString();
-        lastName = lastNameET.getText().toString();
         openTime = openFET.getText().toString();
         closeTime = openTET.getText().toString();
         mobileNum = mobileNumET.getText().toString();
-        address = addressET.getText().toString();
         firstDigit = Integer.parseInt(String.valueOf(mobileNum.toCharArray()[0]));
 
-        if (TextUtils.isEmpty(firstName)) {
-            Toast.makeText(getApplicationContext(), "Please enter first name!", Toast.LENGTH_LONG).show();
-            return;
-        }
         if (Integer.parseInt(openTime) > 2359) {
             Toast.makeText(getApplicationContext(), "Please enter the opening hours in 24Hour format!", Toast.LENGTH_LONG).show();
             return;
@@ -135,28 +122,23 @@ public class SEditProfileDisplay extends AppCompatActivity {
             return;
         }
 
-        editStoreToDatabase(firstName, lastName, openTime, closeTime, mobileNum, address);
+        editStoreToDatabase(openTime, closeTime, mobileNum);
         Intent SProfileIntent = new Intent(getApplicationContext(), SProfileDisplay.class);
         SProfileIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(SProfileIntent);
         overridePendingTransition(0,0);
     }
 
-    private void editStoreToDatabase( String firstName, String lastName, String openTime, String closeTime, String mobileNum, String address){
+    private void editStoreToDatabase(String openTime, String closeTime, String mobileNum){
         String email = user.getEmail().replace("@", "");
         email = email.replace(".", "");
-        databaseReference.child("UserDatabase").child(email).child("firstName").setValue(firstName);
-        databaseReference.child("UserDatabase").child(email).child("lastName").setValue(lastName);
         databaseReference.child("UserDatabase").child(email).child("openingHour").setValue(openTime);
         databaseReference.child("UserDatabase").child(email).child("closingHour").setValue(closeTime);
         databaseReference.child("UserDatabase").child(email).child("mobileNo").setValue(mobileNum);
-        databaseReference.child("UserDatabase").child(email).child("address").setValue(address);
     }
 
     private void initializeUI() {
         usernameTV = findViewById(R.id.username);
-        firstNameET = findViewById(R.id.firstName);
-        lastNameET = findViewById(R.id.lastName);
         openFET = findViewById(id.openHours);
         openTET = findViewById(id.closeHours);
         mobileNumET = findViewById(R.id.mobileNum);
