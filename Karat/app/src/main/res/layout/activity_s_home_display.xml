@@ -104,22 +104,25 @@ tools:context=".Staff.SHome.SHomeDisplay">
 
     <Button
         android:id="@+id/addListing"
-        android:layout_width="wrap_content"
+        android:layout_width="390dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="Add New Listing"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navi"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.459"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-        app:layout_constraintVertical_bias="0.036" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="391dp"
-        android:layout_height="455dp"
         android:id="@+id/recyclerViewEdit"
+        android:layout_width="390dp"
+        android:layout_height="369dp"
+        android:layout_marginTop="10dp"
         android:background="#33FFFFFF"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_navi"
+        android:clipChildren="true"
+        android:clipToPadding="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addListing" />

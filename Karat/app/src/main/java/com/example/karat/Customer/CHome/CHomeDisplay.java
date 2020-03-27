@@ -72,7 +72,6 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
                             Listing listing = ds.getValue(Listing.class);
                             listing.setImage_url(ds.child("imageUrl").getValue(String.class));
                             assert listing != null;
-                            String a = "hi";
                             searchList.add(listing);
                         }
                         //Data extracted
@@ -241,7 +240,7 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
         categorySpinner = findViewById(R.id.spinnerCategory);
         Context context = getApplicationContext();
         staggeredRecyclerViewAdapter = new StaggeredRecyclerViewAdapter(context);
-            recyclerView.setAdapter(staggeredRecyclerViewAdapter);
+        recyclerView.setAdapter(staggeredRecyclerViewAdapter);
         search = findViewById(R.id.ExecuteSearch);
 
         //Setting spinners

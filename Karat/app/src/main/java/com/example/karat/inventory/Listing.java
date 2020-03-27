@@ -9,8 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @IgnoreExtraProperties
 public class Listing{
     private static final AtomicInteger count = new AtomicInteger(0);
-    private final int listingId;
-
+    private int listingId;
     private int quantity;
     private double price;
     private double discount;
@@ -28,7 +27,7 @@ public class Listing{
 
     public Listing(double price, double discount, String location, String name, String category,
                    String imageUrl, String description, int quantity){
-            listingId = count.incrementAndGet();
+            this.listingId = count.incrementAndGet();
             this.price = price;
             this.discount = discount;
             this.name = name;
@@ -42,7 +41,7 @@ public class Listing{
 
     public Listing(double price, double discount, String location, String name, String category
             , String description, int quantity){
-        listingId = count.incrementAndGet();
+        this.listingId = count.incrementAndGet();
         this.price = price;
         this.discount = discount;
         this.name = name;
@@ -72,6 +71,10 @@ public class Listing{
     public String getDescription() {return description;}
 
     public void setDescription(String description) {this.description = description;}
+
+    public void setListingId(int Id){
+        listingId = Id;
+    }
 
     public int getListingId() {return listingId;}
 
