@@ -19,6 +19,7 @@ import com.example.karat.Customer.CHome.UpdateApp;
 import com.example.karat.Customer.COrder.COrderDisplay;
 import com.example.karat.Customer.CProfile.CProfileDisplay;
 import com.example.karat.R;
+import com.example.karat.Staff.SOrder.SOrderDisplay;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -26,6 +27,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -78,6 +80,14 @@ public class MapDisplay extends FragmentActivity implements OnMapReadyCallback {
             MarkerOptions markerOptions = new MarkerOptions().position(UpdateApp.nearOnes.get(i).getP()).title(UpdateApp.nearOnes.get(i).getName()).snippet(UpdateApp.nearOnes.get(i).getAddress());
             googleMap.addMarker(markerOptions);
         }
+        googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener()
+        {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                Intent I = new Intent(getApplicationContext(), SOrderDisplay.class); //to be changed
+                startActivity(I);
+            }
+        });
     }
 
     @Override

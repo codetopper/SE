@@ -3,12 +3,15 @@ package com.example.karat.Customer.CHome;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.WindowManager;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.example.karat.Login.LoginDisplay;
+import com.example.karat.Login.ProgressBarAnimation;
 import com.example.karat.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -39,6 +43,9 @@ public class UpdateApp extends AppCompatActivity{
     private static final int REQUEST_CODE = 101;
     public static ArrayList<ShopInfo> nearOnes = new ArrayList<>();
 
+    ProgressBar progressBar;
+    TextView textView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -49,17 +56,26 @@ public class UpdateApp extends AppCompatActivity{
         coder = new Geocoder(getApplicationContext());
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
+        progressBar = findViewById(R.id.progressBar);
+        textView = findViewById(R.id.progressPercent);
+        progressBar.setMax(100);
+        progressBar.setScaleY(3f);
+        progressBar.getProgressDrawable().setColorFilter(
+                Color.WHITE, android.graphics.PorterDuff.Mode.SRC_IN);
+
         fetchLastLocation();
         getNearby();
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // Do something after 5s = 5000ms
-                Intent login = new Intent(getApplicationContext(), LoginDisplay.class);
-                startActivity(login);
-            }
-        }, 2000);
+//        final Handler handler = new Handler();
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                // Do something after 5s = 5000ms
+//                Intent login = new Intent(getApplicationContext(), LoginDisplay.class);
+//                startActivity(login);
+//            }
+//        }, 1500);
+//        Intent login = new Intent(getApplicationContext(), LoginDisplay.class);
+//        startActivity(login);
     }
 
     private void fetchLastLocation() {
@@ -104,6 +120,7 @@ public class UpdateApp extends AppCompatActivity{
                 Toast.makeText(getApplicationContext(),"There are " + nearOnes.size() + " shops near you!", Toast.LENGTH_LONG).show();
             }
         });
+        progressAnimation();
     }
 
     public static LatLng getLocationFromAddress(String strAddress, Geocoder coder){
@@ -128,5 +145,11 @@ public class UpdateApp extends AppCompatActivity{
             e.printStackTrace();
         }
         return p1;
+    }
+
+    public void progressAnimation() {
+        ProgressBarAnimation anim = new ProgressBarAnimation(this, progressBar, textView, 0f, 100f);
+        anim.setDuration(2000);
+        progressBar.setAnimation(anim);
     }
 }
