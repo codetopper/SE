@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -14,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.karat.Customer.CSuperMap.MapDisplay;
 import com.example.karat.Customer.Cart.CartDisplay;
@@ -21,98 +23,141 @@ import com.example.karat.Login.GetData;
 import com.example.karat.R;
 import com.example.karat.Customer.COrder.COrderDisplay;
 import com.example.karat.Customer.CProfile.CProfileDisplay;
+import com.example.karat.inventory.DataCallback;
+import com.example.karat.inventory.Inventory;
 import com.example.karat.inventory.Listing;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 import static com.example.karat.Customer.COrder.CustomerOrders.purchase;
 
 public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
-    RecyclerView recyclerView;
     private static final int Num_Columns = 2;
-    ArrayList<Listing> searchList = new ArrayList<>();
-    ArrayList<String> mNames = new ArrayList<String>();
-    ArrayList<String> mImageUrls = new ArrayList<String>();
+    private ArrayList<Listing> searchList = new ArrayList<>();
+    private ArrayList<Listing> searched = new ArrayList<>();
+    private DatabaseReference mDatabase= FirebaseDatabase.getInstance().getReference();
+    private RecyclerView recyclerView;
+    private StaggeredRecyclerViewAdapter staggeredRecyclerViewAdapter;
+    private Spinner categorySpinner, priceSpinner, discountSpinner, locationSpinner;
+    private Button search;
 
-    String catparam;
-    String locparam;
-    double pxparam;
-    double discparam;
+    private String catparam;
+    private String locparam;
+    private double pxparam;
+    private double discparam;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_c_home_display);
+        initUI();
 
-        final Spinner categorySpinner = findViewById(R.id.spinnerCategory);
-        final ArrayAdapter<CharSequence> categoryAdapter = ArrayAdapter.createFromResource(this, R.array.Categories, android.R.layout.simple_spinner_item);
-        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        categorySpinner.setAdapter(categoryAdapter);
-        categorySpinner.setOnItemSelectedListener(this);
-
-        final Spinner priceSpinner = findViewById(R.id.spinnerPrice);
-        ArrayAdapter<CharSequence> priceAdapter = ArrayAdapter.createFromResource(this, R.array.Prices, android.R.layout.simple_spinner_item);
-        priceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        priceSpinner.setAdapter(priceAdapter);
-        priceSpinner.setOnItemSelectedListener(this);
-
-        final Spinner discountSpinner = findViewById(R.id.spinnerDiscounts);
-        final ArrayAdapter<CharSequence> discountAdapter = ArrayAdapter.createFromResource(this, R.array.Discounts, android.R.layout.simple_spinner_item);
-        discountAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        discountSpinner.setAdapter(discountAdapter);
-        discountSpinner.setOnItemSelectedListener(this);
-
-        final Spinner locationSpinner = findViewById(R.id.spinnerLocation);
-        final ArrayAdapter<CharSequence> locationAdapter = ArrayAdapter.createFromResource(this, R.array.Location, android.R.layout.simple_spinner_item);
-        locationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        locationSpinner.setAdapter(locationAdapter);
-        locationSpinner.setOnItemSelectedListener(this);
-
-        Button search = (Button) findViewById(R.id.ExecuteSearch);
-
+        //Do search
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String cathold = categorySpinner.getSelectedItem().toString();
-                if(cathold.equals("--")) {
-                    catparam = "empty";
-                }
-                else
-                    catparam = cathold;
+                //Extracting data from asynchronous database
+                searchList.clear();
+                searched.clear();
+                mDatabase.child("Inventory").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for(DataSnapshot ds : dataSnapshot.getChildren()){
+                            Listing listing = ds.getValue(Listing.class);
+                            listing.setImage_url(ds.child("imageUrl").getValue(String.class));
+                            assert listing != null;
+                            searchList.add(listing);
+                        }
+                        //Data extracted
 
-                String pxhold = priceSpinner.getSelectedItem().toString();
-                if (pxhold.equals("--")){
-                    pxparam = -1.0;
-                }
-                else
-                    pxparam = Double.parseDouble(pxhold);
+                        /////////////////////////////////////////
+                        //Getting input
+                        String cathold = categorySpinner.getSelectedItem().toString();
+                        if(cathold.equals("Category")) {
+                            catparam = "empty";
+                        }
+                        else
+                            catparam = cathold;
 
-                String dischold = discountSpinner.getSelectedItem().toString();
-                if (dischold.equals("--")){
-                    discparam = -1.0;
-                }
-                else
-                    discparam = Double.parseDouble(dischold);
+                        String pxhold = priceSpinner.getSelectedItem().toString();
+                        if (pxhold.equals("Prices(max$)")){
+                            pxparam = -1.0;
+                        }
+                        else
+                            pxparam = Double.parseDouble(pxhold);
 
-                String lochold = locationSpinner.getSelectedItem().toString();
-                if (lochold.equals("All")){
-                    locparam = "empty";
-                }
-                else
-                    locparam = lochold;
+                        String dischold = discountSpinner.getSelectedItem().toString();
+                        if (dischold.equals("Discounts(min%)")){
+                            discparam = -1.0;
+                        }
+                        else
+                            discparam = Double.parseDouble(dischold);
+
+
+                        String lochold = locationSpinner.getSelectedItem().toString();
+                        if (lochold.equals("Location")){
+                            locparam = "empty";
+                        }
+                        else
+                            locparam = lochold;
+                        //Filtering results
+                        try {
+                            for (Listing l : searchList) {
+                                boolean add = true;
+                                double price = l.getListingPrice();
+                                if (pxparam != -1.0) {
+                                    if (price > pxparam)
+                                        add = false;
+                                }
+
+                                String category = l.getListingCategory();
+                                if (!catparam.equals("empty")) {
+                                    if (!category.equals(catparam))
+                                        add = false;
+                                }
+
+                                double discount = l.getListingDiscount();
+                                if (discparam > -1.0) {
+                                    if (discount < discparam)
+                                        add = false;
+                                }
+
+                                if (add){
+                                    searched.add(l);
+                                }
+                            }
+                        }catch (Exception e) {
+                            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                            //need to build search location logic
+                            //if (location != "empty") {
+                            //    if (l.getListingLocation() != lochold)
+                            //        searchList.remove(l);
+                            //}
+
+                        //setting recycler view
+                        staggeredRecyclerViewAdapter.reset(searched);
+                        staggeredRecyclerViewAdapter.notifyDataSetChanged();
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        throw databaseError.toException();
+                    }
+                });
                     //add api for location
-                CHomeManager manager = new CHomeManager();
-                searchList = manager.search(pxparam, catparam, discparam, locparam);
-
-                initRecyclerView();
 
             }
         });
 
+        //Navigation bar
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navi);
-
         bottomNavigationView.setSelectedItemId(R.id.Home);
-
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -187,12 +232,34 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
-    private void initRecyclerView(){
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        //StaggeredRecyclerViewAdapter staggeredRecyclerViewAdapter = new StaggeredRecyclerViewAdapter(this, mNames, mImageUrls);
-        StaggeredRecyclerViewAdapter staggeredRecyclerViewAdapter = new StaggeredRecyclerViewAdapter(this, searchList);
+    private void initUI(){
+        recyclerView = findViewById(R.id.recyclerView);
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(Num_Columns, LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(staggeredGridLayoutManager);
+        locationSpinner = findViewById(R.id.spinnerLocation);
+        discountSpinner = findViewById(R.id.spinnerDiscounts);
+        priceSpinner = findViewById(R.id.spinnerPrice);
+        categorySpinner = findViewById(R.id.spinnerCategory);
+        Context context = getApplicationContext();
+        staggeredRecyclerViewAdapter = new StaggeredRecyclerViewAdapter(context);
         recyclerView.setAdapter(staggeredRecyclerViewAdapter);
+        search = findViewById(R.id.ExecuteSearch);
+
+        //Setting spinners
+        ArrayAdapter<CharSequence> categoryAdapter = ArrayAdapter.createFromResource(this, R.array.Categories, android.R.layout.simple_spinner_item);
+        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        categorySpinner.setAdapter(categoryAdapter);
+
+        ArrayAdapter<CharSequence> priceAdapter = ArrayAdapter.createFromResource(this, R.array.Prices, android.R.layout.simple_spinner_item);
+        priceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        priceSpinner.setAdapter(priceAdapter);
+
+        ArrayAdapter<CharSequence> discountAdapter = ArrayAdapter.createFromResource(this, R.array.Discounts, android.R.layout.simple_spinner_item);
+        discountAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        discountSpinner.setAdapter(discountAdapter);
+
+        ArrayAdapter<CharSequence> locationAdapter = ArrayAdapter.createFromResource(this, R.array.Location, android.R.layout.simple_spinner_item);
+        locationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        locationSpinner.setAdapter(locationAdapter);
     }
 }

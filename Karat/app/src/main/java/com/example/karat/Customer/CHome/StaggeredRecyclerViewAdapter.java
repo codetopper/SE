@@ -7,6 +7,7 @@ import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +19,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.karat.R;
 import com.example.karat.inventory.Listing;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 
 import java.lang.reflect.Array;
@@ -27,10 +31,20 @@ import java.util.List;
 public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<StaggeredRecyclerViewAdapter.Viewholder>{
 
     private static final String TAG = "StaggeredRecyclerViewAd";
-    private FirebaseStorage mStorage;
+    private ArrayList<Listing> Listing;
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<String> mImageUrls = new ArrayList<>();
     private Context mContext;
+    private static ArrayList<Integer> mListingId = new ArrayList<>();
+    private static ArrayList<Integer> mQty = new ArrayList<>();
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference mDatabase;
+    private FirebaseAuth mAuth;
+    private Button addtoCart;
+
+    public StaggeredRecyclerViewAdapter(Context context){
+        mContext = context;
+    }
 
     public StaggeredRecyclerViewAdapter(Context context,
                                         ArrayList<Listing> Listing
@@ -40,12 +54,23 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
         for(Listing listing: Listing) {
             mNames.add(listing.getListingName());
             mImageUrls.add(listing.getImage_url());
+            mListingId.add(listing.getListingId());
+            mQty.add(1);
         }
         mContext = context;
 
         /*mNames = names;
         mImageUrls = imageUrls;
         mContext = context;*/
+    }
+
+    public void reset(ArrayList<Listing> Listing){
+        mNames.clear();
+        mImageUrls.clear();
+        for(Listing listing: Listing) {
+            mNames.add(listing.getListingName());
+            mImageUrls.add(listing.getImage_url());
+        }
     }
 
     @Override
@@ -56,6 +81,9 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
 
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, final int position) {
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        mDatabase = firebaseDatabase.getReference();
 
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.placeholder(R.drawable.ic_launcher_background);
@@ -71,6 +99,19 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
                 Toast.makeText(mContext, mNames.get(position), Toast.LENGTH_SHORT).show();
             }
         });
+        holder.addtoCart.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+
+                //*
+                Toast.makeText(mContext, mNames.get(position), Toast.LENGTH_SHORT).show();
+/*
+                mDatabase.child("UserDatabase").child("cust1@gmail.com").child("mobileNo").setValue(mListingId.get(position));
+                String email = mAuth.getCurrentUser().getEmail().replace("@", "")
+                        .replace(".", ""); */
+            }
+        });
+
     }
 
     @Override
@@ -81,11 +122,13 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
     public class Viewholder extends RecyclerView.ViewHolder /*extends RecyclerView.ViewHolder */{
         ImageView image;
         TextView name;
+        Button addtoCart;
 
         public Viewholder(View itemView) {
             super(itemView);
             this.image = itemView.findViewById(R.id.imageview_widget);
             this.name = itemView.findViewById(R.id.name_widget);
+            this.addtoCart = itemView.findViewById(R.id.addtoCart);
         }
     }
 }
