@@ -14,23 +14,20 @@
         android:layout_height="wrap_content"
         android:background="#000488EC"
         android:padding="8dp"
-        app:cardCornerRadius="20dp"
+        app:cardCornerRadius="5dp"
         tools:visibility="visible">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#CC333A7E"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:paddingBottom="8dp">
+            android:background="#CC333A7E">
 
             <TextView
                 android:id="@+id/order_number"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="5dp"
                 android:text="TextView"
                 android:textColor="#FFEB3B"
                 android:textSize="30sp"
@@ -43,7 +40,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="5dp"
                 android:text="TextView"
                 android:textColor="#ECCFB1"
                 android:textSize="15sp"
