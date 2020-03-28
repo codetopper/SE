@@ -2,6 +2,7 @@ package com.example.karat.Login;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 import android.widget.ProgressBar;

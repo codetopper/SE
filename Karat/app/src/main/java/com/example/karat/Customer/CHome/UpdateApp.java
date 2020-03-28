@@ -7,8 +7,10 @@ import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -62,9 +64,12 @@ public class UpdateApp extends AppCompatActivity{
         progressBar.setScaleY(3f);
         progressBar.getProgressDrawable().setColorFilter(
                 Color.WHITE, android.graphics.PorterDuff.Mode.SRC_IN);
-
+//        progressAnimation();
         fetchLastLocation();
+//        startThread();
         getNearby();
+//        Intent login = new Intent(getApplicationContext(), Animation.class);
+//        startActivity(login);
 //        final Handler handler = new Handler();
 //        handler.postDelayed(new Runnable() {
 //            @Override
@@ -74,7 +79,7 @@ public class UpdateApp extends AppCompatActivity{
 //                startActivity(login);
 //            }
 //        }, 1500);
-//        Intent login = new Intent(getApplicationContext(), LoginDisplay.class);
+//        Intent login = new Intent(getApplicationContext(), Animation.class);
 //        startActivity(login);
     }
 
@@ -93,6 +98,45 @@ public class UpdateApp extends AppCompatActivity{
             }
         });
     }
+
+//    public void startThread(){
+//        thread thread = new thread();
+//        thread.start();
+//    }
+//
+//    class thread extends Thread {
+//        @Override
+//        public void run() {
+//            final DatabaseReference users = FirebaseDatabase.getInstance().getReference().child("UserDatabase");
+//            users.addListenerForSingleValueEvent(new ValueEventListener() {
+//                @Override
+//                public void onCancelled(@NonNull DatabaseError databaseError) {
+//                }
+//
+//                @Override
+//                public void onDataChange(DataSnapshot snapshot) {
+//                    LatLng p = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+//                    for (DataSnapshot ds : snapshot.getChildren()) {
+//                        if (ds.child("isStaff").getValue(Integer.class).equals(1)) {
+//                            float[] distance = new float[1];
+//                            LatLng adr = getLocationFromAddress(ds.child("postalCode").getValue().toString(), coder);
+//                            if (adr!=null) {
+//                                Location.distanceBetween(p.latitude, p.longitude, adr.latitude, adr.longitude, distance);
+//                                ds.child("distance").getRef().setValue(distance[0]);
+//                                if (distance[0] < 3000.00) {
+//                                    nearOnes.add(new ShopInfo(adr, ds.child("name").getValue().toString(), ds.child("address").getValue().toString()));
+//                                }
+//                            }
+//                        }
+//                    }
+//                    Toast.makeText(getApplicationContext(),"There are " + nearOnes.size() + " shops near you!", Toast.LENGTH_LONG).show();
+//                    finish();
+//                }
+//            });
+//            progressAnimation();
+//        }
+//    }
+
 
     void getNearby(){
         final DatabaseReference users = FirebaseDatabase.getInstance().getReference().child("UserDatabase");
@@ -118,6 +162,7 @@ public class UpdateApp extends AppCompatActivity{
                     }
                 }
                 Toast.makeText(getApplicationContext(),"There are " + nearOnes.size() + " shops near you!", Toast.LENGTH_LONG).show();
+                finish();
             }
         });
         progressAnimation();
