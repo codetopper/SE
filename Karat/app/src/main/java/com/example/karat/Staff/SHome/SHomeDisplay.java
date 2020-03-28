@@ -85,7 +85,7 @@ public class SHomeDisplay extends AppCompatActivity {
                         filterList.add(i);
                     }
                 }
-                mAdapter.reset(filterList);
+                mAdapter.reset(filterList);     //refresh on each oncreate
                 mAdapter.notifyDataSetChanged();
             }
             @Override
