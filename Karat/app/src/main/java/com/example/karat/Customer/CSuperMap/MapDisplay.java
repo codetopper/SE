@@ -103,8 +103,7 @@ public class MapDisplay extends FragmentActivity implements OnMapReadyCallback {
 
     public void goToHome(View v) {
         Intent i = new Intent(getBaseContext(), CHomeDisplay.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(i);
         overridePendingTransition(0,0);
     }
