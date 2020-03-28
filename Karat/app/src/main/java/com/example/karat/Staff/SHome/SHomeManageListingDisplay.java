@@ -8,15 +8,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.app.Activity;
+import android.app.ProgressDialog;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Base64;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,38 +35,61 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.karat.R;
+import com.example.karat.Staff.SOrder.SOrderDisplay;
+import com.example.karat.Staff.SProfile.SProfileDisplay;
 import com.example.karat.inventory.Listing;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-
-
+import java.io.OutputStream;
+import java.net.URI;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 public class SHomeManageListingDisplay extends AppCompatActivity{
 
     private static final int GET_FROM_GALLERY = 3;
     private ImageView imageView;
     private TextView nameTV, addressTV, timeTV;
-    private TextView inviListingTV;
     private EditText listingNameET, itemPriceET, itemQtyET, itemDiscET, descriptionET;
     private Button uploadBtn, deleteBtn, addBtn, cancelBtn;
     private Spinner catspinner;
@@ -295,13 +327,12 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String listingName, itemPrice, itemQty, itemDiscount, description, supermarket, itemCategory;
-
                         supermarket = nameTV.getText().toString();
                         listingName = listingNameET.getText().toString();
                         itemPrice = itemPriceET.getText().toString();
                         itemQty = itemQtyET.getText().toString();
                         itemDiscount = itemDiscET.getText().toString();
-                        description = descriptionET.getText().toString(); 
+                        description = descriptionET.getText().toString();
                         itemCategory = catspinner.getSelectedItem().toString();
 
                         //Create new listing object with the information
@@ -309,36 +340,17 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
                                 listingName, itemCategory, description, Integer.parseInt(itemQty));
 
                         int listingID;
-
-                        Query lastQuery = mDatabase.child("Inventory").orderByKey().limitToLast(1);
-                        lastQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                String id = dataSnapshot.child("listingId").getValue().toString();
-                                inviListingTV.setText(id);
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-                                // Handle possible errors.
-                            }
-                        });
-
-
                         if (currentListing==null) {
-                            listingID = Integer.parseInt(inviListingTV.getText().toString());
-                            listingID++;
+                            listingID = newProduct.getListingId();
                         } else {
                             listingID = currentListing.getListingId();
                         }
-
-
-                        /*mDatabase.child("Inventory").child(listingID+"").setValue(newProduct);
+                        mDatabase.child("Inventory").child(listingID+"").setValue(newProduct);
                         //Patching issues with listingID increments
                         if (getIntent().hasExtra("listingID")) {
                             listingID = Integer.parseInt(getIntent().getExtras().getString("listingID"));
                             mDatabase.child("Inventory").child(listingID+"").child("listingId").setValue(listingID);
-                        }*/
+                        }
 
                         final int imageID = listingID;
 
@@ -401,7 +413,6 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
         nameTV = findViewById(R.id.nameTV);
         addressTV = findViewById(R.id.addressTV);
         timeTV = findViewById(R.id.timeTV);
-        inviListingTV = findViewById(R.id.storelistingid);
 
         listingNameET = findViewById(R.id.listingName);
         itemPriceET = findViewById(R.id.itemPrice);
