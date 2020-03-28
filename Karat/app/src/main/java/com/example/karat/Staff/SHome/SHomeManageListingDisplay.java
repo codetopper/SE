@@ -89,7 +89,7 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
 
     private static final int GET_FROM_GALLERY = 3;
     private ImageView imageView;
-    private TextView nameTV, addressTV, timeTV;
+    private TextView nameTV, addressTV, timeTV, invisiTV;
     private EditText listingNameET, itemPriceET, itemQtyET, itemDiscET, descriptionET;
     private Button uploadBtn, deleteBtn, addBtn, cancelBtn;
     private Spinner catspinner;
@@ -340,8 +340,24 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
                                 listingName, itemCategory, description, Integer.parseInt(itemQty));
 
                         int listingID;
+
+                        mDatabase.child("Inventory").orderByKey().limitToLast(1).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                String id = dataSnapshot.child("listingId").getValue().toString();
+                                invisiTV.setText(id);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
                         if (currentListing==null) {
-                            listingID = newProduct.getListingId();
+                            listingID = Integer.parseInt(invisiTV.getText().toString());
+                            listingID++;
+                            Toast.makeText(SHomeManageListingDisplay.this, listingID, Toast.LENGTH_SHORT).show();
                         } else {
                             listingID = currentListing.getListingId();
                         }
@@ -413,6 +429,7 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
         nameTV = findViewById(R.id.nameTV);
         addressTV = findViewById(R.id.addressTV);
         timeTV = findViewById(R.id.timeTV);
+        invisiTV = findViewById(R.id.storelistingid);
 
         listingNameET = findViewById(R.id.listingName);
         itemPriceET = findViewById(R.id.itemPrice);

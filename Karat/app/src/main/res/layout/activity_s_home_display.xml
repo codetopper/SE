@@ -56,6 +56,25 @@ tools:context=".Staff.SHome.SHomeDisplay">
             app:layout_constraintVertical_bias="0.0" />
 
         <TextView
+            android:id="@+id/storelistingid"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:fontFamily="@font/fredoka_one"
+            android:includeFontPadding="false"
+            android:text="Opening Hours: "
+            android:textColor="#EED0A3"
+            android:textSize="16sp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addressTV"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
             android:id="@+id/addressTV"
             android:layout_width="360dp"
             android:layout_height="25dp"
