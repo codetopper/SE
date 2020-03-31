@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.karat.Customer.CSuperMap.MapDisplay;
 import com.example.karat.Customer.Cart.CartDisplay;
+import com.example.karat.Login.GetData;
 import com.example.karat.R;
 import com.example.karat.Customer.COrder.COrderDisplay;
 import com.example.karat.Customer.CProfile.CProfileDisplay;
@@ -44,7 +45,6 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
     private StaggeredRecyclerViewAdapter staggeredRecyclerViewAdapter;
     private Spinner categorySpinner, priceSpinner, discountSpinner, locationSpinner;
     private Button search;
-
 
     private String catparam;
     private String locparam;
@@ -164,20 +164,23 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
                 switch (item.getItemId()){
                     case R.id.Home:
                         Intent CHomeIntent = new Intent(getApplicationContext(), CHomeDisplay.class);
-                        CHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        CHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                        CHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(CHomeIntent);
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.Orders:
                         initData();
                         Intent COrderIntent = new Intent(getApplicationContext(), COrderDisplay.class);
-                        COrderIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        COrderIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                        COrderIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(COrderIntent);
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.Profile:
                         Intent CProfileIntent = new Intent(getApplicationContext(), CProfileDisplay.class);
-                        CProfileIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        CProfileIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                        CProfileIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(CProfileIntent);
                         overridePendingTransition(0,0);
                         return true;
@@ -185,6 +188,8 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
                 return false;
             }
         });
+
+
     }
 
     private void initData() {
@@ -197,7 +202,8 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
 
     public void goToCart(View v) {
         Intent i = new Intent(getApplicationContext(), CartDisplay.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+//        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
         overridePendingTransition(0,0);
     }

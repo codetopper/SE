@@ -15,6 +15,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="#33FFFFFF"
             android:padding="5dp">
 
             <ImageView
@@ -34,14 +35,16 @@
                 android:id="@+id/name_widget"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginStart="220dp"
-                android:layout_marginLeft="220dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="15dp"
+                android:layout_toEndOf="@+id/editBtn"
+                android:layout_toRightOf="@+id/editBtn"
+                android:fontFamily="@font/lato"
                 android:text="Name"
-                android:textColor="#000" />
+                android:textColor="#000"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/editBtn"
@@ -59,66 +62,76 @@
                 android:id="@+id/itemQty"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="220dp"
-                android:layout_marginLeft="220dp"
-                android:layout_marginTop="80dp"
+                android:layout_below="@+id/discount"
+                android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="7dp"
+                android:layout_toEndOf="@+id/editBtn"
+                android:layout_toRightOf="@+id/editBtn"
+                android:fontFamily="@font/lato"
                 android:text="itemQty"
-                android:textColor="#000" />
+                android:textColor="#000"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="220dp"
-                android:layout_marginLeft="220dp"
-                android:layout_marginTop="130dp"
+                android:layout_below="@+id/category"
+                android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="7dp"
+                android:layout_toEndOf="@+id/editBtn"
+                android:layout_toRightOf="@+id/editBtn"
+                android:fontFamily="@font/lato"
                 android:text="Description"
-                android:textColor="#000" />
+                android:textColor="#000"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/discount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="220dp"
-                android:layout_marginLeft="220dp"
-                android:layout_marginTop="55dp"
+                android:layout_below="@+id/price"
+                android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="7dp"
+                android:layout_toEndOf="@+id/editBtn"
+                android:layout_toRightOf="@+id/editBtn"
+                android:fontFamily="@font/lato"
                 android:text="Discount"
-                android:textColor="#000" />
+                android:textColor="#000"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="220dp"
-                android:layout_marginLeft="220dp"
-                android:layout_marginTop="105dp"
+                android:layout_below="@+id/itemQty"
+                android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="7dp"
+                android:layout_toEndOf="@+id/editBtn"
+                android:layout_toRightOf="@+id/editBtn"
+                android:fontFamily="@font/lato"
                 android:text="Category"
-                android:textColor="#000" />
+                android:textColor="#000"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="220dp"
-                android:layout_marginLeft="220dp"
-                android:layout_marginTop="30dp"
+                android:layout_below="@+id/name_widget"
+                android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="7dp"
+                android:layout_toEndOf="@+id/editBtn"
+                android:layout_toRightOf="@+id/editBtn"
+                android:fontFamily="@font/lato"
                 android:text="Price"
-                android:textColor="#000"/>
+                android:textColor="#000"
+                android:textStyle="bold" />
         </RelativeLayout>
 
 
