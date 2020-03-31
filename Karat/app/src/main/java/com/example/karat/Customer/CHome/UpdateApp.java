@@ -39,6 +39,7 @@ import java.util.List;
 
 public class UpdateApp extends AppCompatActivity{
 
+    LatLng p;
     static Geocoder coder;
     FusedLocationProviderClient fusedLocationClient;
     Location currentLocation = new Location("dummyprovider");
@@ -64,7 +65,6 @@ public class UpdateApp extends AppCompatActivity{
         progressBar.setScaleY(3f);
         progressBar.getProgressDrawable().setColorFilter(
                 Color.WHITE, android.graphics.PorterDuff.Mode.SRC_IN);
-//        progressAnimation();
         fetchLastLocation();
 //        startThread();
         getNearby();
@@ -81,6 +81,7 @@ public class UpdateApp extends AppCompatActivity{
 //        }, 1500);
 //        Intent login = new Intent(getApplicationContext(), Animation.class);
 //        startActivity(login);
+        progressAnimation();
     }
 
     private void fetchLastLocation() {
@@ -94,6 +95,7 @@ public class UpdateApp extends AppCompatActivity{
             public void onSuccess(Location location) {
                 if (location != null) {
                     currentLocation = location;
+                    p = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
                 }
             }
         });
@@ -147,25 +149,29 @@ public class UpdateApp extends AppCompatActivity{
 
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                LatLng p = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+                LatLng p1 = p;
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     if (ds.child("isStaff").getValue(Integer.class).equals(1)) {
                         float[] distance = new float[1];
                         LatLng adr = getLocationFromAddress(ds.child("postalCode").getValue().toString(), coder);
                         if (adr!=null) {
-                            Location.distanceBetween(p.latitude, p.longitude, adr.latitude, adr.longitude, distance);
+                            Location.distanceBetween(p1.latitude, p1.longitude, adr.latitude, adr.longitude, distance);
+                            if (Math.abs(ds.child("distance").getValue(Float.class) - distance[0]) < 50 ){
+                                break;
+                            }
+                            ds.child("coord").getRef().setValue(adr);
+                            ds.child("near").getRef().setValue(0);
                             ds.child("distance").getRef().setValue(distance[0]);
                             if (distance[0] < 3000.00) {
-                                nearOnes.add(new ShopInfo(adr, ds.child("name").getValue().toString(), ds.child("address").getValue().toString()));
+//                                nearOnes.add(new ShopInfo(adr, ds.child("name").getValue().toString(), ds.child("address").getValue().toString()));
+                                ds.child("near").getRef().setValue(1);
                             }
                         }
                     }
                 }
-                Toast.makeText(getApplicationContext(),"There are " + nearOnes.size() + " shops near you!", Toast.LENGTH_LONG).show();
-                finish();
+                Toast.makeText(getApplicationContext(),"Updated!", Toast.LENGTH_LONG).show();
             }
         });
-        progressAnimation();
     }
 
     public static LatLng getLocationFromAddress(String strAddress, Geocoder coder){
