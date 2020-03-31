@@ -47,7 +47,9 @@
         <activity android:name=".Login.GetData" />
         <activity android:name=".Login.GetUrl"></activity>
         <activity android:name=".Staff.SHome.SHomeManageListingDisplay" />
-        <activity android:name=".Customer.CSuperMap.MapDisplay" />
+        <activity android:name=".Customer.CSuperMap.MapDisplay">
+
+        </activity>
         <activity android:name=".Staff.SProfile.SEditProfileDisplay" />
         <activity android:name=".Customer.CProfile.CEditProfileDisplay" />
         <activity android:name=".Login.RegisterDisplay" />
@@ -56,7 +58,6 @@
         <activity android:name=".Staff.SProfile.SProfileDisplay" />
         <activity android:name=".Staff.SOrder.SOrderDisplay" />
         <activity android:name=".Staff.SHome.SHomeDisplay" />
-        <activity android:name=".Staff.SHome.SHomeManageListingDisplay" />
         <activity android:name=".Customer.Cart.CartDisplay" />
         <activity android:name=".Customer.CProfile.CProfileDisplay" />
         <activity android:name=".Customer.COrder.COrderDisplay" />

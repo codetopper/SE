@@ -9,12 +9,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import com.example.karat.Customer.CHome.CHomeDisplay;
+import com.example.karat.Customer.CHome.ShopInfo;
 import com.example.karat.Customer.CHome.UpdateApp;
 import com.example.karat.Customer.COrder.COrderDisplay;
 import com.example.karat.Customer.CProfile.CProfileDisplay;
@@ -32,6 +34,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MapDisplay extends FragmentActivity implements OnMapReadyCallback {
 
@@ -71,15 +78,36 @@ public class MapDisplay extends FragmentActivity implements OnMapReadyCallback {
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(final GoogleMap googleMap) {
         LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
         googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
         googleMap.setMyLocationEnabled(true);
-        for (int i = 0; i<UpdateApp.nearOnes.size();i++){
-            MarkerOptions markerOptions = new MarkerOptions().position(UpdateApp.nearOnes.get(i).getP()).title(UpdateApp.nearOnes.get(i).getName()).snippet(UpdateApp.nearOnes.get(i).getAddress());
-            googleMap.addMarker(markerOptions);
-        }
+//        for (int i = 0; i<UpdateApp.nearOnes.size();i++){
+//            MarkerOptions markerOptions = new MarkerOptions().position(UpdateApp.nearOnes.get(i).getP()).title(UpdateApp.nearOnes.get(i).getName()).snippet(UpdateApp.nearOnes.get(i).getAddress());
+//            googleMap.addMarker(markerOptions);
+//        }
+        final DatabaseReference users = FirebaseDatabase.getInstance().getReference().child("UserDatabase");
+        users.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    try {
+                        if (ds.child("isStaff").getValue(Integer.class).equals(1)) {
+                            if (ds.child("near").getValue(Integer.class).equals(1)) {
+                                LatLng point = new LatLng(ds.child("coord").child("latitude").getValue(Double.class), ds.child("coord").child("longitude").getValue(Double.class));
+                                MarkerOptions markerOptions = new MarkerOptions().position(point).title(ds.child("name").getValue(String.class)).snippet(ds.child("address").getValue(String.class));
+                                googleMap.addMarker(markerOptions);
+                            }
+                        }
+                    }catch (Exception ex){}
+                }
+            }
+        });
         googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener()
         {
             @Override
