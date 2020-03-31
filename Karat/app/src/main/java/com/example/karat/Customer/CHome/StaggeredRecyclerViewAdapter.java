@@ -2,6 +2,7 @@ package com.example.karat.Customer.CHome;
 
 import android.content.Context;
 import android.media.Image;
+import android.renderscript.Sampler;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -20,8 +21,11 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.karat.R;
 import com.example.karat.inventory.Listing;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 
 import java.lang.reflect.Array;
@@ -31,45 +35,37 @@ import java.util.List;
 public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<StaggeredRecyclerViewAdapter.Viewholder>{
 
     private static final String TAG = "StaggeredRecyclerViewAd";
-    private ArrayList<Listing> Listing;
+    private ArrayList<Listing> mListing;
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<String> mImageUrls = new ArrayList<>();
-    private Context mContext;
-    private static ArrayList<Integer> mListingId = new ArrayList<>();
-    private static ArrayList<Integer> mQty = new ArrayList<>();
-    private FirebaseDatabase firebaseDatabase;
+    private ArrayList<Integer> mListingId = new ArrayList<>();
+    private FirebaseDatabase firebaseDB;
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
-    private Button addtoCart;
+    private Context mContext;
 
     public StaggeredRecyclerViewAdapter(Context context){
         mContext = context;
     }
 
     public StaggeredRecyclerViewAdapter(Context context,
-                                        ArrayList<Listing> Listing
-                                        //ArrayList<String> names, ArrayList<String> imageUrls
-    ){
-
+                                        ArrayList<Listing> Listing){
         for(Listing listing: Listing) {
             mNames.add(listing.getListingName());
             mImageUrls.add(listing.getImage_url());
             mListingId.add(listing.getListingId());
-            mQty.add(1);
         }
         mContext = context;
-
-        /*mNames = names;
-        mImageUrls = imageUrls;
-        mContext = context;*/
     }
 
     public void reset(ArrayList<Listing> Listing){
         mNames.clear();
         mImageUrls.clear();
+        mListingId.clear();
         for(Listing listing: Listing) {
             mNames.add(listing.getListingName());
             mImageUrls.add(listing.getImage_url());
+            mListingId.add(listing.getListingId());
         }
     }
 
@@ -82,8 +78,9 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, final int position) {
 
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        mDatabase = firebaseDatabase.getReference();
+        firebaseDB = FirebaseDatabase.getInstance();
+        mDatabase = firebaseDB.getReference();
+        mAuth = FirebaseAuth.getInstance();
 
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.placeholder(R.drawable.ic_launcher_background);
@@ -96,19 +93,17 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: clicked on: " + mNames.get(position));
-                Toast.makeText(mContext, mNames.get(position), Toast.LENGTH_SHORT).show();
             }
         });
         holder.addtoCart.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-
-                //*
-                Toast.makeText(mContext, mNames.get(position), Toast.LENGTH_SHORT).show();
-/*
-                mDatabase.child("UserDatabase").child("cust1@gmail.com").child("mobileNo").setValue(mListingId.get(position));
                 String email = mAuth.getCurrentUser().getEmail().replace("@", "")
-                        .replace(".", ""); */
+                        .replace(".", "");
+                        //Toast.makeText(mContext, Listing.get(position).getListingName(), Toast.LENGTH_LONG).show();
+                int id = mListingId.get(position);
+                mDatabase.child("UserCart").child(email).child(id+"").child("listingId").setValue(id);
+                mDatabase.child("UserCart").child(email).child(id+"").child("cartQty").setValue(1);
             }
         });
 
