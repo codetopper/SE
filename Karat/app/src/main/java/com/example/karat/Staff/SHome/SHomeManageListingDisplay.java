@@ -89,7 +89,7 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
 
     private static final int GET_FROM_GALLERY = 3;
     private ImageView imageView;
-    private TextView nameTV, addressTV, timeTV;
+    private TextView nameTV, addressTV, timeTV, test;
     private EditText listingNameET, itemPriceET, itemQtyET, itemDiscET, descriptionET;
     private Button uploadBtn, deleteBtn, addBtn, cancelBtn;
     private Spinner catspinner;
@@ -116,7 +116,7 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String message = "Exit without applying changes?";
+                String message = "Are you sure you want to Cancel?";
                 AlertDialog.Builder builder = new AlertDialog.Builder(SHomeManageListingDisplay.this);
                 builder.setMessage(message)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -229,6 +229,19 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
                 nameTV.setText(name);
                 addressTV.setText(address);
                 timeTV.setText(timeStart + "-" + timeEnd);
+                Boolean end = false;
+                int index = 1;
+                int i = 1;
+                while (!end){
+                    Listing listing = dataSnapshot.child("Inventory").child(index+"").getValue(Listing.class);
+                    try {
+                        i = Integer.parseInt(listing.getListingId() + "");
+                    } catch (Exception e) {
+                        end = true;
+                    }
+                    index++;
+                }
+                test.setText(i+"");
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -238,9 +251,9 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
 
         //Preloading existing listing
         final int loadListingID;
-        if (getIntent().hasExtra("com.example.karat.listingID")) {
+        if (getIntent().hasExtra("listingID")) {
             deleteBtn.setVisibility(View.VISIBLE);
-            loadListingID = Integer.parseInt(getIntent().getExtras().getString("com.example.karat.listingID"));
+            loadListingID = Integer.parseInt(getIntent().getExtras().getString("listingID"));
             mDatabase.child("Inventory").child(loadListingID+"").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -277,8 +290,8 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
 
     private void deleteListingFromDatabase(){
         String listingID;
-        if (getIntent().hasExtra("com.example.karat.listingID")){
-            listingID = getIntent().getExtras().getString("com.example.karat.listingID");
+        if (getIntent().hasExtra("listingID")){
+            listingID = getIntent().getExtras().getString("listingID");
         } else {
             Toast.makeText(getApplicationContext(), "Please select a valid listing to delete", Toast.LENGTH_LONG).show();
             return;
@@ -320,7 +333,7 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
             return;
         }
 
-        String message = "Do you want to apply changes?";
+        String message = "Confirm?";
         AlertDialog.Builder builder = new AlertDialog.Builder(SHomeManageListingDisplay.this);
         builder.setMessage(message)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -341,16 +354,17 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
 
                         int listingID;
                         if (currentListing==null) {
-                            listingID = newProduct.getListingId();
+                            listingID = Integer.parseInt(test.getText().toString());
+                            listingID ++;
                         } else {
                             listingID = currentListing.getListingId();
                         }
                         mDatabase.child("Inventory").child(listingID+"").setValue(newProduct);
                         //Patching issues with listingID increments
-                        if (getIntent().hasExtra("com.example.karat.listingID")) {
-                            listingID = Integer.parseInt(getIntent().getExtras().getString("com.example.karat.listingID"));
-                            mDatabase.child("Inventory").child(listingID+"").child("listingId").setValue(listingID);
+                        if (getIntent().hasExtra("listingID")) {
+                            listingID = Integer.parseInt(getIntent().getExtras().getString("listingID"));
                         }
+                        mDatabase.child("Inventory").child(listingID+"").child("listingId").setValue(listingID);
 
                         final int imageID = listingID;
 
@@ -413,6 +427,7 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
         nameTV = findViewById(R.id.nameTV);
         addressTV = findViewById(R.id.addressTV);
         timeTV = findViewById(R.id.timeTV);
+        test = findViewById(R.id.test);
 
         listingNameET = findViewById(R.id.listingName);
         itemPriceET = findViewById(R.id.itemPrice);

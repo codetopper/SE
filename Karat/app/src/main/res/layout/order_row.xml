@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="10dp"
+    tools:visibility="visible">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/order_card"
@@ -19,8 +20,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:background="#2F7EBD">
+            android:background="#CC333A7E">
 
             <TextView
                 android:id="@+id/order_number"
