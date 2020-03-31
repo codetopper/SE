@@ -89,7 +89,7 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
 
     private static final int GET_FROM_GALLERY = 3;
     private ImageView imageView;
-    private TextView nameTV, addressTV, timeTV, inviListingTV;;
+    private TextView nameTV, addressTV, timeTV, test;
     private EditText listingNameET, itemPriceET, itemQtyET, itemDiscET, descriptionET;
     private Button uploadBtn, deleteBtn, addBtn, cancelBtn;
     private Spinner catspinner;
@@ -229,6 +229,19 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
                 nameTV.setText(name);
                 addressTV.setText(address);
                 timeTV.setText(timeStart + "-" + timeEnd);
+                Boolean end = false;
+                int index = 1;
+                int i = 1;
+                while (!end){
+                    Listing listing = dataSnapshot.child("Inventory").child(index+"").getValue(Listing.class);
+                    try {
+                        i = Integer.parseInt(listing.getListingId() + "");
+                    } catch (Exception e) {
+                        end = true;
+                    }
+                    index++;
+                }
+                test.setText(i+"");
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -341,7 +354,8 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
 
                         int listingID;
                         if (currentListing==null) {
-                            listingID = 3;
+                            listingID = Integer.parseInt(test.getText().toString());
+                            listingID ++;
                         } else {
                             listingID = currentListing.getListingId();
                         }
@@ -349,8 +363,8 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
                         //Patching issues with listingID increments
                         if (getIntent().hasExtra("listingID")) {
                             listingID = Integer.parseInt(getIntent().getExtras().getString("listingID"));
-                            mDatabase.child("Inventory").child(listingID+"").child("listingId").setValue(listingID);
                         }
+                        mDatabase.child("Inventory").child(listingID+"").child("listingId").setValue(listingID);
 
                         final int imageID = listingID;
 
@@ -413,7 +427,7 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
         nameTV = findViewById(R.id.nameTV);
         addressTV = findViewById(R.id.addressTV);
         timeTV = findViewById(R.id.timeTV);
-        inviListingTV = findViewById(R.id.storelistingid);
+        test = findViewById(R.id.test);
 
         listingNameET = findViewById(R.id.listingName);
         itemPriceET = findViewById(R.id.itemPrice);
