@@ -88,7 +88,9 @@ public class CartDisplay extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 CartManager.total.emptyCart();
                 mAdapter.notifyDataSetChanged();
-                calculatePrices();
+                CartDisplay.getSubtotal().setText("SUBTOTAL: $" + String.valueOf(df2.format(CartManager.subtotal())));
+                CartDisplay.getGST().setText("GST: $" + String.valueOf(df2.format(CartManager.gst())));
+                CartDisplay.getTotal().setText("TOTAL PAYABLE: $" + String.valueOf(df2.format(CartManager.total())));
 
             }
         });
@@ -123,22 +125,19 @@ public class CartDisplay extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.Home:
                         Intent CHomeIntent = new Intent(getApplicationContext(), CHomeDisplay.class);
-//                        CHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                        CHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        CHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(CHomeIntent);
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.Orders:
                         Intent COrderIntent = new Intent(getApplicationContext(), COrderDisplay.class);
-//                        COrderIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                        COrderIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        COrderIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(COrderIntent);
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.Profile:
                         Intent CProfileIntent = new Intent(getApplicationContext(), CProfileDisplay.class);
-//                        CProfileIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                        CProfileIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        CProfileIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(CProfileIntent);
                         overridePendingTransition(0,0);
                         return true;
@@ -154,9 +153,9 @@ public class CartDisplay extends AppCompatActivity {
             subtotal = findViewById(R.id.subTotal);
             GST =  findViewById(R.id.GST);
             total = findViewById(R.id.total);
-            CartDisplay.getSubtotal().setText("SUBTOTAL: $" + String.valueOf(df2.format(CartManager.subtotal())));
-            CartDisplay.getGST().setText("GST: $" + String.valueOf(df2.format(CartManager.gst())));
-            CartDisplay.getTotal().setText("TOTAL PAYABLE: $" + String.valueOf(df2.format(CartManager.total())));
+            subtotal.setText("SUBTOTAL: $" + String.valueOf(cartManager.subtotal()));
+            GST.setText("GST: $" + String.valueOf(Math.round(cartManager.gst()* 100)/100));
+            total.setText("TOTAL PAYABLE: $" + String.valueOf(Math.round(100 * (cartManager.gst() + cartManager.subtotal()))/100));
         }
 
     }
