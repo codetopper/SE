@@ -154,6 +154,8 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
 
             }
         });
+        //Editing quantity
+
 
         //Navigation bar
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navi);

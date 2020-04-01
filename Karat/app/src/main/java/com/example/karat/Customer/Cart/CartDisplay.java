@@ -88,9 +88,7 @@ public class CartDisplay extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 CartManager.total.emptyCart();
                 mAdapter.notifyDataSetChanged();
-                CartDisplay.getSubtotal().setText("SUBTOTAL: $" + String.valueOf(df2.format(CartManager.subtotal())));
-                CartDisplay.getGST().setText("GST: $" + String.valueOf(df2.format(CartManager.gst())));
-                CartDisplay.getTotal().setText("TOTAL PAYABLE: $" + String.valueOf(df2.format(CartManager.total())));
+                calculatePrices();
 
             }
         });
@@ -156,9 +154,9 @@ public class CartDisplay extends AppCompatActivity {
             subtotal = findViewById(R.id.subTotal);
             GST =  findViewById(R.id.GST);
             total = findViewById(R.id.total);
-            subtotal.setText("SUBTOTAL: $" + String.valueOf(cartManager.subtotal()));
-            GST.setText("GST: $" + String.valueOf(Math.round(cartManager.gst()* 100)/100));
-            total.setText("TOTAL PAYABLE: $" + String.valueOf(Math.round(100 * (cartManager.gst() + cartManager.subtotal()))/100));
+            CartDisplay.getSubtotal().setText("SUBTOTAL: $" + String.valueOf(df2.format(CartManager.subtotal())));
+            CartDisplay.getGST().setText("GST: $" + String.valueOf(df2.format(CartManager.gst())));
+            CartDisplay.getTotal().setText("TOTAL PAYABLE: $" + String.valueOf(df2.format(CartManager.total())));
         }
 
     }
