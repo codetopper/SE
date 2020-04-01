@@ -9,7 +9,7 @@
     android:gravity="bottom"
     android:orientation="vertical"
     android:visibility="visible"
-    tools:context=".Customer.COrder.COrderDisplay"
+    tools:context=".Customer.CHome.CHomeDisplay"
     tools:visibility="visible">
 
     <androidx.recyclerview.widget.RecyclerView

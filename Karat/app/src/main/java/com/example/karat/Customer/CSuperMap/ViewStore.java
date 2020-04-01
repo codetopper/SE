@@ -39,7 +39,7 @@ public class ViewStore extends AppCompatActivity implements AdapterView.OnItemSe
     private ArrayList<com.example.karat.inventory.Listing> list = new ArrayList<>();
     private StaggeredRecyclerViewAdapter staggeredRecyclerViewAdapter;
     private RecyclerView recyclerView;
-    private static final int Num_Columns = 2;
+    private static final int Num_Columns = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

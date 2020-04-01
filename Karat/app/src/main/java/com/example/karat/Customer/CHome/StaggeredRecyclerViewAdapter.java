@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -23,6 +24,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
+
+import org.w3c.dom.Text;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -64,12 +67,13 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
         mContext = context;*/
     }
 
-    public void reset(ArrayList<Listing> Listing){
+    public void reset(ArrayList<Listing> listing){
+        Listing = (ArrayList<com.example.karat.inventory.Listing>) listing.clone();
         mNames.clear();
         mImageUrls.clear();
-        for(Listing listing: Listing) {
-            mNames.add(listing.getListingName());
-            mImageUrls.add(listing.getImage_url());
+        for(Listing list: Listing) {
+            mNames.add(list.getListingName());
+            mImageUrls.add(list.getImage_url());
         }
     }
 
@@ -111,7 +115,8 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
                         .replace(".", ""); */
             }
         });
-
+        boolean isExpanded = Listing.get(position).isExpanded();
+        holder.desc.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -123,12 +128,26 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
         ImageView image;
         TextView name;
         Button addtoCart;
+        TextView desc;
+        CardView container;
 
         public Viewholder(View itemView) {
             super(itemView);
             this.image = itemView.findViewById(R.id.imageview_widget);
             this.name = itemView.findViewById(R.id.name_widget);
             this.addtoCart = itemView.findViewById(R.id.addtoCart);
+            desc = itemView.findViewById(R.id.textView19);
+            container = itemView.findViewById(R.id.chomecard);
+
+            container.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Listing list = Listing.get(getAdapterPosition());
+                    list.setExpanded(!list.isExpanded());
+                    notifyItemChanged(getAdapterPosition());
+                }
+            });
         }
     }
 }
