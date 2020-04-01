@@ -96,7 +96,9 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
         Glide.with(mContext).load(mImageUrls.get(position)).apply(requestOptions).into(holder.image);
 
         holder.name.setText(mNames.get(position));
-        final int quantity = mQty.
+        final int quantity = 10;
+
+
         holder.image.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -107,6 +109,8 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
         holder.homequantity.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                holder.minus.setEnabled(true);
+                holder.plus.setEnabled(true);
             }
 
             @Override
@@ -120,11 +124,19 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
                 }
                 else {
                     int value = Integer.parseInt(text);
+                    if (value < 0){
+                        CharSequence text_2 = "Enter a value less than hundred!";
+                        Toast.makeText(mContext, text_2, Toast.LENGTH_SHORT).show();
+                        holder.homequantity.setText(Integer.toString(value + 1));
+                        holder.minus.setEnabled(false);
+
+
+                    }
                     if (value > quantity) {
                         CharSequence text_2 = "Enter a value less than hundred!";
                         Toast.makeText(mContext, text_2, Toast.LENGTH_SHORT).show();
-                        holder.homequantity.setText();
-                        return;
+                        holder.homequantity.setText(Integer.toString(value -1));
+                        holder.plus.setEnabled(false);
 
                     }
                 }
@@ -133,7 +145,6 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
         holder.plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.addtoCart.setEnabled(true);
                 String text = holder.homequantity.getText().toString();
                 if (text.isEmpty()){
                 }
@@ -146,7 +157,6 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
         holder.minus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.addtoCart.setEnabled(true);
                 String text = holder.homequantity.getText().toString();
                 if (text.isEmpty()){
                 }
@@ -158,7 +168,6 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
                     else {
                         CharSequence text_2 = "Quantity cannot be lower than 0";
                         Toast.makeText(mContext,text_2,Toast.LENGTH_SHORT).show();
-                        holder.addtoCart.setEnabled(false);
                     }
                 }
             }
@@ -166,8 +175,6 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
         holder.addtoCart.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-
-                //*
                 String text = holder.homequantity.getText().toString();
                 if (text.isEmpty()) {
                     // Tell user to put something
