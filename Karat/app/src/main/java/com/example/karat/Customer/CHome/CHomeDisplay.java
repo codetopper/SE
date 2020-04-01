@@ -154,8 +154,6 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
 
             }
         });
-        //Editing quantity
-
 
         //Navigation bar
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navi);
@@ -166,23 +164,20 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
                 switch (item.getItemId()){
                     case R.id.Home:
                         Intent CHomeIntent = new Intent(getApplicationContext(), CHomeDisplay.class);
-//                        CHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                        CHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        CHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(CHomeIntent);
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.Orders:
                         initData();
                         Intent COrderIntent = new Intent(getApplicationContext(), COrderDisplay.class);
-//                        COrderIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                        COrderIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        COrderIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(COrderIntent);
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.Profile:
                         Intent CProfileIntent = new Intent(getApplicationContext(), CProfileDisplay.class);
-//                        CProfileIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                        CProfileIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        CProfileIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(CProfileIntent);
                         overridePendingTransition(0,0);
                         return true;
@@ -190,8 +185,6 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
                 return false;
             }
         });
-
-
     }
 
     private void initData() {
@@ -204,8 +197,7 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
 
     public void goToCart(View v) {
         Intent i = new Intent(getApplicationContext(), CartDisplay.class);
-//        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(i);
         overridePendingTransition(0,0);
     }
