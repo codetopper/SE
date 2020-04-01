@@ -180,10 +180,9 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
                         //Toast.makeText(mContext, Listing.get(position).getListingName(), Toast.LENGTH_LONG).show();
                 int id = mListingId.get(position);
                 mDatabase.child("UserCart").child(email).child(id+"").child("listingId").setValue(id);
-                mDatabase.child("UserCart").child(email).child(id+"").child("cartQty").setValue(1);
+                mDatabase.child("UserCart").child(email).child(id+"").child("cartQty").setValue(homequantity.getText().toString());
             }
         });
-
     }
 
     @Override

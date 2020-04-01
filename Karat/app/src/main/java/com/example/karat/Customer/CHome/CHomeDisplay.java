@@ -58,6 +58,25 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
         setContentView(R.layout.activity_c_home_display);
         initUI();
 
+        mDatabase.child("Inventory").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds : dataSnapshot.getChildren()){
+                    Listing listing = ds.getValue(Listing.class);
+                    listing.setImage_url(ds.child("imageUrl").getValue(String.class));
+                    assert listing != null;
+                    searchList.add(listing);
+                }
+                staggeredRecyclerViewAdapter.reset(searchList);
+                staggeredRecyclerViewAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
         //Do search
         search.setOnClickListener(new View.OnClickListener() {
             @Override
