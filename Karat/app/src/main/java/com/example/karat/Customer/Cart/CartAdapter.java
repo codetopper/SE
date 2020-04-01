@@ -1,6 +1,7 @@
 
 package com.example.karat.Customer.Cart;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +20,8 @@ import java.util.ArrayList;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHolder> {
     /* Instance Variable */
-
-    private ArrayList<Cart> cartArrayList;
+    private Context mContext;
+    private ArrayList<Listing> cartArrayList;
     private OnItemClickListener mListener;
     private static DecimalFormat df2 = new DecimalFormat("#.##");
     DecimalFormat df = new DecimalFormat("#.00"); // Set your desired format here.
@@ -60,8 +61,15 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
 
     /* Constructors */
 
-    public CartAdapter(ArrayList<Cart> cartArrayList){
-        this.cartArrayList = cartArrayList;
+    public CartAdapter(Context context){
+        mContext = context;
+    };
+
+    public void setData(ArrayList<Listing> cartArrayList){
+        this.cartArrayList.clear();
+        for (Listing listing: cartArrayList){
+            cartArrayList.add(listing);
+        }
     }
 
 

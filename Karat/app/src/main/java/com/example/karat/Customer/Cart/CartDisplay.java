@@ -75,8 +75,6 @@ public class CartDisplay extends AppCompatActivity {
         /* Initialise Bottom Navigation Menu */
         NavigationMenu();
         calculatePrices();
-
-
     }
     /* Methods */
 
@@ -88,9 +86,7 @@ public class CartDisplay extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 CartManager.total.emptyCart();
                 mAdapter.notifyDataSetChanged();
-                CartDisplay.getSubtotal().setText("SUBTOTAL: $" + String.valueOf(df2.format(CartManager.subtotal())));
-                CartDisplay.getGST().setText("GST: $" + String.valueOf(df2.format(CartManager.gst())));
-                CartDisplay.getTotal().setText("TOTAL PAYABLE: $" + String.valueOf(df2.format(CartManager.total())));
+                calculatePrices();
 
             }
         });
@@ -98,18 +94,12 @@ public class CartDisplay extends AppCompatActivity {
         dialog = builder.create();
         dialog.show();
     }
-    public void createExampleList(){
-        cartManager.total.addtoCart(3.5,"Chicken",3,R.drawable.ic_person);
-        cartManager.total.addtoCart(4.5,"Duck",3,R.drawable.ic_history);
-        cartManager.total.addtoCart( 5.5,"Rice",3,R.drawable.ic_person);
-    }
 
-    public void buildRecyclerView(){
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView2);
+    public void init(){
+        mRecyclerView = findViewById(R.id.recyclerView2);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mAdapter = new CartAdapter(cartManager.total.getCartlist());
-
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
     }
@@ -153,9 +143,9 @@ public class CartDisplay extends AppCompatActivity {
             subtotal = findViewById(R.id.subTotal);
             GST =  findViewById(R.id.GST);
             total = findViewById(R.id.total);
-            subtotal.setText("SUBTOTAL: $" + String.valueOf(cartManager.subtotal()));
-            GST.setText("GST: $" + String.valueOf(Math.round(cartManager.gst()* 100)/100));
-            total.setText("TOTAL PAYABLE: $" + String.valueOf(Math.round(100 * (cartManager.gst() + cartManager.subtotal()))/100));
+            CartDisplay.getSubtotal().setText("SUBTOTAL: $" + String.valueOf(df2.format(CartManager.subtotal())));
+            CartDisplay.getGST().setText("GST: $" + String.valueOf(df2.format(CartManager.gst())));
+            CartDisplay.getTotal().setText("TOTAL PAYABLE: $" + String.valueOf(df2.format(CartManager.total())));
         }
 
     }
