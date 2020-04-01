@@ -49,7 +49,6 @@ public class CartDisplay extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
 
-    CartManager cartManager;
     AlertDialog dialog;
     AlertDialog.Builder builder;
 

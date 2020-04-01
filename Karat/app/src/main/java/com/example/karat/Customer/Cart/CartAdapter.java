@@ -177,12 +177,5 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
         return mQty.size();
     }
 
-    public void change(){
-        CartDisplay.getSubtotal().setText("SUBTOTAL: $" + String.valueOf(df2.format(CartManager.subtotal() * 0.93)));
-        CartDisplay.getGST().setText("GST: $" + String.valueOf(df2.format(CartManager.gst())));
-        CartDisplay.getTotal().setText("TOTAL PAYABLE: $" + String.valueOf(df2.format(CartManager.total())));;
-
-        notifyDataSetChanged();
-    }
 
 }

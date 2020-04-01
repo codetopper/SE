@@ -1,6 +1,7 @@
 package com.example.karat.Customer.CHome;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.media.Image;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -21,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.karat.Customer.Cart.CartDisplay;
 import com.example.karat.R;
 import com.example.karat.inventory.Listing;
 import com.google.firebase.auth.FirebaseAuth;
@@ -49,6 +51,8 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
     private FirebaseAuth mAuth;
     private Button addtoCart;
     private EditText homequantity;
+
+
 
 
     public StaggeredRecyclerViewAdapter(Context context){
@@ -175,13 +179,22 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
         holder.addtoCart.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                String email = mAuth.getCurrentUser().getEmail().replace("@", "")
-                        .replace(".", "");
-                        //Toast.makeText(mContext, Listing.get(position).getListingName(), Toast.LENGTH_LONG).show();
-                int id = mListingId.get(position);
-                mDatabase.child("UserCart").child(email).child(id+"").child("listingId").setValue(id);
-                mDatabase.child("UserCart").child(email).child(id+"").child("cartQty")
-                        .setValue(Integer.parseInt(holder.homequantity.getText().toString()));
+                String text = holder.homequantity.getText().toString();
+                if (Integer.parseInt(text) == 0) {
+                    holder.addtoCart.setEnabled(false);
+                    holder.addtoCart.setBackgroundColor(Color.GRAY);
+                }
+                else {
+                    holder.addtoCart.setEnabled(true);
+                    String email = mAuth.getCurrentUser().getEmail().replace("@", "")
+                            .replace(".", "");
+                    //Toast.makeText(mContext, Listing.get(position).getListingName(), Toast.LENGTH_LONG).show();
+                    int id = mListingId.get(position);
+                    mDatabase.child("UserCart").child(email).child(id + "").child("listingId").setValue(id);
+                    mDatabase.child("UserCart").child(email).child(id + "").child("cartQty")
+                            .setValue(Integer.parseInt(holder.homequantity.getText().toString()));
+                    Toast.makeText(mContext, "Your item has been succesfully added", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
@@ -191,6 +204,7 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
     public int getItemCount() {
         return mImageUrls.size();
     }
+
 
     public class Viewholder extends RecyclerView.ViewHolder /*extends RecyclerView.ViewHolder */{
         ImageView image;
