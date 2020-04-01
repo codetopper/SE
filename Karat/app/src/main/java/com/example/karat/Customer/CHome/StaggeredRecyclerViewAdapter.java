@@ -44,7 +44,7 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
     private Context mContext;
     private ArrayList<Integer> mListingId = new ArrayList<>();
     private  ArrayList<Integer> mQty = new ArrayList<>();
-    private FirebaseDatabase firebaseDatabase;
+    private FirebaseDatabase firebaseDB;
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
     private Button addtoCart;
@@ -62,7 +62,7 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
             mImageUrls.add(listing.getImage_url());
             mListingId.add(listing.getListingId());
             // Actually its mQty.add(listing.getQuantity());
-            mQty.add(10);
+            mQty.add(Integer.parseInt(listing.getListingQuantity()+""));
         }
         mContext = context;
     }
@@ -71,10 +71,12 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
         mNames.clear();
         mImageUrls.clear();
         mListingId.clear();
+        mQty.clear();
         for(Listing listing: Listing) {
             mNames.add(listing.getListingName());
             mImageUrls.add(listing.getImage_url());
             mListingId.add(listing.getListingId());
+            mQty.add(Integer.parseInt(listing.getListingQuantity()+""));
         }
     }
 
@@ -97,7 +99,6 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
         Glide.with(mContext).load(mImageUrls.get(position)).apply(requestOptions).into(holder.image);
 
         holder.name.setText(mNames.get(position));
-        final int quantity = 10;
 
 
         holder.image.setOnClickListener(new View.OnClickListener(){
@@ -125,15 +126,15 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
                 else {
                     int value = Integer.parseInt(text);
                     if (value < 0){
-                        CharSequence text_2 = "Enter a value less than hundred!";
+                        CharSequence text_2 = "Min Quantity Reached!!!";
                         Toast.makeText(mContext, text_2, Toast.LENGTH_SHORT).show();
                         holder.homequantity.setText(Integer.toString(value + 1));
                         holder.minus.setEnabled(false);
 
 
                     }
-                    if (value > quantity) {
-                        CharSequence text_2 = "Enter a value less than hundred!";
+                    if (value > mQty.get(position)) {
+                        CharSequence text_2 = "Max Quantity Reached!!!";
                         Toast.makeText(mContext, text_2, Toast.LENGTH_SHORT).show();
                         holder.homequantity.setText(Integer.toString(value -1));
                         holder.plus.setEnabled(false);
@@ -177,10 +178,10 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
             public void onClick(View view) {
                 String email = mAuth.getCurrentUser().getEmail().replace("@", "")
                         .replace(".", "");
-                        //Toast.makeText(mContext, Listing.get(position).getListingName(), Toast.LENGTH_LONG).show();
                 int id = mListingId.get(position);
                 mDatabase.child("UserCart").child(email).child(id+"").child("listingId").setValue(id);
-                mDatabase.child("UserCart").child(email).child(id+"").child("cartQty").setValue(1);
+                mDatabase.child("UserCart").child(email).child(id+"").child("cartQty")
+                        .setValue(Integer.parseInt(homequantity.getText().toString()));
             }
         });
 
