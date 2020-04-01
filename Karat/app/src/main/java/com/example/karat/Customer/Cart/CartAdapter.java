@@ -1,6 +1,7 @@
 
 package com.example.karat.Customer.Cart;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,7 @@ import java.util.ArrayList;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHolder> {
     /* Instance Variable */
-
+    private Context mContext;
     private ArrayList<Listing> cartArrayList;
     private OnItemClickListener mListener;
     private static DecimalFormat df2 = new DecimalFormat("#.##");
@@ -61,7 +62,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
 
     /* Constructors */
 
-    public CartAdapter(){};
+    public CartAdapter(Context context){
+        mContext = context;
+    };
 
     public void setData(ArrayList<Listing> cartArrayList){
         this.cartArrayList.clear();

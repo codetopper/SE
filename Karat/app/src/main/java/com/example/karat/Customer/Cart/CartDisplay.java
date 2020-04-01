@@ -72,25 +72,20 @@ public class CartDisplay extends AppCompatActivity {
         setContentView(R.layout.activity_cart_display);
 
         /* Initialise Recycler View */
-        mDatabase = FirebaseDatabase.getInstance().getReference();
 
-
-
-        cartManager= new CartManager();
-        createExampleList();
-        buildRecyclerView();
-        EmptyCart = findViewById(R.id.emptyCart);
-        EmptyCart.setOnClickListener(new View.OnClickListener() {
-                                         @Override
-                                         public void onClick(View v) { EmptyCartdialog();
-                                         }
-                                     });
+        //cartManager= new CartManager();
+        //init();
+        //buildRecyclerView();
+        //EmptyCart = findViewById(R.id.emptyCart);
+        //EmptyCart.setOnClickListener(new View.OnClickListener() {
+         //                                @Override
+         //                                public void onClick(View v) { EmptyCartdialog();
+          //                               }
+          //                           });
         /* Initialise Values *
         /* Initialise Bottom Navigation Menu */
         NavigationMenu();
         calculatePrices();
-
-
     }
     /* Methods */
 
@@ -110,20 +105,20 @@ public class CartDisplay extends AppCompatActivity {
         dialog = builder.create();
         dialog.show();
     }
-    public void createExampleList(){
-        cartManager.total.addtoCart(3.5,"Chicken",3,R.drawable.ic_person);
-        cartManager.total.addtoCart(4.5,"Duck",3,R.drawable.ic_history);
-        cartManager.total.addtoCart( 5.5,"Rice",3,R.drawable.ic_person);
-    }
 
-    public void buildRecyclerView(){
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView2);
+    public void init(){
+        mRecyclerView = findViewById(R.id.recyclerView2);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
-        mAdapter = new CartAdapter();
+        mAdapter = new CartAdapter(this);
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+    }
+
+    public void buildRecyclerView(){
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
