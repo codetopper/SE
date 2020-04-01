@@ -37,7 +37,7 @@ import java.util.ArrayList;
 import static com.example.karat.Customer.COrder.CustomerOrders.purchase;
 
 public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
-    private static final int Num_Columns = 2;
+    private static final int Num_Columns = 1;
     private ArrayList<Listing> searchList = new ArrayList<>();
     private ArrayList<Listing> searched = new ArrayList<>();
     private DatabaseReference mDatabase= FirebaseDatabase.getInstance().getReference();
