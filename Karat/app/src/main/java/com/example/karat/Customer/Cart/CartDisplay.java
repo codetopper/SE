@@ -15,25 +15,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import com.example.karat.inventory.Listing;
 
 import com.example.karat.Customer.CHome.CHomeDisplay;
 import com.example.karat.Customer.COrder.COrderDisplay;
 import com.example.karat.Customer.CProfile.CProfileDisplay;
 import com.example.karat.R;
 import com.example.karat.Staff.SHome.SHomeDisplay;
-import com.example.karat.inventory.Listing;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 
 public class CartDisplay extends AppCompatActivity {
     private RecyclerView mRecyclerView;
@@ -42,13 +32,9 @@ public class CartDisplay extends AppCompatActivity {
     private static TextView subtotal;
     private static TextView GST;
     private static TextView total;
-    private FirebaseAuth mAuth;
     private Button EmptyCart;
-    private ArrayList<Listing> cartList;
     private static DecimalFormat df2 = new DecimalFormat("#.##");
     DecimalFormat df = new DecimalFormat("#.00"); // Set your desired format here.
-
-    private DatabaseReference mDatabase;
 
     CartManager cartManager;
 
@@ -73,15 +59,18 @@ public class CartDisplay extends AppCompatActivity {
 
         /* Initialise Recycler View */
 
-        //cartManager= new CartManager();
-        //init();
-        //buildRecyclerView();
-        //EmptyCart = findViewById(R.id.emptyCart);
-        //EmptyCart.setOnClickListener(new View.OnClickListener() {
-         //                                @Override
-         //                                public void onClick(View v) { EmptyCartdialog();
-          //                               }
-          //                           });
+
+        cartManager= new CartManager();
+        createExampleList();
+        buildRecyclerView();
+        EmptyCart = findViewById(R.id.emptyCart);
+        EmptyCart.setOnClickListener(new View.OnClickListener() {
+                                         @Override
+                                         public void onClick(View v) {
+                                             EmptyCartdialog();
+                                         }
+                                     }
+        );
         /* Initialise Values *
         /* Initialise Bottom Navigation Menu */
         NavigationMenu();
@@ -110,36 +99,9 @@ public class CartDisplay extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.recyclerView2);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
-        mAdapter = new CartAdapter(this);
-
+        mAdapter = new CartAdapter(cartManager.total.getCartlist());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
-
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-    }
-
-    public void buildRecyclerView(){
-        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                int listingId;
-                String email = mAuth.getCurrentUser().getEmail().replace("@", "")
-                        .replace(".", "");
-                DataSnapshot getListingIds = dataSnapshot.child("UserCart").child(email);
-                for (DataSnapshot ds : getListingIds.getChildren()){
-                    listingId = (int) ds.child("listingId").getValue();
-                    Listing listing = dataSnapshot.child("Inventory").child(listingId+"").getValue(Listing.class);
-                    listing.setListingQuantity((int) ds.child("cartQty").getValue());
-                    cartList.add(listing);
-                }
-                mAdapter.setData(cartList);
-                mAdapter.notifyDataSetChanged();
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
     }
 
     public void NavigationMenu() {
@@ -153,22 +115,19 @@ public class CartDisplay extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.Home:
                         Intent CHomeIntent = new Intent(getApplicationContext(), CHomeDisplay.class);
-//                        CHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                        CHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        CHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(CHomeIntent);
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.Orders:
                         Intent COrderIntent = new Intent(getApplicationContext(), COrderDisplay.class);
-//                        COrderIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                        COrderIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        COrderIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(COrderIntent);
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.Profile:
                         Intent CProfileIntent = new Intent(getApplicationContext(), CProfileDisplay.class);
-//                        CProfileIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                        CProfileIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        CProfileIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(CProfileIntent);
                         overridePendingTransition(0,0);
                         return true;

@@ -15,7 +15,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.karat.R;
-import com.example.karat.inventory.Listing;
 
 import java.util.ArrayList;
 
@@ -73,6 +72,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
         }
     }
 
+
+
+
     @NonNull
     @Override
     public ExampleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -82,26 +84,21 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ExampleViewHolder holder, final int position) {
-        final Listing currentItem = cartArrayList.get(position);
+    public void onBindViewHolder(@NonNull ExampleViewHolder holder, int position) {
+        final Cart currentItem = cartArrayList.get(position);
 
         //holder.mImageView.setImageResource(currentItem.getmImageResource());
-        holder.mTextView1.setText("$" + String.valueOf(currentItem.getListingPrice()));
-        holder.mTextView2.setText(String.valueOf(currentItem.getListingName()));
-        holder.mTextView3.setText(String.valueOf(currentItem.getListingQuantity()));
+        holder.mTextView1.setText("$" + String.valueOf(currentItem.getPrice()));
+        holder.mTextView2.setText(String.valueOf(currentItem.getName()));
+        holder.mTextView3.setText(String.valueOf(currentItem.getQuantity()));
 
         holder.add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int sum = 0;
-                int curQty = (int)cartArrayList.get(position).getListingQuantity();
-                cartArrayList.get(position).setListingQuantity(curQty+1);
-                for (Listing l : cartArrayList){
-                    sum += l.getListingPrice() * l.getListingQuantity();
-                }
-                CartDisplay.getSubtotal().setText("SUBTOTAL: $" + String.valueOf(df2.format(sum * 0.93)));
-                CartDisplay.getGST().setText("GST: $" + String.valueOf(df2.format(sum * 0.07)));
-                CartDisplay.getTotal().setText("TOTAL PAYABLE: $" + String.valueOf(df2.format(sum)));
+                CartManager.total.addtoCart(currentItem.getPrice(),currentItem.getName(),1,1);
+                CartDisplay.getSubtotal().setText("SUBTOTAL: $" + String.valueOf(df2.format(CartManager.subtotal())));
+                CartDisplay.getGST().setText("GST: $" + String.valueOf(df2.format(CartManager.gst())));
+                CartDisplay.getTotal().setText("TOTAL PAYABLE: $" + String.valueOf(df2.format(CartManager.total())));
 
                 notifyDataSetChanged();
 
@@ -111,20 +108,15 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
         holder.minus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int sum = 0;
-                int curQty = (int)cartArrayList.get(position).getListingQuantity();
-                cartArrayList.get(position).setListingQuantity(curQty-1);
-                if (curQty<=0){
-                    cartArrayList.remove(position);
-                }
-                for (Listing l : cartArrayList){
-                    sum += l.getListingPrice() * l.getListingQuantity();
-                }
-                CartDisplay.getSubtotal().setText("SUBTOTAL: $" + String.valueOf(df2.format(sum * 0.93)));
-                CartDisplay.getGST().setText("GST: $" + String.valueOf(df2.format(sum * 0.07)));
-                CartDisplay.getTotal().setText("TOTAL PAYABLE: $" + String.valueOf(df2.format(sum)));
+                CartManager.total.removefromCart(currentItem.getName());
+                CartDisplay.getSubtotal().setText("SUBTOTAL: $" + String.valueOf(df2.format(CartManager.subtotal())));
+                CartDisplay.getGST().setText("GST: $" + String.valueOf(df2.format(CartManager.gst())));
+                CartDisplay.getTotal().setText("TOTAL PAYABLE: $" + String.valueOf(df2.format(CartManager.total())));
 
                 notifyDataSetChanged();
+
+
+
             }
         });
     }
@@ -133,4 +125,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
     public int getItemCount() {
         return cartArrayList.size();
     }
+
+    public void change(){
+        CartDisplay.getSubtotal().setText("SUBTOTAL: $" + String.valueOf(df2.format(CartManager.subtotal() * 0.93)));
+        CartDisplay.getGST().setText("GST: $" + String.valueOf(df2.format(CartManager.gst())));
+        CartDisplay.getTotal().setText("TOTAL PAYABLE: $" + String.valueOf(df2.format(CartManager.total())));;
+
+        notifyDataSetChanged();
+    }
+
 }
