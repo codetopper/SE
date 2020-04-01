@@ -2,6 +2,8 @@ package com.example.karat.Customer.CHome;
 
 import android.content.Context;
 import android.media.Image;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.renderscript.Sampler;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -9,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,11 +41,15 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
     private ArrayList<Listing> mListing;
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<String> mImageUrls = new ArrayList<>();
+    private Context mContext;
     private ArrayList<Integer> mListingId = new ArrayList<>();
-    private FirebaseDatabase firebaseDB;
+    private  ArrayList<Integer> mQty = new ArrayList<>();
+    private FirebaseDatabase firebaseDatabase;
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
-    private Context mContext;
+    private Button addtoCart;
+    private EditText homequantity;
+
 
     public StaggeredRecyclerViewAdapter(Context context){
         mContext = context;
@@ -54,6 +61,8 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
             mNames.add(listing.getListingName());
             mImageUrls.add(listing.getImage_url());
             mListingId.add(listing.getListingId());
+            // Actually its mQty.add(listing.getQuantity());
+            mQty.add(10);
         }
         mContext = context;
     }
@@ -76,7 +85,7 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Viewholder holder, final int position) {
+    public void onBindViewHolder(@NonNull final Viewholder holder, final int position) {
 
         firebaseDB = FirebaseDatabase.getInstance();
         mDatabase = firebaseDB.getReference();
@@ -88,11 +97,79 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
         Glide.with(mContext).load(mImageUrls.get(position)).apply(requestOptions).into(holder.image);
 
         holder.name.setText(mNames.get(position));
+        final int quantity = 10;
+
 
         holder.image.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: clicked on: " + mNames.get(position));
+            }
+        });
+        holder.homequantity.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                holder.minus.setEnabled(true);
+                holder.plus.setEnabled(true);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String text = holder.homequantity.getText().toString();
+                if (text.isEmpty()) {
+                }
+                else {
+                    int value = Integer.parseInt(text);
+                    if (value < 0){
+                        CharSequence text_2 = "Enter a value less than hundred!";
+                        Toast.makeText(mContext, text_2, Toast.LENGTH_SHORT).show();
+                        holder.homequantity.setText(Integer.toString(value + 1));
+                        holder.minus.setEnabled(false);
+
+
+                    }
+                    if (value > quantity) {
+                        CharSequence text_2 = "Enter a value less than hundred!";
+                        Toast.makeText(mContext, text_2, Toast.LENGTH_SHORT).show();
+                        holder.homequantity.setText(Integer.toString(value -1));
+                        holder.plus.setEnabled(false);
+
+                    }
+                }
+            }
+        });
+        holder.plus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String text = holder.homequantity.getText().toString();
+                if (text.isEmpty()){
+                }
+                else {
+                    int value = Integer.parseInt(text);
+                    holder.homequantity.setText(Integer.toString(value + 1));
+                }
+            }
+        });
+        holder.minus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String text = holder.homequantity.getText().toString();
+                if (text.isEmpty()){
+                }
+                else {
+                    int value = Integer.parseInt(text);
+                    if (value > 0) {
+                        holder.homequantity.setText(Integer.toString(value - 1));
+                    }
+                    else {
+                        CharSequence text_2 = "Quantity cannot be lower than 0";
+                        Toast.makeText(mContext,text_2,Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
         });
         holder.addtoCart.setOnClickListener(new View.OnClickListener(){
@@ -118,12 +195,18 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
         ImageView image;
         TextView name;
         Button addtoCart;
+        EditText homequantity;
+        Button plus;
+        Button minus;
 
         public Viewholder(View itemView) {
             super(itemView);
             this.image = itemView.findViewById(R.id.imageview_widget);
             this.name = itemView.findViewById(R.id.name_widget);
             this.addtoCart = itemView.findViewById(R.id.addtoCart);
+            this.homequantity = itemView.findViewById(R.id.homequantity);
+            this.plus = itemView.findViewById(R.id.plus2);
+            this.minus = itemView.findViewById(R.id.minus2);
         }
     }
 }
