@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.karat.R;
+import com.example.karat.inventory.Listing;
 
 import java.util.ArrayList;
 
@@ -27,6 +28,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
     private static ArrayList<Integer> mQty;
     private static ArrayList<String> mName;
     private static DecimalFormat df2 = new DecimalFormat("#.##");
+    private ArrayList<Listing> cartArrayList;
     DecimalFormat df = new DecimalFormat("#.00"); // Set your desired format here.
 
     public interface OnItemClickListener {

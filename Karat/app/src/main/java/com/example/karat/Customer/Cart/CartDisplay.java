@@ -24,8 +24,16 @@ import com.example.karat.Customer.CProfile.CProfileDisplay;
 import com.example.karat.R;
 import com.example.karat.Staff.SHome.SHomeDisplay;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.net.Authenticator;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 public class CartDisplay extends AppCompatActivity {
     private RecyclerView mRecyclerView;
@@ -34,10 +42,12 @@ public class CartDisplay extends AppCompatActivity {
     private static TextView subtotal;
     private static TextView GST;
     private static TextView total;
+    private ArrayList<Listing> cartList;
     private Button EmptyCart;
     private static DecimalFormat df2 = new DecimalFormat("#.##");
     DecimalFormat df = new DecimalFormat("#.00"); // Set your desired format here.
     private DatabaseReference mDatabase;
+    private FirebaseAuth mAuth;
 
     CartManager cartManager;
     AlertDialog dialog;
@@ -114,7 +124,7 @@ public class CartDisplay extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.recyclerView2);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
-        mAdapter = new CartAdapter(cartManager.total.getCartlist());
+        mAdapter = new CartAdapter(getApplicationContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
