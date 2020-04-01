@@ -4,6 +4,7 @@ import android.content.Context;
 import android.media.Image;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.renderscript.Sampler;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -23,8 +24,11 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.karat.R;
 import com.example.karat.inventory.Listing;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 
 import java.lang.reflect.Array;
@@ -34,7 +38,7 @@ import java.util.List;
 public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<StaggeredRecyclerViewAdapter.Viewholder>{
 
     private static final String TAG = "StaggeredRecyclerViewAd";
-    private ArrayList<Listing> Listing;
+    private ArrayList<Listing> mListing;
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<String> mImageUrls = new ArrayList<>();
     private Context mContext;
@@ -46,15 +50,13 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
     private Button addtoCart;
     private EditText homequantity;
 
+
     public StaggeredRecyclerViewAdapter(Context context){
         mContext = context;
     }
 
     public StaggeredRecyclerViewAdapter(Context context,
-                                        ArrayList<Listing> Listing
-                                        //ArrayList<String> names, ArrayList<String> imageUrls
-    ){
-
+                                        ArrayList<Listing> Listing){
         for(Listing listing: Listing) {
             mNames.add(listing.getListingName());
             mImageUrls.add(listing.getImage_url());
@@ -63,18 +65,16 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
             mQty.add(10);
         }
         mContext = context;
-
-        /*mNames = names;
-        mImageUrls = imageUrls;
-        mContext = context;*/
     }
 
     public void reset(ArrayList<Listing> Listing){
         mNames.clear();
         mImageUrls.clear();
+        mListingId.clear();
         for(Listing listing: Listing) {
             mNames.add(listing.getListingName());
             mImageUrls.add(listing.getImage_url());
+            mListingId.add(listing.getListingId());
         }
     }
 
@@ -87,8 +87,9 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
     @Override
     public void onBindViewHolder(@NonNull final Viewholder holder, final int position) {
 
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        mDatabase = firebaseDatabase.getReference();
+        firebaseDB = FirebaseDatabase.getInstance();
+        mDatabase = firebaseDB.getReference();
+        mAuth = FirebaseAuth.getInstance();
 
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.placeholder(R.drawable.ic_launcher_background);
@@ -103,7 +104,6 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: clicked on: " + mNames.get(position));
-                Toast.makeText(mContext, mNames.get(position), Toast.LENGTH_SHORT).show();
             }
         });
         holder.homequantity.addTextChangedListener(new TextWatcher() {
@@ -175,14 +175,12 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
         holder.addtoCart.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                String text = holder.homequantity.getText().toString();
-                if (text.isEmpty()) {
-                    // Tell user to put something
-                    CharSequence text_2 = "Enter a value in the quantity section!";
-                    Toast.makeText(mContext,text_2,Toast.LENGTH_SHORT).show();
-                    holder.addtoCart.setEnabled(false);
-
-                }
+                String email = mAuth.getCurrentUser().getEmail().replace("@", "")
+                        .replace(".", "");
+                        //Toast.makeText(mContext, Listing.get(position).getListingName(), Toast.LENGTH_LONG).show();
+                int id = mListingId.get(position);
+                mDatabase.child("UserCart").child(email).child(id+"").child("listingId").setValue(id);
+                mDatabase.child("UserCart").child(email).child(id+"").child("cartQty").setValue(1);
             }
         });
 
