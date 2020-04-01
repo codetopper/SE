@@ -19,6 +19,7 @@ public class Listing{
     private String description;
     private String imageUrl;
     private boolean available;
+    private boolean expanded;
     public Map<String, Boolean> stars = new HashMap<>();
 
     public Listing(){
@@ -37,6 +38,7 @@ public class Listing{
             this.description = description;
             this.available = true;
             this.imageUrl = imageUrl;
+            this.expanded = false;
         }
 
     public Listing(double price, double discount, String location, String name, String category
@@ -50,6 +52,7 @@ public class Listing{
         this.quantity = quantity;
         this.description = description;
         this.available = true;
+        this.expanded = false;
     }
 
     @Exclude
@@ -109,4 +112,12 @@ public class Listing{
     public String getImage_url() { return imageUrl; }
 
     public void setImage_url(String image_url) { this.imageUrl = image_url; }
+
+    public boolean isExpanded() {
+        return expanded;
+    }
+
+    public void setExpanded(boolean expanded) {
+        this.expanded = expanded;
+    }
 }

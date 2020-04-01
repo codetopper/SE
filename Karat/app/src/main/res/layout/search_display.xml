@@ -6,11 +6,12 @@
     android:layout_margin="5dp">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/chomecard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         app:cardCornerRadius="5dp"
-        app:cardElevation="2dp"
-        android:layout_centerHorizontal="true">
+        app:cardElevation="2dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -151,8 +152,8 @@
                 android:layout_marginTop="7dp"
                 android:layout_toEndOf="@+id/imageview_widget"
                 android:fontFamily="@font/fredoka_one"
-                android:textColor="#FFFFFF"
-                android:text="Price" />
+                android:text="Price"
+                android:textColor="#FFFFFF" />
 
             <TextView
                 android:id="@+id/textView16"
@@ -163,8 +164,8 @@
                 android:layout_marginTop="7dp"
                 android:layout_toEndOf="@+id/imageview_widget"
                 android:fontFamily="@font/fredoka_one"
-                android:textColor="#FFFFFF"
-                android:text="Discount" />
+                android:text="Discount"
+                android:textColor="#FFFFFF" />
 
             <TextView
                 android:id="@+id/textView17"
@@ -175,8 +176,8 @@
                 android:layout_marginTop="7dp"
                 android:layout_toEndOf="@+id/imageview_widget"
                 android:fontFamily="@font/fredoka_one"
-                android:textColor="#FFFFFF"
-                android:text="itemQty" />
+                android:text="itemQty"
+                android:textColor="#FFFFFF" />
 
             <TextView
                 android:id="@+id/textView18"
@@ -187,8 +188,8 @@
                 android:layout_marginTop="7dp"
                 android:layout_toEndOf="@+id/imageview_widget"
                 android:fontFamily="@font/fredoka_one"
-                android:textColor="#FFFFFF"
-                android:text="Category" />
+                android:text="Category"
+                android:textColor="#FFFFFF" />
 
             <TextView
                 android:id="@+id/textView19"
