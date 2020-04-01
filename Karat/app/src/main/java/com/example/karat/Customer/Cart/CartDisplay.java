@@ -48,6 +48,7 @@ public class CartDisplay extends AppCompatActivity {
     DecimalFormat df = new DecimalFormat("#.00"); // Set your desired format here.
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
+    private Button purchase;
 
     AlertDialog dialog;
     AlertDialog.Builder builder;
@@ -92,6 +93,12 @@ public class CartDisplay extends AppCompatActivity {
                 }
         }
     });
+        purchase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Purchase();
+            }
+        });
 
         /* Initialise Values *
         /* Initialise Bottom Navigation Menu */
@@ -100,6 +107,19 @@ public class CartDisplay extends AppCompatActivity {
     }
     /* Methods */
 
+    public void Purchase(){
+        builder = new AlertDialog.Builder(CartDisplay.this);
+        builder.setTitle("Proceed to Payment?");
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Listing Database is updated
+            }
+        });
+        builder.setNegativeButton("Cancel", null);
+        dialog = builder.create();
+        dialog.show();
+    }
     public void EmptyCartdialog(){
         builder = new AlertDialog.Builder(CartDisplay.this);
         builder.setTitle("Are you sure you want to empty the shopping cart?");
@@ -115,6 +135,7 @@ public class CartDisplay extends AppCompatActivity {
         dialog.show();
     }
 
+
     public void init(){
         subtotal = findViewById(R.id.subTotal);
         GST =  findViewById(R.id.GST);
@@ -122,7 +143,7 @@ public class CartDisplay extends AppCompatActivity {
         EmptyCart = findViewById(R.id.emptyCart);
         EmptyCart.setEnabled(true);
         EmptyCart.setBackgroundColor(0xFFF05555);
-
+        purchase = findViewById(R.id.payment);
         mRecyclerView = findViewById(R.id.recyclerView2);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
