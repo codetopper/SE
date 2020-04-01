@@ -30,6 +30,7 @@ public class CHomeManager {
 
 	public CHomeManager(){}
 
+
 	public Inventory search(double price, String category, double discount, String location) {
 		mDatabase.child("Inventory").addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
