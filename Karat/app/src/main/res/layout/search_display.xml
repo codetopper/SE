@@ -12,20 +12,34 @@
         app:cardCornerRadius="5dp"
         app:cardElevation="2dp"
         android:layout_centerHorizontal="true">
-      
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="5dp"
-            >
+            android:background="#CC333A7E"
+            android:padding="5dp">
+
+            <Button
+                android:id="@+id/minus2"
+                android:layout_width="46dp"
+                android:layout_height="31dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="164dp"
+                android:background="#FAFAFA"
+                android:fontFamily="@font/lato"
+                android:text="-"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/imageview_widget"
-                android:layout_width="103dp"
-                android:layout_height="76dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginLeft="4dp"
-                android:layout_marginTop="20dp"
+                android:layout_width="144dp"
+                android:layout_height="108dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="4dp"
                 android:scaleType="center"
                 android:src="@mipmap/ic_launcher"
                 app:layout_constraintStart_toStartOf="parent"
@@ -33,26 +47,85 @@
 
             <TextView
                 android:id="@+id/name_widget"
-                android:layout_width="166dp"
-                android:layout_height="48dp"
+                android:layout_width="119dp"
+                android:layout_height="23dp"
                 android:layout_below="@+id/imageview_widget"
-                android:layout_marginStart="132dp"
-                android:layout_marginLeft="132dp"
+                android:layout_marginStart="28dp"
+                android:layout_marginLeft="28dp"
+                android:layout_marginTop="112dp"
+                android:fontFamily="@font/lato"
+                android:gravity="center"
                 android:text="Meat"
-                android:textColor="#000"
+                android:textColor="#EBFF00"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/price_widget"
+                android:layout_width="113dp"
+                android:layout_height="21dp"
+                android:layout_below="@+id/imageview_widget"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/lato"
+                android:gravity="center"
+                android:text="Price"
+                android:textColor="#EBFF00"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/name_widget" />
+
+            <Button
+                android:id="@+id/addtoCart"
+                android:layout_width="112dp"
+                android:layout_height="43dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="200dp"
+                android:background="#BDE0B7"
+                android:fontFamily="@font/lato"
+                android:text="Add to Cart"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/homequantity"
+                android:layout_width="53dp"
+                android:layout_height="31dp"
+                android:layout_marginStart="64dp"
+                android:layout_marginLeft="64dp"
+                android:layout_marginTop="164dp"
+                android:background="#FAFAFA"
+                android:fontFamily="@font/lato"
+                android:gravity="center"
+                android:text="3"
+                android:digits="0123456789"
+                android:textStyle="bold"
+                android:inputType="number"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/addtoCart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="176dp"
-                android:layout_marginLeft="176dp"
-                android:layout_marginTop="52dp"
-                android:text="Button"
+                android:id="@+id/plus2"
+                android:layout_width="47dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="132dp"
+                android:layout_marginLeft="132dp"
+                android:layout_marginTop="164dp"
+                android:background="#FAFAFA"
+                android:lineSpacingExtra="10sp"
+                android:text="+"
+                android:textColor="#070707"
+                android:textSize="10sp"
+                android:textStyle="bold"
+
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
