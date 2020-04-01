@@ -16,7 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.karat.R;
-import com.example.karat.inventory.Listing;
 
 import java.util.ArrayList;
 
@@ -119,6 +118,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
         return calculateTotal() * 0.93;
     }
 
+
     @NonNull
     @Override
     public ExampleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -143,6 +143,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
                 CartDisplay.getSubtotal().setText("SUBTOTAL: $" + String.valueOf(df2.format(calculateSubtotal())));
                 CartDisplay.getGST().setText("GST: $" + String.valueOf(df2.format(calculateGST())));
                 CartDisplay.getTotal().setText("TOTAL PAYABLE: $" + String.valueOf(df2.format(calculateTotal())));
+
                 notifyDataSetChanged();
             }
         });
@@ -160,6 +161,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
                 CartDisplay.getGST().setText("GST: $" + String.valueOf(df2.format(calculateGST())));
                 CartDisplay.getTotal().setText("TOTAL PAYABLE: $" + String.valueOf(df2.format(calculateTotal())));
                 notifyDataSetChanged();
+
+
+
             }
         });
     }
@@ -170,4 +174,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
     public int getItemCount() {
         return mQty.size();
     }
+
+    public void change(){
+        CartDisplay.getSubtotal().setText("SUBTOTAL: $" + String.valueOf(df2.format(CartManager.subtotal() * 0.93)));
+        CartDisplay.getGST().setText("GST: $" + String.valueOf(df2.format(CartManager.gst())));
+        CartDisplay.getTotal().setText("TOTAL PAYABLE: $" + String.valueOf(df2.format(CartManager.total())));;
+
+        notifyDataSetChanged();
+    }
+
 }

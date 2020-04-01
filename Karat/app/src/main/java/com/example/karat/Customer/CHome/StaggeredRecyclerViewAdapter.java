@@ -182,9 +182,9 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
                 mDatabase.child("UserCart").child(email).child(id+"").child("listingId").setValue(id);
                 mDatabase.child("UserCart").child(email).child(id+"").child("cartQty")
                         .setValue(Integer.parseInt(holder.homequantity.getText().toString()));
+
             }
         });
-
     }
 
     @Override
