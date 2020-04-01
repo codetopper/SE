@@ -12,7 +12,6 @@
         app:cardElevation="2dp"
         android:layout_centerHorizontal="true">
 
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -123,6 +122,7 @@
                 android:layout_toEndOf="@+id/homequantity"
                 android:background="#FAFAFA"
                 android:lineSpacingExtra="10sp"
+
                 android:text="+"
                 android:textColor="#070707"
                 android:textSize="10sp"
