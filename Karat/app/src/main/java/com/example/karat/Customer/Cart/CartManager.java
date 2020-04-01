@@ -10,7 +10,7 @@ import java.util.List;
 
 public class CartManager {
     static CartTotal total = new CartTotal();
-    List <Cart>  cartList;
+    static List <Cart>  cartList;
 
     public CartManager() {
         cartList = new ArrayList<>();

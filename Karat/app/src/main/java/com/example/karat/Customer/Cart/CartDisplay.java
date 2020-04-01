@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.view.View;
 import android.widget.Button;
 import android.os.Build;
@@ -15,6 +16,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.example.karat.inventory.Listing;
 
 import com.example.karat.Customer.CHome.CHomeDisplay;
@@ -44,13 +47,15 @@ public class CartDisplay extends AppCompatActivity {
     private static TextView total;
     private FirebaseAuth mAuth;
     private Button EmptyCart;
-    private ArrayList<Listing> cartList;
     private static DecimalFormat df2 = new DecimalFormat("#.##");
     DecimalFormat df = new DecimalFormat("#.00"); // Set your desired format here.
-
     private DatabaseReference mDatabase;
-
     CartManager cartManager;
+    AlertDialog dialog;
+    AlertDialog.Builder builder;
+
+
+    /* Methods for getting TextView */
 
     public static TextView getSubtotal() {
         return subtotal;
@@ -63,8 +68,6 @@ public class CartDisplay extends AppCompatActivity {
     public static TextView getTotal() {
         return total;
     }
-    AlertDialog dialog;
-    AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,18 +77,26 @@ public class CartDisplay extends AppCompatActivity {
         /* Initialise Recycler View */
 
         //cartManager= new CartManager();
-        //init();
-        //buildRecyclerView();
-        //EmptyCart = findViewById(R.id.emptyCart);
-        //EmptyCart.setOnClickListener(new View.OnClickListener() {
-         //                                @Override
-         //                                public void onClick(View v) { EmptyCartdialog();
-          //                               }
-          //                           });
+        init();
+        buildRecyclerView();
+        EmptyCart.setOnClickListener(
+                new View.OnClickListener() {
+             @Override
+        public void onClick(View v) {
+                if (mAdapter.getmName().isEmpty()){
+                    EmptyCart.setEnabled(false);
+                    EmptyCart.setBackgroundColor(Color.DKGRAY);
+                }
+                else {
+                    EmptyCartdialog();
+
+                }
+        }
+    });
         /* Initialise Values *
         /* Initialise Bottom Navigation Menu */
+
         NavigationMenu();
-        calculatePrices();
     }
     /* Methods */
 
@@ -95,10 +106,8 @@ public class CartDisplay extends AppCompatActivity {
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                CartManager.total.emptyCart();
-                mAdapter.notifyDataSetChanged();
-                calculatePrices();
-
+                CartAdapter.clearData();
+                resetPrices();
             }
         });
         builder.setNegativeButton("Cancel", null);
@@ -107,6 +116,11 @@ public class CartDisplay extends AppCompatActivity {
     }
 
     public void init(){
+        subtotal = findViewById(R.id.subTotal);
+        GST =  findViewById(R.id.GST);
+        total = findViewById(R.id.total);
+        EmptyCart = findViewById(R.id.emptyCart);
+
         mRecyclerView = findViewById(R.id.recyclerView2);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
@@ -116,24 +130,28 @@ public class CartDisplay extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        mAuth = FirebaseAuth.getInstance();
     }
 
     public void buildRecyclerView(){
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<Listing> cartList = new ArrayList<Listing>();
                 int listingId;
                 String email = mAuth.getCurrentUser().getEmail().replace("@", "")
                         .replace(".", "");
                 DataSnapshot getListingIds = dataSnapshot.child("UserCart").child(email);
-                for (DataSnapshot ds : getListingIds.getChildren()){
-                    listingId = (int) ds.child("listingId").getValue();
-                    Listing listing = dataSnapshot.child("Inventory").child(listingId+"").getValue(Listing.class);
-                    listing.setListingQuantity((int) ds.child("cartQty").getValue());
-                    cartList.add(listing);
+               for (DataSnapshot ds : getListingIds.getChildren()){
+                   listingId =  Integer.parseInt(ds.child("listingId").getValue()+"");
+                   Listing listing = dataSnapshot.child("Inventory").child(listingId+"").getValue(Listing.class);
+                   listing.setListingQuantity(Integer.parseInt(ds.child("cartQty").getValue()+""));
+                   cartList.add(listing);
                 }
-                mAdapter.setData(cartList);
-                mAdapter.notifyDataSetChanged();
+
+               mAdapter.setData(cartList);
+               mAdapter.notifyDataSetChanged();
+               resetPrices();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -177,18 +195,15 @@ public class CartDisplay extends AppCompatActivity {
             }
         });
 
+
+
     }
-
-
-        public void calculatePrices(){
-            subtotal = findViewById(R.id.subTotal);
-            GST =  findViewById(R.id.GST);
-            total = findViewById(R.id.total);
-            CartDisplay.getSubtotal().setText("SUBTOTAL: $" + String.valueOf(df2.format(CartManager.subtotal())));
-            CartDisplay.getGST().setText("GST: $" + String.valueOf(df2.format(CartManager.gst())));
-            CartDisplay.getTotal().setText("TOTAL PAYABLE: $" + String.valueOf(df2.format(CartManager.total())));
-        }
-
+    public void resetPrices() {
+        mAdapter.notifyDataSetChanged();
+        CartDisplay.getSubtotal().setText("SUBTOTAL: $" + String.valueOf(df2.format(CartAdapter.calculateSubtotal())));
+        CartDisplay.getGST().setText("GST: $" + String.valueOf(df2.format(CartAdapter.calculateGST())));
+        CartDisplay.getTotal().setText("TOTAL PAYABLE: $" + String.valueOf(df2.format(CartAdapter.calculateTotal())));
+    }
     }
 
 

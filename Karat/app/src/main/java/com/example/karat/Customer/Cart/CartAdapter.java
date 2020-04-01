@@ -2,6 +2,7 @@
 package com.example.karat.Customer.Cart;
 
 import android.content.Context;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,22 +23,43 @@ import java.util.ArrayList;
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHolder> {
     /* Instance Variable */
     private Context mContext;
-    private ArrayList<Listing> cartArrayList;
     private OnItemClickListener mListener;
+    private static ArrayList<Double> mPrice;
+    private static ArrayList<Integer> mQty;
+    private static ArrayList<String> mName;
     private static DecimalFormat df2 = new DecimalFormat("#.##");
     DecimalFormat df = new DecimalFormat("#.00"); // Set your desired format here.
 
     public interface OnItemClickListener {
-        void onItemClick(int position);
-        void onAddClick(int position);
-        void onDeleteClick(int position);
+    }
+
+    public static void setmPrice(ArrayList<Double> mPrice) {
+        CartAdapter.mPrice = mPrice;
+    }
+
+    public static void setmQty(ArrayList<Integer> mQty) {
+        CartAdapter.mQty = mQty;
+    }
+
+    public void setmName(ArrayList<String> mName) {
+        this.mName = mName;
     }
 
     public void setOnItemClickListener(OnItemClickListener listener){
         mListener = listener;
     }
 
+    public ArrayList<Double> getmPrice() {
+        return mPrice;
+    }
 
+    public ArrayList<Integer> getmQty() {
+        return mQty;
+    }
+
+    public ArrayList<String> getmName() {
+        return mName;
+    }
     /* ExampleViewHolders */
 
     public static class ExampleViewHolder extends RecyclerView.ViewHolder{
@@ -64,13 +86,37 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
 
     public CartAdapter(Context context){
         mContext = context;
+        mPrice = new ArrayList<Double>();
+        mName = new ArrayList<String>();
+        mQty= new ArrayList<Integer>();
     };
 
     public void setData(ArrayList<Listing> cartArrayList){
-        this.cartArrayList.clear();
         for (Listing listing: cartArrayList){
-            cartArrayList.add(listing);
+            mName.add(listing.getListingName());
+            mQty.add(Integer.parseInt(listing.getListingQuantity()+""));
+            mPrice.add(Double.parseDouble(listing.getListingPrice()+""));
         }
+    }
+
+    public static void clearData(){
+        mPrice.clear();
+        mName.clear();
+        mQty.clear();
+    }
+    public static double calculateTotal(){
+        double total = 0;
+        for (int i = 0; i < mQty.size(); i++) {
+            total += mQty.get(i) * mPrice.get(i);
+        }
+        return total;
+    }
+
+    public static double calculateGST(){
+        return calculateTotal() * 0.07;
+    }
+    public static double calculateSubtotal(){
+        return calculateTotal() * 0.93;
     }
 
     @NonNull
@@ -83,54 +129,45 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
 
     @Override
     public void onBindViewHolder(@NonNull ExampleViewHolder holder, final int position) {
-        final Listing currentItem = cartArrayList.get(position);
 
         //holder.mImageView.setImageResource(currentItem.getmImageResource());
-        holder.mTextView1.setText("$" + String.valueOf(currentItem.getListingPrice()));
-        holder.mTextView2.setText(String.valueOf(currentItem.getListingName()));
-        holder.mTextView3.setText(String.valueOf(currentItem.getListingQuantity()));
+        holder.mTextView1.setText("$" + String.valueOf(mPrice.get(position)));
+        holder.mTextView2.setText(mName.get(position));
+        holder.mTextView3.setText(mQty.get(position)+"");
 
         holder.add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int sum = 0;
-                int curQty = (int)cartArrayList.get(position).getListingQuantity();
-                cartArrayList.get(position).setListingQuantity(curQty+1);
-                for (Listing l : cartArrayList){
-                    sum += l.getListingPrice() * l.getListingQuantity();
-                }
-                CartDisplay.getSubtotal().setText("SUBTOTAL: $" + String.valueOf(df2.format(sum * 0.93)));
-                CartDisplay.getGST().setText("GST: $" + String.valueOf(df2.format(sum * 0.07)));
-                CartDisplay.getTotal().setText("TOTAL PAYABLE: $" + String.valueOf(df2.format(sum)));
-
+                int curQty =  mQty.get(position);
+                mQty.set(position, curQty+1);
+                CartDisplay.getSubtotal().setText("SUBTOTAL: $" + String.valueOf(df2.format(calculateSubtotal())));
+                CartDisplay.getGST().setText("GST: $" + String.valueOf(df2.format(calculateGST())));
+                CartDisplay.getTotal().setText("TOTAL PAYABLE: $" + String.valueOf(df2.format(calculateTotal())));
                 notifyDataSetChanged();
-
-
             }
         });
         holder.minus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int sum = 0;
-                int curQty = (int)cartArrayList.get(position).getListingQuantity();
-                cartArrayList.get(position).setListingQuantity(curQty-1);
-                if (curQty<=0){
-                    cartArrayList.remove(position);
+                int curQty =  mQty.get(position);
+                mQty.set(position, curQty-1);
+                if (curQty == 1){
+                    mQty.remove(position);
+                    mPrice.remove(position);
+                    mName.remove(position);
                 }
-                for (Listing l : cartArrayList){
-                    sum += l.getListingPrice() * l.getListingQuantity();
-                }
-                CartDisplay.getSubtotal().setText("SUBTOTAL: $" + String.valueOf(df2.format(sum * 0.93)));
-                CartDisplay.getGST().setText("GST: $" + String.valueOf(df2.format(sum * 0.07)));
-                CartDisplay.getTotal().setText("TOTAL PAYABLE: $" + String.valueOf(df2.format(sum)));
-
+                CartDisplay.getSubtotal().setText("SUBTOTAL: $" + String.valueOf(df2.format(calculateSubtotal())));
+                CartDisplay.getGST().setText("GST: $" + String.valueOf(df2.format(calculateGST())));
+                CartDisplay.getTotal().setText("TOTAL PAYABLE: $" + String.valueOf(df2.format(calculateTotal())));
                 notifyDataSetChanged();
             }
         });
     }
 
+
+
     @Override
     public int getItemCount() {
-        return cartArrayList.size();
+        return mQty.size();
     }
 }
