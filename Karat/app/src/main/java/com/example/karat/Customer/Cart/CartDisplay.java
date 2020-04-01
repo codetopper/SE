@@ -83,7 +83,8 @@ public class CartDisplay extends AppCompatActivity {
         public void onClick(View v) {
                 if (mAdapter.getmName().isEmpty()){
                     EmptyCart.setEnabled(false);
-                    EmptyCart.setBackgroundColor(Color.DKGRAY);
+                    Toast.makeText(getApplicationContext(),"Cart is already empty", Toast.LENGTH_SHORT).show();
+                    EmptyCart.setBackgroundColor(Color.GRAY);
                 }
                 else {
                     EmptyCartdialog();
@@ -119,6 +120,8 @@ public class CartDisplay extends AppCompatActivity {
         GST =  findViewById(R.id.GST);
         total = findViewById(R.id.total);
         EmptyCart = findViewById(R.id.emptyCart);
+        EmptyCart.setEnabled(true);
+        EmptyCart.setBackgroundColor(0xFFF05555);
 
         mRecyclerView = findViewById(R.id.recyclerView2);
         mRecyclerView.setHasFixedSize(true);
