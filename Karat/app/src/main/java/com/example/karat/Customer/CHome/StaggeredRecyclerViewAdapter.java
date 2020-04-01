@@ -107,12 +107,13 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
             @Override
             public void onClick(View view) {
 
-                //*
-                Toast.makeText(mContext, mNames.get(position), Toast.LENGTH_SHORT).show();
-/*
                 mDatabase.child("UserDatabase").child("cust1@gmail.com").child("mobileNo").setValue(mListingId.get(position));
-                String email = mAuth.getCurrentUser().getEmail().replace("@", "")
-                        .replace(".", ""); */
+                String email = mAuth.getCurrentUser().getEmail().replace("@", "").replace(".", "");
+                int id = mListingId.get(position);
+                mDatabase.child("UserCart").child(email).child(id+"").child("listingId").setValue(id);
+                mDatabase.child("UserCart").child(email).child(id+"").child("cartQty")
+                        .setValue(Integer.parseInt(holder.homequantity.getText().toString()));
+
             }
         });
         boolean isExpanded = Listing.get(position).isExpanded();
