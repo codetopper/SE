@@ -37,7 +37,7 @@ import java.util.ArrayList;
 import static com.example.karat.Customer.COrder.CustomerOrders.purchase;
 
 public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
-    private static final int Num_Columns = 2;
+    private static final int Num_Columns = 1;
     private ArrayList<Listing> searchList = new ArrayList<>();
     private ArrayList<Listing> searched = new ArrayList<>();
     private DatabaseReference mDatabase= FirebaseDatabase.getInstance().getReference();
@@ -57,6 +57,25 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
 
         setContentView(R.layout.activity_c_home_display);
         initUI();
+
+        mDatabase.child("Inventory").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    Listing listing = ds.getValue(Listing.class);
+                    listing.setImage_url(ds.child("imageUrl").getValue(String.class));
+                    assert listing != null;
+                    searchList.add(listing);
+                }
+                staggeredRecyclerViewAdapter.reset(searchList);
+                staggeredRecyclerViewAdapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                throw databaseError.toException();
+            }
+
+        });
 
         //Do search
         search.setOnClickListener(new View.OnClickListener() {
@@ -154,8 +173,6 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
 
             }
         });
-        //Editing quantity
-
 
         //Navigation bar
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navi);
@@ -166,23 +183,20 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
                 switch (item.getItemId()){
                     case R.id.Home:
                         Intent CHomeIntent = new Intent(getApplicationContext(), CHomeDisplay.class);
-//                        CHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                        CHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        CHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(CHomeIntent);
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.Orders:
                         initData();
                         Intent COrderIntent = new Intent(getApplicationContext(), COrderDisplay.class);
-//                        COrderIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                        COrderIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        COrderIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(COrderIntent);
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.Profile:
                         Intent CProfileIntent = new Intent(getApplicationContext(), CProfileDisplay.class);
-//                        CProfileIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                        CProfileIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        CProfileIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(CProfileIntent);
                         overridePendingTransition(0,0);
                         return true;
@@ -190,8 +204,6 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
                 return false;
             }
         });
-
-
     }
 
     private void initData() {
@@ -204,8 +216,7 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
 
     public void goToCart(View v) {
         Intent i = new Intent(getApplicationContext(), CartDisplay.class);
-//        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(i);
         overridePendingTransition(0,0);
     }
