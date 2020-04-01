@@ -21,13 +21,14 @@ tools:context=".Staff.SHome.SHomeDisplay">
 
         <TextView
             android:id="@+id/nameTV"
-            android:layout_width="365dp"
-            android:layout_height="30dp"
+            android:layout_width="363dp"
+            android:layout_height="43dp"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="4dp"
             android:fontFamily="@font/fredoka_one"
             android:includeFontPadding="false"
+            android:maxLines="2"
             android:textColor="#F4980E"
             app:autoSizeTextType="uniform"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -40,7 +41,7 @@ tools:context=".Staff.SHome.SHomeDisplay">
         <TextView
             android:id="@+id/textView5"
             android:layout_width="wrap_content"
-            android:layout_height="25dp"
+            android:layout_height="20dp"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:fontFamily="@font/fredoka_one"
@@ -56,21 +57,9 @@ tools:context=".Staff.SHome.SHomeDisplay">
             app:layout_constraintVertical_bias="0.0" />
 
         <TextView
-            android:id="@+id/storelistingid"
-            android:layout_width="89dp"
-            android:layout_height="28dp"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addressTV"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <TextView
             android:id="@+id/addressTV"
             android:layout_width="360dp"
-            android:layout_height="25dp"
+            android:layout_height="20dp"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="4dp"
@@ -88,7 +77,7 @@ tools:context=".Staff.SHome.SHomeDisplay">
         <TextView
             android:id="@+id/timeTV"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:fontFamily="@font/fredoka_one"
             android:includeFontPadding="false"
             android:textColor="#EED0A3"
@@ -129,13 +118,15 @@ tools:context=".Staff.SHome.SHomeDisplay">
         android:id="@+id/recyclerViewEdit"
         android:layout_width="405dp"
         android:layout_height="486dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="4dp"
         android:background="#33FFFFFF"
         android:clipChildren="true"
         android:clipToPadding="true"
+        android:scrollbars="vertical"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navi"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addListing" />
+        app:layout_constraintTop_toBottomOf="@+id/addListing"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
