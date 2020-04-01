@@ -87,7 +87,7 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
     @Override
     public void onBindViewHolder(@NonNull final Viewholder holder, final int position) {
 
-        firebaseDB = FirebaseDatabase.getInstance();
+        FirebaseDatabase firebaseDB = FirebaseDatabase.getInstance();
         mDatabase = firebaseDB.getReference();
         mAuth = FirebaseAuth.getInstance();
 
