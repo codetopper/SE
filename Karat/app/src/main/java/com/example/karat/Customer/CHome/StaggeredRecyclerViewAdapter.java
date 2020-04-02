@@ -48,8 +48,6 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
     private FirebaseDatabase firebaseDB;
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
-    private Button addtoCart;
-    private EditText homequantity;
 
 
     public StaggeredRecyclerViewAdapter(Context context){
