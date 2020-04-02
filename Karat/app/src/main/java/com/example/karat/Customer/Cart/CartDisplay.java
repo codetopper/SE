@@ -141,7 +141,6 @@ public class CartDisplay extends AppCompatActivity {
         dialog.show();
     }
 
-
     public void init(){
         subtotal = findViewById(R.id.subTotal);
         GST =  findViewById(R.id.GST);
