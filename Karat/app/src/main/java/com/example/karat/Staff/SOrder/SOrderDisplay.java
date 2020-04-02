@@ -26,7 +26,6 @@ public class SOrderDisplay extends AppCompatActivity {
 
         //recyclerview
         recyclerView = findViewById(R.id.recyclerView);
-        orderManager = new SOrderManager(1);
         initRecyclerView();
 
         //navigation bar
@@ -63,8 +62,8 @@ public class SOrderDisplay extends AppCompatActivity {
         });
     }
     private void initRecyclerView() {
-        OrderAdapter orderAdapter = new OrderAdapter(orderManager.sOrders);
+//        OrderAdapter orderAdapter = new OrderAdapter(orderManager.sOrders);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(orderAdapter);
+//        recyclerView.setAdapter(orderAdapter);
     }
 }
