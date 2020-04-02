@@ -262,6 +262,7 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 >>>>>>> parent of 2e2d070... Merge pull request #58 from codetopper/sgt
@@ -269,6 +270,8 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
             container = itemView.findViewById(R.id.chomecard);
 
 
+=======
+>>>>>>> parent of c2f4c1e... Merge pull request #57 from codetopper/zy
 =======
 >>>>>>> parent of c2f4c1e... Merge pull request #57 from codetopper/zy
             container.setOnClickListener(new View.OnClickListener() {
