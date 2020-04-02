@@ -6,11 +6,12 @@
     android:layout_margin="5dp">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/shomecard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         app:cardCornerRadius="5dp"
-        app:cardElevation="2dp"
-        android:layout_centerHorizontal="true">
+        app:cardElevation="2dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -41,8 +42,8 @@
                 android:layout_marginTop="10dp"
                 android:layout_toEndOf="@+id/imageview_widget"
                 android:layout_toRightOf="@+id/imageview_widget"
-                android:text="Name"
                 android:fontFamily="@font/lato"
+                android:text="Name"
                 android:textColor="#FFFFFF"
                 android:textSize="12sp" />
 
@@ -165,7 +166,7 @@
                 android:fontFamily="@font/lato"
                 android:text="itemQty"
                 android:textColor="#FFFFFF"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/description"
@@ -193,10 +194,10 @@
                 android:layout_marginTop="9dp"
                 android:layout_toEndOf="@+id/imageview_widget"
                 android:layout_toRightOf="@+id/imageview_widget"
-                android:text="Discount"
                 android:fontFamily="@font/lato"
+                android:text="Discount"
                 android:textColor="#FFFFFF"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/category"
@@ -208,10 +209,10 @@
                 android:layout_marginTop="9dp"
                 android:layout_toEndOf="@+id/imageview_widget"
                 android:layout_toRightOf="@+id/imageview_widget"
-                android:text="Category"
                 android:fontFamily="@font/lato"
+                android:text="Category"
                 android:textColor="#FFFFFF"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/price"
@@ -226,15 +227,23 @@
                 android:fontFamily="@font/lato"
                 android:text="Price"
                 android:textColor="#FFFFFF"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
 
             <ImageView
-                android:id="@+id/imageView5"
+                android:id="@+id/arrowdown"
                 android:layout_width="27dp"
                 android:layout_height="24dp"
                 android:layout_below="@id/imageview_widget"
                 android:layout_centerHorizontal="true"
                 app:srcCompat="@drawable/downarrow" />
+
+            <ImageView
+                android:id="@+id/arrowup"
+                android:layout_width="27dp"
+                android:layout_height="24dp"
+                android:layout_below="@id/description_text"
+                android:layout_centerHorizontal="true"
+                app:srcCompat="@drawable/uparrow" />
         </RelativeLayout>
 
 
