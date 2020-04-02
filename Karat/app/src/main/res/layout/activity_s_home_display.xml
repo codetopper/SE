@@ -11,11 +11,10 @@ tools:context=".Staff.SHome.SHomeDisplay">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
-        android:layout_width="380dp"
+        android:layout_width="375dp"
         android:layout_height="95dp"
         android:layout_marginTop="15dp"
-        android:background="@drawable/rounded_button"
-        android:backgroundTint="#33FFFFFF"
+        android:background="#33FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -104,13 +103,10 @@ tools:context=".Staff.SHome.SHomeDisplay">
 
     <Button
         android:id="@+id/addListing"
-        android:layout_width="380dp"
+        android:layout_width="390dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="@drawable/rounded_button"
-        android:backgroundTint="#c4c4c4"
         android:text="Add New Listing"
-        android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navi"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.459"
