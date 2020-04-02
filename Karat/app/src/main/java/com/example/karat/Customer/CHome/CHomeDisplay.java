@@ -34,8 +34,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
-import static com.example.karat.Customer.COrder.CustomerOrders.purchase;
-
 public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     private static final int Num_Columns = 1;
     private ArrayList<Listing> searchList = new ArrayList<>();
@@ -188,7 +186,7 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.Orders:
-                        initData();
+//                        initData();
                         Intent COrderIntent = new Intent(getApplicationContext(), COrderDisplay.class);
                         COrderIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(COrderIntent);
@@ -206,13 +204,13 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
         });
     }
 
-    private void initData() {
-        purchase(1, "Apple", 1, 1, 0.5, "1/3/2020", 1, "Giant");
-        purchase(2, "Orange", 1, 2, 1.0, "1/3/2020", 1, "Giant");
-        purchase(3, "Pear", 1, 1, 0.8, "3/3/2020", 1, "Giant");
-        purchase(4, "Pineapple", 1, 2, 7.8, "4/3/2020", 1, "Giant");
-        purchase(5, "Durian", 2, 4, 50, "10/3/2020", 1, "Giant");
-    }
+//    private void initData() {
+//        purchase(1, "Apple", 1, 1, 0.5, "1/3/2020", 1, "Giant");
+//        purchase(2, "Orange", 1, 2, 1.0, "1/3/2020", 1, "Giant");
+//        purchase(3, "Pear", 1, 1, 0.8, "3/3/2020", 1, "Giant");
+//        purchase(4, "Pineapple", 1, 2, 7.8, "4/3/2020", 1, "Giant");
+//        purchase(5, "Durian", 2, 4, 50, "10/3/2020", 1, "Giant");
+//    }
 
     public void goToCart(View v) {
         Intent i = new Intent(getApplicationContext(), CartDisplay.class);
