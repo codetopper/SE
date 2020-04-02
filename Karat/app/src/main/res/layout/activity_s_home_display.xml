@@ -122,9 +122,9 @@ tools:context=".Staff.SHome.SHomeDisplay">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewEdit"
         android:layout_width="418dp"
-        android:layout_height="500dp"
+        android:layout_height="0dp"
         android:layout_marginTop="4dp"
-        android:background="#33FFFFFF"
+        android:background="#333A7E"
         android:clipChildren="true"
         android:clipToPadding="true"
         android:scrollbars="vertical"
