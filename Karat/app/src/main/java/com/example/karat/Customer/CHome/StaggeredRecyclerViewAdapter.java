@@ -38,34 +38,43 @@ import java.util.List;
 public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<StaggeredRecyclerViewAdapter.Viewholder>{
 
     private static final String TAG = "StaggeredRecyclerViewAd";
-    private ArrayList<Listing> mListing;
+
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<String> mImageUrls = new ArrayList<>();
-    private Context mContext;
-    private ArrayList<Integer> mListingId = new ArrayList<>();
-    private ArrayList<Integer> mQty = new ArrayList<>();
-    private ArrayList<Double> mPrice = new ArrayList<>();
+    private ArrayList<String> mDescription = new ArrayList<>();
+    private ArrayList<Double> mDiscount = new ArrayList<>();
+    private ArrayList<String> mCategory = new ArrayList<>();
+    private static ArrayList<Integer> mListingId = new ArrayList<>();
+    private static ArrayList<Integer> mQty = new ArrayList<>();
+    private static ArrayList<Double> mPrice = new ArrayList<>();
     private FirebaseDatabase firebaseDB;
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
-
+    private Context mContext;
 
     public StaggeredRecyclerViewAdapter(Context context){
         mContext = context;
     }
 
-    public void reset(ArrayList<Listing> Listing){
+    public void reset(ArrayList<Listing> listing){
+
         mNames.clear();
         mImageUrls.clear();
         mListingId.clear();
         mQty.clear();
         mPrice.clear();
-        for(Listing listing: Listing) {
-            mNames.add(listing.getListingName());
-            mImageUrls.add(listing.getImage_url());
-            mListingId.add(listing.getListingId());
-            mQty.add(Integer.parseInt(listing.getListingQuantity()+""));
-            mPrice.add(Double.parseDouble(listing.getListingPrice()+""));
+        mDescription.clear();
+        mDiscount.clear();
+        mCategory.clear();
+        for(Listing mlisting: listing) {
+            mNames.add(mlisting.getListingName());
+            mImageUrls.add(mlisting.getImage_url());
+            mListingId.add(mlisting.getListingId());
+            mQty.add(Integer.parseInt(mlisting.getListingQuantity()+""));
+            mPrice.add(Double.parseDouble(mlisting.getListingPrice()+""));
+            mDescription.add(mlisting.getDescription());
+            mDiscount.add(Double.parseDouble(mlisting.getListingDiscount()+""));
+            mCategory.add(mlisting.getListingCategory());
         }
     }
 
@@ -90,6 +99,14 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
         holder.name.setText(mNames.get(position));
 
         holder.price.setText(mPrice.get(position)+"");
+
+        holder.quantity.setText(mQty.get(position)+"");
+
+        holder.category.setText(mCategory.get(position));
+
+        holder.description.setText(mDescription.get(position));
+
+        holder.discount.setText(mDiscount.get(position)+"");
 
         holder.image.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -184,7 +201,7 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
 
     public class Viewholder extends RecyclerView.ViewHolder /*extends RecyclerView.ViewHolder */{
         ImageView image;
-        TextView name, price;
+        TextView name, price, category, description, quantity, discount;
         Button addtoCart;
         EditText homequantity;
         Button plus;
@@ -199,6 +216,10 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
             this.homequantity = itemView.findViewById(R.id.homequantity);
             this.plus = itemView.findViewById(R.id.plus2);
             this.minus = itemView.findViewById(R.id.minus2);
+            this.category = itemView.findViewById(R.id.category_widget);
+            this.description = itemView.findViewById(R.id.description_text);
+            this.discount = itemView.findViewById(R.id.disc_widget);
+            this.quantity = itemView.findViewById(R.id.qty_widget);
         }
     }
 }
