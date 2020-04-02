@@ -15,7 +15,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#33FFFFFF"
+            android:backgroundTint="#CC333A7E"
             android:padding="5dp">
 
             <ImageView
@@ -50,6 +50,8 @@
                 android:id="@+id/editBtn"
                 android:layout_width="180dp"
                 android:layout_height="45dp"
+                android:background="@drawable/rounded_button"
+                android:backgroundTint="#FAFAFA"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"

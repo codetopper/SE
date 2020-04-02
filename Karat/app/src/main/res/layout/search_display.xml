@@ -20,7 +20,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#CC333A7E"
+            android:background="@drawable/rounded_button"
+            android:backgroundTint="#CC333A7E"
             android:padding="5dp">
 
             <Button
@@ -31,7 +32,8 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="9dp"
                 android:layout_toEndOf="@+id/imageview_widget"
-                android:background="#FAFAFA"
+                android:background="@drawable/rounded_button"
+                android:backgroundTint="#FAFAFA"
                 android:fontFamily="@font/lato"
                 android:text="-"
                 android:textStyle="bold"
@@ -95,7 +97,8 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="5dp"
                 android:layout_toEndOf="@+id/imageview_widget"
-                android:background="#BDE0B7"
+                android:background="@drawable/rounded_button"
+                android:backgroundTint="#BDE0B7"
                 android:fontFamily="@font/lato"
                 android:text="Add to Cart"
                 android:textSize="12sp"
@@ -111,7 +114,8 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="9dp"
                 android:layout_toEndOf="@+id/minus2"
-                android:background="#FAFAFA"
+                android:background="@drawable/rounded_button"
+                android:backgroundTint="#FAFAFA"
                 android:digits="0123456789"
                 android:fontFamily="@font/lato"
                 android:gravity="center"
@@ -130,7 +134,8 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="9dp"
                 android:layout_toEndOf="@+id/homequantity"
-                android:background="#FAFAFA"
+                android:background="@drawable/rounded_button"
+                android:backgroundTint="#FAFAFA"
                 android:lineSpacingExtra="10sp"
 
                 android:text="+"
