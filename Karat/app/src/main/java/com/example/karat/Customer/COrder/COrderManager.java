@@ -32,12 +32,14 @@ class COrderManager extends AppCompatActivity {
 //                DataSnapshot orderlist = new dataSnapshot.getChildren();
                 int count = 1;
                 for (DataSnapshot ord: dataSnapshot.getChildren()){
+                    String info = "";
                     for (DataSnapshot details : ord.getChildren()) {
                         if (!details.hasChild("Quantity")) {continue;}
-                        orders.add(new Order(" " + count, details.child("Name").getValue(String.class),
-                                details.child("Quantity").getValue(Integer.class), details.child("Location").getValue(String.class),
-                                details.child("licenseNo").getValue(String.class), details.child("Price").getValue(Double.class)));
+                        info = info + "Name: "+details.child("Name").getValue(String.class)+"\nQty: "+
+                                details.child("Quantity").getValue(Integer.class)+ "\n"+details.child("Location").getValue(String.class)+"\nItem Price: "+
+                                details.child("Price").getValue(Double.class)+"\n"+"\n";
                     }
+                    orders.add(new Order(" " + count, info));
                     Log.d("lol", count+"");
                     count+=1;
                 }
