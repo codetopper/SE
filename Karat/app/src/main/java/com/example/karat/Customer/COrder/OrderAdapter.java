@@ -3,6 +3,7 @@ package com.example.karat.Customer.COrder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -37,14 +38,13 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderVH> {
 
         Order order = orderList.get(position);
         holder.titleTextView.setText("Order" + order.getOrderNum());
-        holder.itemIdTextView.setText("Item Name: " + order.getListingName());
-        holder.quantity.setText("Quantity: " + order.getQty());
-        holder.price.setText("Total Price: " + order.getPrice());
-        holder.place.setText("@ " + order.getMart());
+        holder.desc.setText(order.getCDesc());
 
 
-//        boolean isExpanded = orderList.get(position).isExpanded();
-//        holder.expandableLayout.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+        boolean isExpanded = orderList.get(position).isExpanded();
+        holder.expandableLayout.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+        holder.up.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+        holder.down.setVisibility(!isExpanded ? View.VISIBLE : View.GONE);
 
     }
 
@@ -59,29 +59,29 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderVH> {
 
         CardView container;
         ConstraintLayout expandableLayout;
-        TextView titleTextView, itemIdTextView, quantity, price, place;
+        TextView titleTextView, desc;
+        ImageView up, down;
 
         public OrderVH(@NonNull final View itemView) {
             super(itemView);
 
             titleTextView = itemView.findViewById(R.id.order_number);
-            quantity = itemView.findViewById(R.id.order_quantity);
-            price = itemView.findViewById(R.id.order_price);
-            place = itemView.findViewById(R.id.order_place);
-            itemIdTextView = itemView.findViewById(R.id.item_name);
+            desc = itemView.findViewById(R.id.cdesc);
             expandableLayout = itemView.findViewById(R.id.expandableLayout);
             container = itemView.findViewById(R.id.order_card);
+            up = itemView.findViewById(R.id.arrowup);
+            down = itemView.findViewById(R.id.arrowdown);
 
-//            container.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//
-//                    Order order = orderList.get(getAdapterPosition());
-//                    order.setExpanded(!order.isExpanded());
-//                    notifyItemChanged(getAdapterPosition());
-//
-//                }
-//            });
+            container.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Order order = orderList.get(getAdapterPosition());
+                    order.setExpanded(!order.isExpanded());
+                    notifyItemChanged(getAdapterPosition());
+
+                }
+            });
         }
     }
 }

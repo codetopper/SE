@@ -34,7 +34,7 @@ public class COrderDisplay extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_c_order_display);
         orderManager = new COrderManager();
-//        Toast.makeText(getApplicationContext(), orders.size()+"", Toast.LENGTH_LONG).show();
+//        Toast.makeText(getApplicationContext(), "n\n"+"l", Toast.LENGTH_LONG).show();
         //recyclerview
         recyclerView = findViewById(R.id.recyclerView);
         initRecyclerView();
