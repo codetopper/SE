@@ -65,8 +65,8 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
             mNames.add(listing.getListingName());
             mImageUrls.add(listing.getImage_url());
             mListingId.add(listing.getListingId());
-            // Actually its mQty.add(listing.getQuantity());
-            mQty.add(10);
+            mQty.add(Integer.parseInt(listing.getListingQuantity()+""));
+
         }
         mContext = context;
     }
@@ -195,6 +195,8 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
                     //Toast.makeText(mContext, Listing.get(position).getListingName(), Toast.LENGTH_LONG).show();
                     int id = mListingId.get(position);
                     mDatabase.child("UserCart").child(email).child(id + "").child("listingId").setValue(id);
+
+
                     mDatabase.child("UserCart").child(email).child(id + "").child("cartQty")
                             .setValue(Integer.parseInt(holder.homequantity.getText().toString()));
                     Toast.makeText(mContext, "Your item has been succesfully added", Toast.LENGTH_SHORT).show();

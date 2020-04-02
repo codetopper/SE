@@ -2,6 +2,7 @@
 package com.example.karat.Customer.Cart;
 
 import android.content.Context;
+import android.provider.ContactsContract;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 
 
@@ -17,8 +21,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.karat.R;
 import com.example.karat.inventory.Listing;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHolder> {
     /* Instance Variable */
@@ -27,11 +37,16 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
     private static ArrayList<Double> mPrice;
     private static ArrayList<Integer> mQty;
     private static ArrayList<String> mName;
+    private static ArrayList<Integer> mListingID;
     private static DecimalFormat df2 = new DecimalFormat("#.##");
     private ArrayList<Listing> cartArrayList;
     DecimalFormat df = new DecimalFormat("#.00"); // Set your desired format here.
 
     public interface OnItemClickListener {
+    }
+
+    public static ArrayList<Integer> getmListingID() {
+        return mListingID;
     }
 
     public static void setmPrice(ArrayList<Double> mPrice) {
@@ -90,6 +105,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
         mPrice = new ArrayList<Double>();
         mName = new ArrayList<String>();
         mQty= new ArrayList<Integer>();
+        mListingID = new ArrayList<Integer>();
     };
 
     public void setData(ArrayList<Listing> cartArrayList){
@@ -97,6 +113,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
             mName.add(listing.getListingName());
             mQty.add(Integer.parseInt(listing.getListingQuantity()+""));
             mPrice.add(Double.parseDouble(listing.getListingPrice()+""));
+            mListingID.add(Integer.parseInt(listing.getListingId()+""));
         }
     }
 
@@ -104,6 +121,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
         mPrice.clear();
         mName.clear();
         mQty.clear();
+        mListingID.clear();
     }
     public static double calculateTotal(){
         double total = 0;
@@ -140,13 +158,39 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
         holder.add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int curQty =  mQty.get(position);
-                mQty.set(position, curQty+1);
-                CartDisplay.getSubtotal().setText("SUBTOTAL: $" + String.valueOf(df2.format(calculateSubtotal())));
-                CartDisplay.getGST().setText("GST: $" + String.valueOf(df2.format(calculateGST())));
-                CartDisplay.getTotal().setText("TOTAL PAYABLE: $" + String.valueOf(df2.format(calculateTotal())));
 
-                notifyDataSetChanged();
+                final int curQty =  mQty.get(position);
+                final int ListingId = mListingID.get(position);
+
+                // Real Database
+
+                CartDisplay.getmDatabase();
+                CartDisplay.getmAuth();
+                CartDisplay.getmDatabase().addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        String email = CartDisplay.getmAuth().getCurrentUser().getEmail().replace("@", "")
+                                .replace(".", "");
+                      int quantity = Integer.parseInt(dataSnapshot.child("Inventory").child(ListingId + "").child("listingQuantity").getValue()+ "");
+                    if (curQty == quantity){
+                        Toast.makeText(mContext,"Exceeded Maximum Quantity", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    else {
+                        CartDisplay.getmDatabase().child("UserCart").child(email).child(ListingId + "").child("cartQty").setValue(curQty + 1);
+                        mQty.set(position, curQty+1);
+                        CartDisplay.getSubtotal().setText("SUBTOTAL: $" + String.valueOf(df2.format(calculateSubtotal())));
+                        CartDisplay.getGST().setText("GST: $" + String.valueOf(df2.format(calculateGST())));
+                        CartDisplay.getTotal().setText("TOTAL PAYABLE: $" + String.valueOf(df2.format(calculateTotal())));
+                        notifyDataSetChanged();
+                    }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
             }
         });
         holder.minus.setOnClickListener(new View.OnClickListener() {
@@ -154,15 +198,28 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
             public void onClick(View v) {
                 int curQty =  mQty.get(position);
                 mQty.set(position, curQty-1);
+                int ListingID = mListingID.get(position);
                 if (curQty == 1){
                     mQty.remove(position);
                     mPrice.remove(position);
                     mName.remove(position);
+                    mListingID.remove(position);
                 }
                 CartDisplay.getSubtotal().setText("SUBTOTAL: $" + String.valueOf(df2.format(calculateSubtotal())));
                 CartDisplay.getGST().setText("GST: $" + String.valueOf(df2.format(calculateGST())));
                 CartDisplay.getTotal().setText("TOTAL PAYABLE: $" + String.valueOf(df2.format(calculateTotal())));
                 notifyDataSetChanged();
+
+                CartDisplay.getmDatabase();
+                CartDisplay.getmAuth();
+                final String email = CartDisplay.getmAuth().getCurrentUser().getEmail().replace("@", "")
+                        .replace(".", "");
+                //Toast.makeText(mContext, Listing.get(position).getListingName(), Toast.LENGTH_LONG).show();
+                CartDisplay.getmDatabase().child("UserCart").child(email).child(ListingID+ "").child("cartQty").setValue(curQty-1);
+
+                if (curQty == 1){
+                    CartDisplay.getmDatabase().child("UserCart").child(email).child(ListingID + "").removeValue();
+                }
 
 
 

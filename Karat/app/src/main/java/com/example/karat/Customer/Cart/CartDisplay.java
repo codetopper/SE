@@ -46,14 +46,20 @@ public class CartDisplay extends AppCompatActivity {
     private Button EmptyCart;
     private static DecimalFormat df2 = new DecimalFormat("#.##");
     DecimalFormat df = new DecimalFormat("#.00"); // Set your desired format here.
-    private DatabaseReference mDatabase;
-    private FirebaseAuth mAuth;
+    private static DatabaseReference mDatabase;
+    private static FirebaseAuth mAuth;
     private Button purchase;
 
     AlertDialog dialog;
     AlertDialog.Builder builder;
 
+    public static DatabaseReference getmDatabase() {
+        return mDatabase;
+    }
 
+    public static FirebaseAuth getmAuth() {
+        return mAuth;
+    }
     /* Methods for getting TextView */
 
     public static TextView getSubtotal() {
@@ -114,6 +120,7 @@ public class CartDisplay extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // Listing Database is updated
+
             }
         });
         builder.setNegativeButton("Cancel", null);
@@ -126,6 +133,11 @@ public class CartDisplay extends AppCompatActivity {
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                String email = mAuth.getCurrentUser().getEmail().replace("@", "")
+                        .replace(".", "");
+                for (int i : CartAdapter.getmListingID()){
+                    CartDisplay.getmDatabase().child("UserCart").child(email).child(i + "").removeValue();
+                }
                 CartAdapter.clearData();
                 resetPrices();
             }
