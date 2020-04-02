@@ -281,9 +281,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
                     mDatabase.child("COrders").child(email).child("Order"+TId).child("Item"+i).child("License").setValue(mLicense.get(i));
                     mDatabase.child("COrders").child(email).child("Order"+TId).child("Item"+i).child("Price").setValue(mPrice.get(i));
                     mDatabase.child("COrders").child(email).child("Order"+TId).child("Item"+i).child("Location").setValue(mLocation.get(i));
+                    mDatabase.child("COrders").child(email).child("Order"+TId).child("Item"+i).child("Collected").setValue(0);
                 }
                 mDatabase.child("COrders").child(email).child("Order"+TId).child("totalPrice").setValue(calculateTotal());
                 mDatabase.child("UserCart").child(email).setValue(null);
+
+
                 clearData();
                 CartDisplay.resetPrices();
                 Toast.makeText(mContext,"Purchase Successful!", Toast.LENGTH_SHORT).show();
