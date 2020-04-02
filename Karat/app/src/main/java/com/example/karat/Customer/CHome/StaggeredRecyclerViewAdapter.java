@@ -243,8 +243,6 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
         EditText homequantity;
         Button plus;
         Button minus;
-        TextView desc;
-        CardView container;
 
         public Viewholder(View itemView) {
             super(itemView);
