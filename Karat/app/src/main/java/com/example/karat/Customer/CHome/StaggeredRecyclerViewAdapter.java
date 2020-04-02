@@ -50,11 +50,31 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
     private FirebaseDatabase firebaseDB;
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
+
     private Context mContext;
 
     public StaggeredRecyclerViewAdapter(Context context){
         mContext = context;
     }
+
+    public StaggeredRecyclerViewAdapter(Context context,
+                                        ArrayList<Listing> Listing
+                                        //ArrayList<String> names, ArrayList<String> imageUrls
+    ){
+
+        for(Listing listing: Listing) {
+            mNames.add(listing.getListingName());
+            mImageUrls.add(listing.getImage_url());
+            mListingId.add(listing.getListingId());
+            mQty.add(Integer.parseInt(listing.getListingQuantity()+""));
+        }
+        mContext = context;
+
+        /*mNames = names;
+        mImageUrls = imageUrls;
+        mContext = context;*/
+    }
+
 
     public void reset(ArrayList<Listing> listing){
 
@@ -62,6 +82,7 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
         mImageUrls.clear();
         mListingId.clear();
         mQty.clear();
+
         mPrice.clear();
         mDescription.clear();
         mDiscount.clear();
@@ -87,8 +108,8 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
     @Override
     public void onBindViewHolder(@NonNull final Viewholder holder, final int position) {
 
-        firebaseDB = FirebaseDatabase.getInstance();
-        mDatabase = firebaseDB.getReference();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        mDatabase = firebaseDatabase.getReference();
         mAuth = FirebaseAuth.getInstance();
 
         RequestOptions requestOptions = new RequestOptions();
@@ -203,6 +224,9 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
         ImageView image;
         TextView name, price, category, description, quantity, discount;
         Button addtoCart;
+        TextView desc;
+        CardView container;
+
         EditText homequantity;
         Button plus;
         Button minus;
@@ -213,6 +237,8 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
             this.image = itemView.findViewById(R.id.imageview_widget);
             this.name = itemView.findViewById(R.id.name_widget);
             this.addtoCart = itemView.findViewById(R.id.addtoCart);
+            desc = itemView.findViewById(R.id.textView19);
+            container = itemView.findViewById(R.id.chomecard);
             this.homequantity = itemView.findViewById(R.id.homequantity);
             this.plus = itemView.findViewById(R.id.plus2);
             this.minus = itemView.findViewById(R.id.minus2);
@@ -220,6 +246,17 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
             this.description = itemView.findViewById(R.id.description_text);
             this.discount = itemView.findViewById(R.id.disc_widget);
             this.quantity = itemView.findViewById(R.id.qty_widget);
+
+            container.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Listing list = Listing.get(getAdapterPosition());
+                    list.setExpanded(!list.isExpanded());
+                    notifyItemChanged(getAdapterPosition());
+                }
+            });
+
         }
     }
 }
