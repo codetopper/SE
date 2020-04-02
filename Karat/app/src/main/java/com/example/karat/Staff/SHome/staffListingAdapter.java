@@ -58,12 +58,12 @@ public class staffListingAdapter extends RecyclerView.Adapter<staffListingAdapte
         requestOptions.placeholder(R.drawable.ic_launcher_background);
         Glide.with(mContext).load(Listing.get(position).getImage_url()).apply(requestOptions).into(holder.image);
 
-        holder.name.setText("Name:\t"+Listing.get(position).getListingName());
-        holder.itemQty.setText("Qty:\t"+Listing.get(position).getListingQuantity());
-        holder.category.setText("Category:\t"+Listing.get(position).getListingCategory());
-        holder.discount.setText("Discount %:\t"+Listing.get(position).getListingDiscount());
-        holder.description.setText("Description:\n"+Listing.get(position).getDescription());
-        holder.price.setText("Price $:\t"+Listing.get(position).getListingPrice());
+        holder.name.setText(Listing.get(position).getListingName());
+        holder.itemQty.setText(Listing.get(position).getListingQuantity() +"");
+        holder.category.setText(Listing.get(position).getListingCategory());
+        holder.discount.setText(Listing.get(position).getListingDiscount()+" %");
+        holder.description.setText(Listing.get(position).getDescription());
+        holder.price.setText("$ "+Listing.get(position).getListingPrice());
 
         holder.image.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -94,13 +94,14 @@ public class staffListingAdapter extends RecyclerView.Adapter<staffListingAdapte
         public Viewholder(View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.imageview_widget);
-            name = itemView.findViewById(R.id.name_widget);
-            itemQty = itemView.findViewById(R.id.itemQty);
             editBtn = itemView.findViewById(R.id.editBtn);
-            description = itemView.findViewById(R.id.description);
-            discount = itemView.findViewById(R.id.discount);
-            category = itemView.findViewById(R.id.category);
-            price = itemView.findViewById(R.id.price);
+            name = itemView.findViewById(R.id.name_read);
+            price = itemView.findViewById(R.id.price_widget);
+            itemQty = itemView.findViewById(R.id.qty_widget);
+            discount = itemView.findViewById(R.id.disc_widget);
+            category = itemView.findViewById(R.id.category_widget);
+            description = itemView.findViewById(R.id.description_text);
+
         }
     }
 }

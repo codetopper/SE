@@ -27,7 +27,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="5dp"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="2dp"
                 android:scaleType="center"
                 android:src="@mipmap/ic_launcher" />
 
@@ -38,27 +38,119 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="12dp"
                 android:layout_marginLeft="12dp"
-                android:layout_marginTop="15dp"
-                android:layout_toEndOf="@+id/editBtn"
-                android:layout_toRightOf="@+id/editBtn"
-                android:fontFamily="@font/lato"
+                android:layout_marginTop="10dp"
+                android:layout_toEndOf="@+id/imageview_widget"
+                android:layout_toRightOf="@+id/imageview_widget"
                 android:text="Name"
-                android:textColor="#000"
-                android:textStyle="bold" />
+                android:fontFamily="@font/lato"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
 
             <Button
                 android:id="@+id/editBtn"
                 android:layout_width="180dp"
-                android:layout_height="45dp"
+                android:layout_height="30dp"
+                android:layout_below="@+id/category"
+                android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="15dp"
+                android:layout_toEndOf="@+id/imageview_widget"
+                android:layout_toRightOf="@+id/imageview_widget"
                 android:background="@drawable/rounded_button"
                 android:backgroundTint="#FAFAFA"
+                android:text="Edit" />
+
+            <TextView
+                android:id="@+id/name_read"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="69dp"
+                android:layout_marginLeft="69dp"
+                android:layout_marginTop="9dp"
+                android:layout_toEndOf="@+id/imageview_widget"
+                android:layout_toRightOf="@+id/imageview_widget"
+                android:fontFamily="@font/lato"
+                android:gravity="center"
+                android:text="Name"
+                android:textColor="#F4980E"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/imageview_widget"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/price_widget"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/name_read"
+                android:layout_marginStart="69dp"
+                android:layout_marginLeft="69dp"
+                android:layout_marginTop="8dp"
+                android:layout_toEndOf="@+id/imageview_widget"
+                android:layout_toRightOf="@+id/imageview_widget"
+                android:fontFamily="@font/lato"
+                android:gravity="center"
+                android:text="Price"
+                android:textColor="#F4980E"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/imageview_widget"
+                app:layout_constraintTop_toBottomOf="@+id/name_widget" />
+
+            <TextView
+                android:id="@+id/disc_widget"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/price_widget"
+                android:layout_marginStart="69dp"
+                android:layout_marginLeft="69dp"
+                android:layout_marginTop="5dp"
+                android:layout_toEndOf="@+id/imageview_widget"
+                android:layout_toRightOf="@+id/imageview_widget"
+                android:text="Discount"
+                android:textColor="#F4980E"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/qty_widget"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/disc_widget"
+                android:layout_marginStart="69dp"
+                android:layout_marginLeft="69dp"
+                android:layout_marginTop="4dp"
+                android:layout_toEndOf="@+id/imageview_widget"
+                android:layout_toRightOf="@+id/imageview_widget"
+                android:text="itemQty"
+                android:textColor="#F4980E"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/category_widget"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/qty_widget"
+                android:layout_marginStart="69dp"
+                android:layout_marginLeft="69dp"
+                android:layout_marginTop="3dp"
+                android:layout_toEndOf="@+id/imageview_widget"
+                android:layout_toRightOf="@+id/imageview_widget"
+                android:text="Category"
+                android:textColor="#F4980E"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/description_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/description"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
                 android:layout_marginStart="5dp"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="190dp"
-                android:text="Edit" />
+                android:layout_marginTop="2dp"
+                android:maxLines="5"
+                android:text="description_text"
+                android:textColor="#F4980E" />
 
             <TextView
                 android:id="@+id/itemQty"
@@ -67,27 +159,28 @@
                 android:layout_below="@+id/discount"
                 android:layout_marginStart="12dp"
                 android:layout_marginLeft="12dp"
-                android:layout_marginTop="7dp"
-                android:layout_toEndOf="@+id/editBtn"
-                android:layout_toRightOf="@+id/editBtn"
+                android:layout_marginTop="9dp"
+                android:layout_toEndOf="@+id/imageview_widget"
+                android:layout_toRightOf="@+id/imageview_widget"
                 android:fontFamily="@font/lato"
                 android:text="itemQty"
-                android:textColor="#000"
-                android:textStyle="bold" />
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"/>
 
             <TextView
                 android:id="@+id/description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/category"
-                android:layout_marginStart="12dp"
-                android:layout_marginLeft="12dp"
-                android:layout_marginTop="7dp"
-                android:layout_toEndOf="@+id/editBtn"
-                android:layout_toRightOf="@+id/editBtn"
+                android:layout_below="@+id/imageview_widget"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
                 android:fontFamily="@font/lato"
                 android:text="Description"
-                android:textColor="#000"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -97,13 +190,13 @@
                 android:layout_below="@+id/price"
                 android:layout_marginStart="12dp"
                 android:layout_marginLeft="12dp"
-                android:layout_marginTop="7dp"
-                android:layout_toEndOf="@+id/editBtn"
-                android:layout_toRightOf="@+id/editBtn"
-                android:fontFamily="@font/lato"
+                android:layout_marginTop="9dp"
+                android:layout_toEndOf="@+id/imageview_widget"
+                android:layout_toRightOf="@+id/imageview_widget"
                 android:text="Discount"
-                android:textColor="#000"
-                android:textStyle="bold" />
+                android:fontFamily="@font/lato"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"/>
 
             <TextView
                 android:id="@+id/category"
@@ -112,13 +205,13 @@
                 android:layout_below="@+id/itemQty"
                 android:layout_marginStart="12dp"
                 android:layout_marginLeft="12dp"
-                android:layout_marginTop="7dp"
-                android:layout_toEndOf="@+id/editBtn"
-                android:layout_toRightOf="@+id/editBtn"
-                android:fontFamily="@font/lato"
+                android:layout_marginTop="9dp"
+                android:layout_toEndOf="@+id/imageview_widget"
+                android:layout_toRightOf="@+id/imageview_widget"
                 android:text="Category"
-                android:textColor="#000"
-                android:textStyle="bold" />
+                android:fontFamily="@font/lato"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"/>
 
             <TextView
                 android:id="@+id/price"
@@ -127,13 +220,21 @@
                 android:layout_below="@+id/name_widget"
                 android:layout_marginStart="12dp"
                 android:layout_marginLeft="12dp"
-                android:layout_marginTop="7dp"
-                android:layout_toEndOf="@+id/editBtn"
-                android:layout_toRightOf="@+id/editBtn"
+                android:layout_marginTop="9dp"
+                android:layout_toEndOf="@+id/imageview_widget"
+                android:layout_toRightOf="@+id/imageview_widget"
                 android:fontFamily="@font/lato"
                 android:text="Price"
-                android:textColor="#000"
-                android:textStyle="bold" />
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"/>
+
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="27dp"
+                android:layout_height="24dp"
+                android:layout_below="@id/imageview_widget"
+                android:layout_centerHorizontal="true"
+                app:srcCompat="@drawable/downarrow" />
         </RelativeLayout>
 
 

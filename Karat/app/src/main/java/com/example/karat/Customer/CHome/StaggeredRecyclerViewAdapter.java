@@ -119,7 +119,7 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
 
         holder.name.setText(mNames.get(position));
 
-        holder.price.setText(mPrice.get(position)+"");
+        holder.price.setText("$ "+mPrice.get(position)+"");
 
         holder.quantity.setText(mQty.get(position)+"");
 
@@ -127,7 +127,7 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
 
         holder.description.setText(mDescription.get(position));
 
-        holder.discount.setText(mDiscount.get(position)+"");
+        holder.discount.setText(mDiscount.get(position)+" %");
 
         holder.image.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -247,9 +247,7 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
 
         public Viewholder(View itemView) {
             super(itemView);
-            this.price = itemView.findViewById(R.id.price_widget);
             this.image = itemView.findViewById(R.id.imageview_widget);
-            this.name = itemView.findViewById(R.id.name_widget);
             this.addtoCart = itemView.findViewById(R.id.addtoCart);
             desc = itemView.findViewById(R.id.textView19);
             descTxt = itemView.findViewById(R.id.description_text);
@@ -257,6 +255,8 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
             this.homequantity = itemView.findViewById(R.id.homequantity);
             this.plus = itemView.findViewById(R.id.plus2);
             this.minus = itemView.findViewById(R.id.minus2);
+            this.name = itemView.findViewById(R.id.name_widget);
+            this.price = itemView.findViewById(R.id.price_widget);
             this.category = itemView.findViewById(R.id.category_widget);
             this.description = itemView.findViewById(R.id.description_text);
             this.discount = itemView.findViewById(R.id.disc_widget);
