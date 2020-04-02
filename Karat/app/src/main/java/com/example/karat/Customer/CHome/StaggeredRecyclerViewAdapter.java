@@ -4,6 +4,7 @@ import android.content.Context;
 import android.media.Image;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.renderscript.Sampler;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -16,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -24,11 +24,12 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.karat.R;
 import com.example.karat.inventory.Listing;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
-
-import org.w3c.dom.Text;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ import java.util.List;
 public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<StaggeredRecyclerViewAdapter.Viewholder>{
 
     private static final String TAG = "StaggeredRecyclerViewAd";
+
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<String> mImageUrls = new ArrayList<>();
     private ArrayList<String> mDescription = new ArrayList<>();
@@ -55,6 +57,7 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
     }
 
     public void reset(ArrayList<Listing> listing){
+
         mNames.clear();
         mImageUrls.clear();
         mListingId.clear();
