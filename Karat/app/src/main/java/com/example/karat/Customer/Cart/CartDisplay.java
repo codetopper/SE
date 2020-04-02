@@ -167,12 +167,7 @@ public class CartDisplay extends AppCompatActivity {
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mAdapter = new CartAdapter(getApplicationContext());
-//     public void buildRecyclerView(){
-//         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView2);
-//         mRecyclerView.setHasFixedSize(true);
-//         mLayoutManager = new LinearLayoutManager(this);
-//         mAdapter = new CartAdapter(cartManager.total.getCartlist());
-
+        
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
