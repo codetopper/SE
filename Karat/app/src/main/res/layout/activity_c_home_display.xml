@@ -9,13 +9,13 @@
     android:gravity="bottom"
     android:orientation="vertical"
     android:visibility="visible"
-    tools:context=".Customer.COrder.COrderDisplay"
+    tools:context=".Customer.CHome.CHomeDisplay"
     tools:visibility="visible">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="414dp"
-        android:layout_height="435dp"
+        android:layout_height="0dp"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="8dp"
         android:clipChildren="true"
@@ -24,6 +24,7 @@
         android:orientation="vertical"
         android:scrollbars="vertical"
         android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navi"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout3"
@@ -176,17 +177,5 @@
             app:layout_constraintTop_toBottomOf="@+id/spinnerDiscounts"
             app:layout_constraintVertical_bias="0.0" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <Button
-        android:id="@+id/addItem"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="191dp"
-        android:text="Add Item 1"
-        app:layout_constraintBottom_toBottomOf="@+id/recyclerView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
-
-
+  
 </androidx.constraintlayout.widget.ConstraintLayout>

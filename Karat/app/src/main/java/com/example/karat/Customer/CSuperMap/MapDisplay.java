@@ -100,7 +100,7 @@ public class MapDisplay extends FragmentActivity implements OnMapReadyCallback {
                         if (ds.child("isStaff").getValue(Integer.class).equals(1)) {
                             if (ds.child("near").getValue(Integer.class).equals(1)) {
                                 LatLng point = new LatLng(ds.child("coord").child("latitude").getValue(Double.class), ds.child("coord").child("longitude").getValue(Double.class));
-                                MarkerOptions markerOptions = new MarkerOptions().position(point).title(ds.child("name").getValue(String.class)).snippet(ds.child("address").getValue(String.class));
+                                MarkerOptions markerOptions = new MarkerOptions().position(point).title(ds.child("name").getValue(String.class)).snippet(ds.child("licenseNo").getValue(String.class));
                                 googleMap.addMarker(markerOptions);
                             }
                         }
@@ -112,10 +112,22 @@ public class MapDisplay extends FragmentActivity implements OnMapReadyCallback {
         {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                Intent I = new Intent(getApplicationContext(), SOrderDisplay.class); //to be changed
-                startActivity(I);
+                String markertitle = marker.getSnippet();
+                Intent i = new Intent(MapDisplay.this, ViewStore.class);
+                i.putExtra("id", markertitle);
+                startActivity(i);
             }
         });
+//        googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener(){
+//            @Override
+//            public boolean onMarkerClick(Marker marker) {
+//                String markertitle = marker.getTitle();
+//                Intent i = new Intent(MapDisplay.this, ViewStore.class);
+//                i.putExtra("name", markertitle);
+//                startActivity(i);
+//                return false;
+//            }
+//        });
     }
 
     @Override
@@ -131,8 +143,7 @@ public class MapDisplay extends FragmentActivity implements OnMapReadyCallback {
 
     public void goToHome(View v) {
         Intent i = new Intent(getBaseContext(), CHomeDisplay.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(i);
         overridePendingTransition(0,0);
     }
