@@ -257,7 +257,17 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
                     mDatabase.child("COrders").child(email).child("Order"+TId).child("Item"+i).child("Name").setValue(mName.get(i));
                     int id = mListingID.get(i);
                     int quantity = mQty.get(i);
-                    int currStock = Integer.parseInt(dataSnapshot.child("Inventory").child(id + "").child("listingQuantity").getValue() + "");
+                    int currStock = 0;
+                    try {
+                        currStock = Integer.parseInt(dataSnapshot.child("Inventory").child(id + "").child("listingQuantity").getValue() + "");
+                    } catch (Exception e){
+                        Toast.makeText(mContext,"Listing does not exist!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (quantity>currStock){
+                        Toast.makeText(mContext,"Purchase Failed :C", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     if(quantity == currStock){
                         mDatabase.child("Inventory").child(id + "").setValue(null);
                     }
