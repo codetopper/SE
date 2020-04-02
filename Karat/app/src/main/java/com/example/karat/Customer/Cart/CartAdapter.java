@@ -252,12 +252,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String email = CartDisplay.getmAuth().getCurrentUser().getEmail().replace("@", "")
                         .replace(".", "");
-                int TId = 1;
+                int custTId = 1;
                 if (dataSnapshot.child("COrders").hasChild(email)) {
-                    TId = Integer.parseInt(dataSnapshot.child("COrders").child(email).getChildrenCount() + "") + 1;
+                    custTId = Integer.parseInt(dataSnapshot.child("COrders").child(email).getChildrenCount() + "") + 1;
                 }
                 for (int i=0; i<mName.size();i++) {
-                    mDatabase.child("COrders").child(email).child("Order"+TId).child("Item"+i).child("Name").setValue(mName.get(i));
+                    mDatabase.child("COrders").child(email).child("Order"+custTId).child("Item"+i).child("Name").setValue(mName.get(i));
                     int id = mListingID.get(i);
                     int quantity = mQty.get(i);
                     int currStock = 0;
@@ -277,12 +277,37 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
                     else {
                         mDatabase.child("Inventory").child(id + "").child("listingQuantity").setValue(currStock-quantity);
                     }
-                    mDatabase.child("COrders").child(email).child("Order"+TId).child("Item"+i).child("Quantity").setValue(mQty.get(i));
-                    mDatabase.child("COrders").child(email).child("Order"+TId).child("Item"+i).child("License").setValue(mLicense.get(i));
-                    mDatabase.child("COrders").child(email).child("Order"+TId).child("Item"+i).child("Price").setValue(mPrice.get(i));
-                    mDatabase.child("COrders").child(email).child("Order"+TId).child("Item"+i).child("Location").setValue(mLocation.get(i));
+                    mDatabase.child("COrders").child(email).child("Order"+custTId).child("Item"+i).child("Quantity").setValue(mQty.get(i));
+                    mDatabase.child("COrders").child(email).child("Order"+custTId).child("Item"+i).child("License").setValue(mLicense.get(i));
+                    mDatabase.child("COrders").child(email).child("Order"+custTId).child("Item"+i).child("Price").setValue(mPrice.get(i));
+                    mDatabase.child("COrders").child(email).child("Order"+custTId).child("Item"+i).child("Location").setValue(mLocation.get(i));
                 }
-                mDatabase.child("COrders").child(email).child("Order"+TId).child("totalPrice").setValue(calculateTotal());
+                mDatabase.child("COrders").child(email).child("Order"+custTId).child("totalPrice").setValue(calculateTotal());
+
+                ArrayList<String> licenseUniq = new ArrayList<String>();
+                for (int i=0;i<mLicense.size();i++){
+                    if (!licenseUniq.contains(mLicense.get(i))){
+                        licenseUniq.add(mLicense.get(i));
+                    }
+                }
+
+                for (int i=0;i<licenseUniq.size();i++){
+                    String supermarket = licenseUniq.get(i);
+                    int superTId = 1;
+                    if (dataSnapshot.child("SOrders").hasChild(supermarket)) {
+                        superTId = Integer.parseInt(dataSnapshot.child("SOrders").child(supermarket).getChildrenCount() + "") + 1;
+                    }
+                    int count = 0;
+                    for (int index=0;index<mLicense.size();index++){
+                        if (mLicense.get(index).equals(supermarket)){
+                            mDatabase.child("SOrders").child(supermarket).child("Sale"+superTId).child("Item"+count).child("Quantity").setValue(mQty.get(index));
+                            mDatabase.child("SOrders").child(supermarket).child("Sale"+superTId).child("Item"+count).child("License").setValue(mLicense.get(index));
+                            mDatabase.child("SOrders").child(supermarket).child("Sale"+superTId).child("Item"+count).child("Price").setValue(mPrice.get(index));
+                            mDatabase.child("SOrders").child(supermarket).child("Sale"+superTId).child("Item"+count).child("Location").setValue(mLocation.get(index));
+                            count++;
+                        }
+                    }
+                }
                 mDatabase.child("UserCart").child(email).setValue(null);
                 clearData();
                 CartDisplay.resetPrices();
