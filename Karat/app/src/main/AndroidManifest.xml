@@ -34,7 +34,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Customer.CHome.UpdateApp" />
+        <activity android:name=".Login.UpdateApp" />
         <activity android:name=".Login.UpdateDatabase" />
         <activity android:name=".Login.GetData" />
         <activity android:name=".Login.GetUrl" />
