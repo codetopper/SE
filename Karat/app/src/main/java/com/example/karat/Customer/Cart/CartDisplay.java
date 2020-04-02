@@ -194,6 +194,8 @@ public class CartDisplay extends AppCompatActivity {
                    listingId =  Integer.parseInt(ds.child("listingId").getValue()+"");
                    Listing listing = dataSnapshot.child("Inventory").child(listingId+"").getValue(Listing.class);
                    listing.setListingQuantity(Integer.parseInt(ds.child("cartQty").getValue()+""));
+                   String license = dataSnapshot.child("Inventory").child(listingId+"").child("licenseNo").getValue()+"";
+                   listing.setLicense(license);
                    cartList.add(listing);
                 }
 

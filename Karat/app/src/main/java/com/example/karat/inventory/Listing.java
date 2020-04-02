@@ -18,6 +18,7 @@ public class Listing{
     private String location;
     private String description;
     private String imageUrl;
+    private String license;
     private boolean available;
     private boolean expanded;
     public Map<String, Boolean> stars = new HashMap<>();
@@ -69,6 +70,14 @@ public class Listing{
         result.put("imageUrl", imageUrl);
 
         return result;
+    }
+
+    public String getLicense() {
+        return license;
+    }
+
+    public void setLicense(String license) {
+        this.license = license;
     }
 
     public String getDescription() {return description;}

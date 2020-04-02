@@ -42,7 +42,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
     private static ArrayList<Integer> mQty;
     private static ArrayList<String> mName;
     private static ArrayList<Integer> mListingID;
-    private static ArrayList<String> mLocation;
+    private static ArrayList<String> mLicense;
     private static DecimalFormat df2 = new DecimalFormat("#.##");
     private ArrayList<Listing> cartArrayList;
     DecimalFormat df = new DecimalFormat("#.00"); // Set your desired format here.
@@ -111,7 +111,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
         mName = new ArrayList<String>();
         mQty= new ArrayList<Integer>();
         mListingID = new ArrayList<Integer>();
-        mLocation = new ArrayList<String>();
+        mLicense = new ArrayList<String>();
     };
 
     public void setData(ArrayList<Listing> cartArrayList){
@@ -120,7 +120,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
             mQty.add(Integer.parseInt(listing.getListingQuantity()+""));
             mPrice.add(Double.parseDouble(listing.getListingPrice()+""));
             mListingID.add(Integer.parseInt(listing.getListingId()+""));
-            mLocation.add(listing.getListingLocation()+"");
+            mLicense.add(listing.getLicense()+"");
         }
     }
 
@@ -129,7 +129,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
         mName.clear();
         mQty.clear();
         mListingID.clear();
-        mLocation.clear();
+        mLicense.clear();
     }
     public static double calculateTotal(){
         double total = 0;
@@ -265,15 +265,15 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
                         mDatabase.child("Inventory").child(id + "").child("listingQuantity").setValue(currStock-quantity);
                     }
                     mDatabase.child("COrders").child(email).child("Order"+TId).child("Item"+i).child("Quantity").setValue(mQty.get(i));
-                    mDatabase.child("COrders").child(email).child("Order"+TId).child("Item"+i).child("Location").setValue(mLocation.get(i));
+                    mDatabase.child("COrders").child(email).child("Order"+TId).child("Item"+i).child("License").setValue(mLicense.get(i));
+                    mDatabase.child("COrders").child(email).child("Order"+TId).child("Item"+i).child("Price").setValue(mPrice.get(i));
 
                 }
+                mDatabase.child("COrders").child(email).child("Order"+TId).child("totalPrice").setValue(calculateTotal());
                 mDatabase.child("UserCart").child(email).setValue(null);
-                Toast.makeText(mContext,mName.size()+"", Toast.LENGTH_SHORT).show();
-
                 clearData();
                 CartDisplay.resetPrices();
-
+                Toast.makeText(mContext,"Purchase Successful!", Toast.LENGTH_SHORT).show();
             }
 
             @Override
