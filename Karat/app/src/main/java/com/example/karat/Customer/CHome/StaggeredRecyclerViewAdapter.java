@@ -43,27 +43,14 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
     private ArrayList<String> mImageUrls = new ArrayList<>();
     private Context mContext;
     private ArrayList<Integer> mListingId = new ArrayList<>();
-    private  ArrayList<Integer> mQty = new ArrayList<>();
+    private ArrayList<Integer> mQty = new ArrayList<>();
+    private ArrayList<Double> mPrice = new ArrayList<>();
     private FirebaseDatabase firebaseDB;
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
-    private Button addtoCart;
-    private EditText homequantity;
 
 
     public StaggeredRecyclerViewAdapter(Context context){
-        mContext = context;
-    }
-
-    public StaggeredRecyclerViewAdapter(Context context,
-                                        ArrayList<Listing> Listing){
-        for(Listing listing: Listing) {
-            mNames.add(listing.getListingName());
-            mImageUrls.add(listing.getImage_url());
-            mListingId.add(listing.getListingId());
-            // Actually its mQty.add(listing.getQuantity());
-            mQty.add(Integer.parseInt(listing.getListingQuantity()+""));
-        }
         mContext = context;
     }
 
@@ -72,11 +59,13 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
         mImageUrls.clear();
         mListingId.clear();
         mQty.clear();
+        mPrice.clear();
         for(Listing listing: Listing) {
             mNames.add(listing.getListingName());
             mImageUrls.add(listing.getImage_url());
             mListingId.add(listing.getListingId());
             mQty.add(Integer.parseInt(listing.getListingQuantity()+""));
+            mPrice.add(Double.parseDouble(listing.getListingPrice()+""));
         }
     }
 
@@ -100,6 +89,7 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
 
         holder.name.setText(mNames.get(position));
 
+        holder.price.setText(mPrice.get(position)+"");
 
         holder.image.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -181,7 +171,7 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
                 int id = mListingId.get(position);
                 mDatabase.child("UserCart").child(email).child(id+"").child("listingId").setValue(id);
                 mDatabase.child("UserCart").child(email).child(id+"").child("cartQty")
-                        .setValue(Integer.parseInt(homequantity.getText().toString()));
+                        .setValue(Integer.parseInt(holder.homequantity.getText().toString()));
             }
         });
 
@@ -194,7 +184,7 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
 
     public class Viewholder extends RecyclerView.ViewHolder /*extends RecyclerView.ViewHolder */{
         ImageView image;
-        TextView name;
+        TextView name, price;
         Button addtoCart;
         EditText homequantity;
         Button plus;
@@ -202,6 +192,7 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
 
         public Viewholder(View itemView) {
             super(itemView);
+            this.price = itemView.findViewById(R.id.price_widget);
             this.image = itemView.findViewById(R.id.imageview_widget);
             this.name = itemView.findViewById(R.id.name_widget);
             this.addtoCart = itemView.findViewById(R.id.addtoCart);

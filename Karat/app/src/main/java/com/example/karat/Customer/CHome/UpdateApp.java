@@ -44,7 +44,7 @@ public class UpdateApp extends AppCompatActivity{
     FusedLocationProviderClient fusedLocationClient;
     Location currentLocation = new Location("dummyprovider");
     private static final int REQUEST_CODE = 101;
-    public static ArrayList<ShopInfo> nearOnes = new ArrayList<>();
+//    public static ArrayList<ShopInfo> nearOnes = new ArrayList<>();
 
     ProgressBar progressBar;
     TextView textView;
