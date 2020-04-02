@@ -9,25 +9,34 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.karat.Customer.Cart.CartDisplay;
 import com.example.karat.R;
 import com.example.karat.Customer.CHome.CHomeDisplay;
 import com.example.karat.Customer.CProfile.CProfileDisplay;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import static com.example.karat.Customer.COrder.COrderManager.orders;
 
 public class COrderDisplay extends AppCompatActivity {
     RecyclerView recyclerView;
     COrderManager orderManager;
+    DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_c_order_display);
-
+        orderManager = new COrderManager();
+//        Toast.makeText(getApplicationContext(), "n\n"+"l", Toast.LENGTH_LONG).show();
         //recyclerview
         recyclerView = findViewById(R.id.recyclerView);
-        orderManager = new COrderManager(1);
         initRecyclerView();
 
         //navigation bar
@@ -64,9 +73,20 @@ public class COrderDisplay extends AppCompatActivity {
     }
 
     private void initRecyclerView() {
-        OrderAdapter orderAdapter = new OrderAdapter(orderManager.cOrders);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        final OrderAdapter orderAdapter = new OrderAdapter(orders);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(orderAdapter);
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                recyclerView.setAdapter(orderAdapter);
+                orderAdapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void goToCart(View v) {

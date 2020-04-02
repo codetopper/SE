@@ -106,7 +106,13 @@ public class CartDisplay extends AppCompatActivity {
         purchase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Purchase();
+                if (CartAdapter.getmListingID().isEmpty() == false){
+                    Purchase();
+                }
+                else {
+                    Toast.makeText(CartDisplay.this,"Sorry! Cart is empty", Toast.LENGTH_SHORT).show();
+                    purchase.setEnabled(false);
+                }
             }
         });
 
@@ -125,7 +131,6 @@ public class CartDisplay extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 mAdapter.writePurchase();
-
             }
         });
         builder.setNegativeButton("Cancel", null);
@@ -167,6 +172,7 @@ public class CartDisplay extends AppCompatActivity {
         EmptyCart.setEnabled(true);
         EmptyCart.setBackgroundColor(0xFFF05555);
         purchase = findViewById(R.id.payment);
+        purchase.setEnabled(true);
         mRecyclerView = findViewById(R.id.recyclerView2);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);

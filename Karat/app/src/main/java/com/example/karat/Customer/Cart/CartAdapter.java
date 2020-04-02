@@ -42,6 +42,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
     private static ArrayList<Integer> mQty;
     private static ArrayList<String> mName;
     private static ArrayList<Integer> mListingID;
+    private static ArrayList<String> mLocation;
     private static ArrayList<String> mLicense;
     private static DecimalFormat df2 = new DecimalFormat("#.##");
     private ArrayList<Listing> cartArrayList;
@@ -112,6 +113,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
         mQty= new ArrayList<Integer>();
         mListingID = new ArrayList<Integer>();
         mLicense = new ArrayList<String>();
+        mLocation = new ArrayList<String>();
     };
 
     public void setData(ArrayList<Listing> cartArrayList){
@@ -121,6 +123,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
             mPrice.add(Double.parseDouble(listing.getListingPrice()+""));
             mListingID.add(Integer.parseInt(listing.getListingId()+""));
             mLicense.add(listing.getLicense()+"");
+            mLocation.add(listing.getListingLocation());
         }
     }
 
@@ -249,27 +252,62 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String email = CartDisplay.getmAuth().getCurrentUser().getEmail().replace("@", "")
                         .replace(".", "");
-                int TId = 1;
+                int custTId = 1;
                 if (dataSnapshot.child("COrders").hasChild(email)) {
-                    TId = Integer.parseInt(dataSnapshot.child("COrders").child(email).getChildrenCount() + "") + 1;
+                    custTId = Integer.parseInt(dataSnapshot.child("COrders").child(email).getChildrenCount() + "") + 1;
                 }
                 for (int i=0; i<mName.size();i++) {
-                    mDatabase.child("COrders").child(email).child("Order"+TId).child("Item"+i).child("Name").setValue(mName.get(i));
+                    mDatabase.child("COrders").child(email).child("Order"+custTId).child("Item"+i).child("Name").setValue(mName.get(i));
                     int id = mListingID.get(i);
                     int quantity = mQty.get(i);
-                    int currStock = Integer.parseInt(dataSnapshot.child("Inventory").child(id + "").child("listingQuantity").getValue() + "");
+                    int currStock = 0;
+                    try {
+                        currStock = Integer.parseInt(dataSnapshot.child("Inventory").child(id + "").child("listingQuantity").getValue() + "");
+                    } catch (Exception e){
+                        Toast.makeText(mContext,"Listing does not exist!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (quantity>currStock){
+                        Toast.makeText(mContext,"Purchase Failed :C", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     if(quantity == currStock){
                         mDatabase.child("Inventory").child(id + "").setValue(null);
                     }
                     else {
                         mDatabase.child("Inventory").child(id + "").child("listingQuantity").setValue(currStock-quantity);
                     }
-                    mDatabase.child("COrders").child(email).child("Order"+TId).child("Item"+i).child("Quantity").setValue(mQty.get(i));
-                    mDatabase.child("COrders").child(email).child("Order"+TId).child("Item"+i).child("License").setValue(mLicense.get(i));
-                    mDatabase.child("COrders").child(email).child("Order"+TId).child("Item"+i).child("Price").setValue(mPrice.get(i));
-
+                    mDatabase.child("COrders").child(email).child("Order"+custTId).child("Item"+i).child("Quantity").setValue(mQty.get(i));
+                    mDatabase.child("COrders").child(email).child("Order"+custTId).child("Item"+i).child("License").setValue(mLicense.get(i));
+                    mDatabase.child("COrders").child(email).child("Order"+custTId).child("Item"+i).child("Price").setValue(mPrice.get(i));
+                    mDatabase.child("COrders").child(email).child("Order"+custTId).child("Item"+i).child("Location").setValue(mLocation.get(i));
                 }
-                mDatabase.child("COrders").child(email).child("Order"+TId).child("totalPrice").setValue(calculateTotal());
+                mDatabase.child("COrders").child(email).child("Order"+custTId).child("totalPrice").setValue(calculateTotal());
+
+                ArrayList<String> licenseUniq = new ArrayList<String>();
+                for (int i=0;i<mLicense.size();i++){
+                    if (!licenseUniq.contains(mLicense.get(i))){
+                        licenseUniq.add(mLicense.get(i));
+                    }
+                }
+
+                for (int i=0;i<licenseUniq.size();i++){
+                    String supermarket = licenseUniq.get(i);
+                    int superTId = 1;
+                    if (dataSnapshot.child("SOrders").hasChild(supermarket)) {
+                        superTId = Integer.parseInt(dataSnapshot.child("SOrders").child(supermarket).getChildrenCount() + "") + 1;
+                    }
+                    int count = 0;
+                    for (int index=0;index<mLicense.size();index++){
+                        if (mLicense.get(index).equals(supermarket)){
+                            mDatabase.child("SOrders").child(supermarket).child("Sale"+superTId).child("Item"+count).child("Quantity").setValue(mQty.get(index));
+                            mDatabase.child("SOrders").child(supermarket).child("Sale"+superTId).child("Item"+count).child("License").setValue(mLicense.get(index));
+                            mDatabase.child("SOrders").child(supermarket).child("Sale"+superTId).child("Item"+count).child("Price").setValue(mPrice.get(index));
+                            mDatabase.child("SOrders").child(supermarket).child("Sale"+superTId).child("Item"+count).child("Location").setValue(mLocation.get(index));
+                            count++;
+                        }
+                    }
+                }
                 mDatabase.child("UserCart").child(email).setValue(null);
                 clearData();
                 CartDisplay.resetPrices();

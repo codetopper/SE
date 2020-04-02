@@ -8,25 +8,37 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.example.karat.Customer.CHome.CHomeDisplay;
+import com.example.karat.Customer.COrder.COrderDisplay;
 import com.example.karat.Customer.COrder.OrderAdapter;
+import com.example.karat.Customer.CProfile.CProfileDisplay;
 import com.example.karat.R;
 import com.example.karat.Staff.SHome.SHomeDisplay;
 import com.example.karat.Staff.SProfile.SProfileDisplay;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import static com.example.karat.Staff.SOrder.SOrderManager.orders;
 
 public class SOrderDisplay extends AppCompatActivity {
     RecyclerView recyclerView;
     SOrderManager orderManager;
+    DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s_order_display);
-
+        orderManager = new SOrderManager();
+        Toast.makeText(getApplicationContext(), orders.size()+"l", Toast.LENGTH_LONG).show();
         //recyclerview
         recyclerView = findViewById(R.id.recyclerView);
-        orderManager = new SOrderManager(1);
         initRecyclerView();
 
         //navigation bar
@@ -39,22 +51,21 @@ public class SOrderDisplay extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.Home:
-                        Intent SHomeIntent = new Intent(getApplicationContext(), SHomeDisplay.class);
-                        SHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                        overridePendingTransition(0,0);
-                        startActivity(SHomeIntent);
+                        Intent CHomeIntent = new Intent(getApplicationContext(), SHomeDisplay.class);
+                        CHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(CHomeIntent);
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.Orders:
-                        Intent SOrderIntent = new Intent(getApplicationContext(), SOrderDisplay.class);
-                        SOrderIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(SOrderIntent);
+                        Intent COrderIntent = new Intent(getApplicationContext(), SOrderDisplay.class);
+                        COrderIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(COrderIntent);
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.Profile:
-                        Intent SProfileIntent = new Intent(getApplicationContext(), SProfileDisplay.class);
-                        SProfileIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(SProfileIntent);
+                        Intent CProfileIntent = new Intent(getApplicationContext(), SProfileDisplay.class);
+                        CProfileIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(CProfileIntent);
                         overridePendingTransition(0,0);
                         return true;
                 }
@@ -62,9 +73,21 @@ public class SOrderDisplay extends AppCompatActivity {
             }
         });
     }
+
     private void initRecyclerView() {
-        OrderAdapter orderAdapter = new OrderAdapter(orderManager.sOrders);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        final SOrderAdapter orderAdapter = new SOrderAdapter(orders);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(orderAdapter);
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                recyclerView.setAdapter(orderAdapter);
+                orderAdapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

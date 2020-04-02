@@ -1,4 +1,4 @@
-package com.example.karat.Customer.COrder;
+package com.example.karat.Staff.SOrder;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,12 +17,12 @@ import java.util.List;
 
 import static java.lang.String.valueOf;
 
-public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderVH> {
+public class SOrderAdapter extends RecyclerView.Adapter<SOrderAdapter.OrderVH> {
 
     private static final String TAG = "OrderAdapter";
-    List<Order> orderList;
+    List<SOrder> orderList;
 
-    public OrderAdapter(List<Order> orderList) {
+    public SOrderAdapter(List<SOrder> orderList) {
         this.orderList = orderList;
     }
 
@@ -36,9 +36,9 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderVH> {
     @Override
     public void onBindViewHolder(@NonNull OrderVH holder, int position) {
 
-        Order order = orderList.get(position);
-        holder.titleTextView.setText("Order" + order.getOrderNum());
-        holder.desc.setText(order.getCDesc());
+        SOrder order = orderList.get(position);
+        holder.titleTextView.setText("Sale" + order.getSaleNum());
+        holder.desc.setText(order.getSDesc());
 
 
         boolean isExpanded = orderList.get(position).isExpanded();
@@ -76,7 +76,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderVH> {
                 @Override
                 public void onClick(View view) {
 
-                    Order order = orderList.get(getAdapterPosition());
+                    SOrder order = orderList.get(getAdapterPosition());
                     order.setExpanded(!order.isExpanded());
                     notifyItemChanged(getAdapterPosition());
 
