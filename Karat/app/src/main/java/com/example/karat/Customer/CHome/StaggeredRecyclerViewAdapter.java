@@ -1,7 +1,6 @@
 package com.example.karat.Customer.CHome;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.media.Image;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -49,42 +48,21 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
     private static ArrayList<Integer> mListingId = new ArrayList<>();
     private static ArrayList<Integer> mQty = new ArrayList<>();
     private static ArrayList<Double> mPrice = new ArrayList<>();
-    private FirebaseDatabase firebaseDatabase;
+    private FirebaseDatabase firebaseDB;
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
-
     private Context mContext;
 
     public StaggeredRecyclerViewAdapter(Context context){
         mContext = context;
     }
 
-    public StaggeredRecyclerViewAdapter(Context context,
-                                        ArrayList<Listing> Listing
-                                        //ArrayList<String> names, ArrayList<String> imageUrls
-    ){
-
-        for(Listing listing: Listing) {
-            mNames.add(listing.getListingName());
-            mImageUrls.add(listing.getImage_url());
-            mListingId.add(listing.getListingId());
-            mQty.add(Integer.parseInt(listing.getListingQuantity()+""));
-        }
-        mContext = context;
-
-        /*mNames = names;
-        mImageUrls = imageUrls;
-        mContext = context;*/
-    }
-
-
     public void reset(ArrayList<Listing> listing){
-        Listing = (ArrayList<com.example.karat.inventory.Listing>) listing.clone();
+
         mNames.clear();
         mImageUrls.clear();
         mListingId.clear();
         mQty.clear();
-
         mPrice.clear();
         mDescription.clear();
         mDiscount.clear();
@@ -110,8 +88,8 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
     @Override
     public void onBindViewHolder(@NonNull final Viewholder holder, final int position) {
 
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        mDatabase = firebaseDatabase.getReference();
+        firebaseDB = FirebaseDatabase.getInstance();
+        mDatabase = firebaseDB.getReference();
         mAuth = FirebaseAuth.getInstance();
 
         RequestOptions requestOptions = new RequestOptions();
@@ -142,8 +120,6 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 holder.minus.setEnabled(true);
                 holder.plus.setEnabled(true);
-                holder.addtoCart.setEnabled(true);
-                holder.addtoCart.setBackgroundColor(0xFFBDE0B7);
             }
 
             @Override
@@ -208,22 +184,12 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
         holder.addtoCart.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                String text = holder.homequantity.getText().toString();
-                if (Integer.parseInt(text) == 0) {
-                    holder.addtoCart.setEnabled(false);
-                    holder.addtoCart.setBackgroundColor(Color.GRAY);
-                    Toast.makeText(mContext, "Please add at least one value to cart", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    String email = mAuth.getCurrentUser().getEmail().replace("@", "")
-                            .replace(".", "");
-                    //Toast.makeText(mContext, Listing.get(position).getListingName(), Toast.LENGTH_LONG).show();
-                    int id = mListingId.get(position);
-                    mDatabase.child("UserCart").child(email).child(id + "").child("listingId").setValue(id);
-                    mDatabase.child("UserCart").child(email).child(id + "").child("cartQty")
-                            .setValue(Integer.parseInt(holder.homequantity.getText().toString()));
-                    Toast.makeText(mContext, "Your item has been succesfully added", Toast.LENGTH_SHORT).show();
-                }
+                String email = mAuth.getCurrentUser().getEmail().replace("@", "")
+                        .replace(".", "");
+                int id = mListingId.get(position);
+                mDatabase.child("UserCart").child(email).child(id+"").child("listingId").setValue(id);
+                mDatabase.child("UserCart").child(email).child(id+"").child("cartQty")
+                        .setValue(Integer.parseInt(holder.homequantity.getText().toString()));
             }
         });
 
@@ -238,8 +204,6 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
         ImageView image;
         TextView name, price, category, description, quantity, discount;
         Button addtoCart;
-        TextView desc;
-        CardView container;
         EditText homequantity;
         Button plus;
         Button minus;
@@ -250,8 +214,6 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
             this.image = itemView.findViewById(R.id.imageview_widget);
             this.name = itemView.findViewById(R.id.name_widget);
             this.addtoCart = itemView.findViewById(R.id.addtoCart);
-            desc = itemView.findViewById(R.id.textView19);
-            container = itemView.findViewById(R.id.chomecard);
             this.homequantity = itemView.findViewById(R.id.homequantity);
             this.plus = itemView.findViewById(R.id.plus2);
             this.minus = itemView.findViewById(R.id.minus2);
@@ -259,6 +221,7 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
             this.description = itemView.findViewById(R.id.description_text);
             this.discount = itemView.findViewById(R.id.disc_widget);
             this.quantity = itemView.findViewById(R.id.qty_widget);
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -274,6 +237,11 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
 >>>>>>> parent of c2f4c1e... Merge pull request #57 from codetopper/zy
 =======
 >>>>>>> parent of c2f4c1e... Merge pull request #57 from codetopper/zy
+=======
+            desc = itemView.findViewById(R.id.textView19);
+            container = itemView.findViewById(R.id.chomecard);
+
+>>>>>>> parent of 36d3142... Merge branch 'master' into zy
             container.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
