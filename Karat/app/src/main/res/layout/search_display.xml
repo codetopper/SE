@@ -31,7 +31,8 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="7dp"
                 android:layout_toEndOf="@+id/imageview_widget"
-                android:background="#FAFAFA"
+                android:background="@drawable/rounded_button"
+                android:backgroundTint="#FAFAFA"
                 android:fontFamily="@font/lato"
                 android:text="-"
                 android:textStyle="bold"
@@ -91,7 +92,8 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="5dp"
                 android:layout_toEndOf="@+id/imageview_widget"
-                android:background="#BDE0B7"
+                android:background="@drawable/rounded_button"
+                android:backgroundTint="#BDE0B7"
                 android:fontFamily="@font/lato"
                 android:text="Add to Cart"
                 android:textSize="12sp"
@@ -107,7 +109,8 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="7dp"
                 android:layout_toEndOf="@+id/minus2"
-                android:background="#FAFAFA"
+                android:background="@drawable/rounded_button"
+                android:backgroundTint="#FAFAFA"
                 android:digits="0123456789"
                 android:fontFamily="@font/lato"
                 android:gravity="center"
@@ -125,7 +128,9 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="7dp"
                 android:layout_toEndOf="@+id/homequantity"
-                android:background="#FAFAFA"
+                android:background="@drawable/rounded_button"
+                android:backgroundTint="#FAFAFA"
+
                 android:lineSpacingExtra="10sp"
 
                 android:text="+"
@@ -206,6 +211,59 @@
                 android:fontFamily="@font/fredoka_one"
                 android:text="Description"
                 android:textColor="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/qty_widget"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/disc_widget"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginStart="303dp"
+                android:layout_marginLeft="303dp"
+                android:layout_marginTop="4dp"
+                android:text="itemQty"
+                android:textColor="#EBFF00" />
+
+            <TextView
+                android:id="@+id/disc_widget"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/price_widget"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginStart="270dp"
+                android:layout_marginLeft="270dp"
+                android:layout_marginTop="9dp"
+                android:text="Discount"
+                android:textColor="#EBFF00" />
+
+            <TextView
+                android:id="@+id/category_widget"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/qty_widget"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginStart="308dp"
+                android:layout_marginLeft="308dp"
+                android:layout_marginTop="5dp"
+                android:text="Category"
+                android:textColor="#EBFF00" />
+
+            <TextView
+                android:id="@+id/description_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imageview_widget"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginStart="1dp"
+                android:layout_marginLeft="1dp"
+                android:layout_marginTop="33dp"
+                android:maxLines="5"
+                android:text="description_text"
+                android:textColor="#EBFF00" />
 
         </RelativeLayout>
 
