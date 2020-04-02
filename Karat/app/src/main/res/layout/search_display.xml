@@ -110,6 +110,23 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/homequantity" />
 
+            <Button
+                android:id="@+id/viewstore"
+                android:layout_width="180dp"
+                android:layout_height="20dp"
+                android:layout_below="@+id/addtoCart"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="5dp"
+                android:layout_toEndOf="@+id/imageview_widget"
+                android:background="@drawable/rounded_button"
+                android:backgroundTint="#C4C4C4"
+                android:fontFamily="@font/lato"
+                android:text="View Store"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/homequantity" />
+
             <EditText
                 android:id="@+id/homequantity"
                 android:layout_width="110dp"

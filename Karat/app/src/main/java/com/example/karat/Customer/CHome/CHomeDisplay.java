@@ -62,6 +62,7 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     Listing listing = ds.getValue(Listing.class);
                     listing.setImage_url(ds.child("imageUrl").getValue(String.class));
+                    listing.setLicense(ds.child("licenseNo").getValue(String.class));
                     assert listing != null;
                     searchList.add(listing);
                 }
