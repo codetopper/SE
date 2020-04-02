@@ -17,12 +17,26 @@
         android:background="#CC333A7E">
 
         <Button
+            android:id="@+id/minus"
+            android:layout_width="46dp"
+            android:layout_height="31dp"
+            android:layout_marginStart="180dp"
+            android:layout_marginLeft="180dp"
+            android:layout_marginTop="4dp"
+            android:background="#FAFAFA"
+            android:fontFamily="@font/lato"
+            android:text="-"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
             android:id="@+id/plus"
             android:layout_width="47dp"
             android:layout_height="30dp"
-            android:layout_marginStart="332dp"
-            android:layout_marginLeft="332dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginStart="308dp"
+            android:layout_marginLeft="308dp"
+            android:layout_marginTop="4dp"
             android:background="#FAFAFA"
             android:lineSpacingExtra="10sp"
             android:text="+"
@@ -36,26 +50,12 @@
             android:id="@+id/quantity"
             android:layout_width="51dp"
             android:layout_height="30dp"
-            android:layout_marginStart="264dp"
-            android:layout_marginLeft="264dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginStart="240dp"
+            android:layout_marginLeft="240dp"
+            android:layout_marginTop="4dp"
             android:background="#FAFAFA"
             android:fontFamily="@font/lato"
             android:text="3"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/minus"
-            android:layout_width="46dp"
-            android:layout_height="31dp"
-            android:layout_marginStart="204dp"
-            android:layout_marginLeft="204dp"
-            android:layout_marginTop="6dp"
-            android:background="#FAFAFA"
-            android:fontFamily="@font/lato"
-            android:text="-"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

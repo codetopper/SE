@@ -1,6 +1,7 @@
 package com.example.karat.Customer.CHome;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.media.Image;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.karat.Customer.Cart.CartDisplay;
 import com.example.karat.R;
 import com.example.karat.inventory.Listing;
 import com.google.firebase.auth.FirebaseAuth;
@@ -45,6 +47,8 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
     private FirebaseAuth mAuth;
     private Button addtoCart;
 
+
+
     public StaggeredRecyclerViewAdapter(Context context){
         mContext = context;
     }
@@ -71,9 +75,13 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
         Listing = (ArrayList<com.example.karat.inventory.Listing>) listing.clone();
         mNames.clear();
         mImageUrls.clear();
-        for(Listing list: Listing) {
-            mNames.add(list.getListingName());
-            mImageUrls.add(list.getImage_url());
+        mListingId.clear();
+        mQty.clear();
+        for(Listing listing: Listing) {
+            mNames.add(listing.getListingName());
+            mImageUrls.add(listing.getImage_url());
+            mListingId.add(listing.getListingId());
+            mQty.add(Integer.parseInt(listing.getListingQuantity()+""));
         }
     }
 
@@ -100,20 +108,95 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: clicked on: " + mNames.get(position));
-                Toast.makeText(mContext, mNames.get(position), Toast.LENGTH_SHORT).show();
+            }
+        });
+        holder.homequantity.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                holder.minus.setEnabled(true);
+                holder.plus.setEnabled(true);
+                holder.addtoCart.setEnabled(true);
+                holder.addtoCart.setBackgroundColor(0xFFBDE0B7);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String text = holder.homequantity.getText().toString();
+                if (text.isEmpty()) {
+                }
+                else {
+                    int value = Integer.parseInt(text);
+                    if (value < 0){
+                        CharSequence text_2 = "Minimum Quantity reached";
+                        Toast.makeText(mContext, text_2, Toast.LENGTH_SHORT).show();
+                        holder.homequantity.setText(Integer.toString(value + 1));
+                        holder.minus.setEnabled(false);
+
+
+                    }
+                    if (value > mQty.get(position)) {
+                        CharSequence text_2 = "Maximum Quantity reached!";
+                        Toast.makeText(mContext, text_2, Toast.LENGTH_SHORT).show();
+                        holder.homequantity.setText(Integer.toString(value -1));
+                        holder.plus.setEnabled(false);
+
+                    }
+                }
+            }
+        });
+        holder.plus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String text = holder.homequantity.getText().toString();
+                if (text.isEmpty()){
+                }
+                else {
+                    int value = Integer.parseInt(text);
+                    holder.homequantity.setText(Integer.toString(value + 1));
+                }
+            }
+        });
+        holder.minus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String text = holder.homequantity.getText().toString();
+                if (text.isEmpty()){
+                }
+                else {
+                    int value = Integer.parseInt(text);
+                    if (value > 0) {
+                        holder.homequantity.setText(Integer.toString(value - 1));
+                    }
+                    else {
+                        CharSequence text_2 = "Quantity cannot be lower than 0";
+                        Toast.makeText(mContext,text_2,Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
         });
         holder.addtoCart.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-
-                mDatabase.child("UserDatabase").child("cust1@gmail.com").child("mobileNo").setValue(mListingId.get(position));
-                String email = mAuth.getCurrentUser().getEmail().replace("@", "").replace(".", "");
-                int id = mListingId.get(position);
-                mDatabase.child("UserCart").child(email).child(id+"").child("listingId").setValue(id);
-                mDatabase.child("UserCart").child(email).child(id+"").child("cartQty")
-                        .setValue(Integer.parseInt(holder.homequantity.getText().toString()));
-
+                String text = holder.homequantity.getText().toString();
+                if (Integer.parseInt(text) == 0) {
+                    holder.addtoCart.setEnabled(false);
+                    holder.addtoCart.setBackgroundColor(Color.GRAY);
+                    Toast.makeText(mContext, "Please add at least one value to cart", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    String email = mAuth.getCurrentUser().getEmail().replace("@", "")
+                            .replace(".", "");
+                    //Toast.makeText(mContext, Listing.get(position).getListingName(), Toast.LENGTH_LONG).show();
+                    int id = mListingId.get(position);
+                    mDatabase.child("UserCart").child(email).child(id + "").child("listingId").setValue(id);
+                    mDatabase.child("UserCart").child(email).child(id + "").child("cartQty")
+                            .setValue(Integer.parseInt(holder.homequantity.getText().toString()));
+                    Toast.makeText(mContext, "Your item has been succesfully added", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         boolean isExpanded = Listing.get(position).isExpanded();
@@ -124,6 +207,7 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
     public int getItemCount() {
         return mImageUrls.size();
     }
+
 
     public class Viewholder extends RecyclerView.ViewHolder /*extends RecyclerView.ViewHolder */{
         ImageView image;
