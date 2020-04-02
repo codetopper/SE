@@ -1,6 +1,7 @@
 package com.example.karat.Customer.CHome;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.media.Image;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -38,7 +40,7 @@ import java.util.List;
 public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<StaggeredRecyclerViewAdapter.Viewholder>{
 
     private static final String TAG = "StaggeredRecyclerViewAd";
-
+    private ArrayList<Listing> Listing;
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<String> mImageUrls = new ArrayList<>();
     private ArrayList<String> mDescription = new ArrayList<>();
@@ -47,7 +49,7 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
     private static ArrayList<Integer> mListingId = new ArrayList<>();
     private static ArrayList<Integer> mQty = new ArrayList<>();
     private static ArrayList<Double> mPrice = new ArrayList<>();
-    private FirebaseDatabase firebaseDB;
+    private FirebaseDatabase firebaseDatabase;
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
 
@@ -77,7 +79,7 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
 
 
     public void reset(ArrayList<Listing> listing){
-
+        Listing = (ArrayList<com.example.karat.inventory.Listing>) listing.clone();
         mNames.clear();
         mImageUrls.clear();
         mListingId.clear();
@@ -140,6 +142,8 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 holder.minus.setEnabled(true);
                 holder.plus.setEnabled(true);
+                holder.addtoCart.setEnabled(true);
+                holder.addtoCart.setBackgroundColor(0xFFBDE0B7);
             }
 
             @Override
@@ -204,12 +208,22 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
         holder.addtoCart.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                String email = mAuth.getCurrentUser().getEmail().replace("@", "")
-                        .replace(".", "");
-                int id = mListingId.get(position);
-                mDatabase.child("UserCart").child(email).child(id+"").child("listingId").setValue(id);
-                mDatabase.child("UserCart").child(email).child(id+"").child("cartQty")
-                        .setValue(Integer.parseInt(holder.homequantity.getText().toString()));
+                String text = holder.homequantity.getText().toString();
+                if (Integer.parseInt(text) == 0) {
+                    holder.addtoCart.setEnabled(false);
+                    holder.addtoCart.setBackgroundColor(Color.GRAY);
+                    Toast.makeText(mContext, "Please add at least one value to cart", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    String email = mAuth.getCurrentUser().getEmail().replace("@", "")
+                            .replace(".", "");
+                    //Toast.makeText(mContext, Listing.get(position).getListingName(), Toast.LENGTH_LONG).show();
+                    int id = mListingId.get(position);
+                    mDatabase.child("UserCart").child(email).child(id + "").child("listingId").setValue(id);
+                    mDatabase.child("UserCart").child(email).child(id + "").child("cartQty")
+                            .setValue(Integer.parseInt(holder.homequantity.getText().toString()));
+                    Toast.makeText(mContext, "Your item has been succesfully added", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -226,7 +240,6 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
         Button addtoCart;
         TextView desc;
         CardView container;
-
         EditText homequantity;
         Button plus;
         Button minus;
