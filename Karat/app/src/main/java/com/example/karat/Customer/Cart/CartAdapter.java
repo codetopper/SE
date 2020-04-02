@@ -42,6 +42,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
     private static ArrayList<Integer> mQty;
     private static ArrayList<String> mName;
     private static ArrayList<Integer> mListingID;
+    private static ArrayList<String> mLocation;
     private static ArrayList<String> mLicense;
     private static DecimalFormat df2 = new DecimalFormat("#.##");
     private ArrayList<Listing> cartArrayList;
@@ -112,6 +113,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
         mQty= new ArrayList<Integer>();
         mListingID = new ArrayList<Integer>();
         mLicense = new ArrayList<String>();
+        mLocation = new ArrayList<String>();
     };
 
     public void setData(ArrayList<Listing> cartArrayList){
@@ -121,6 +123,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
             mPrice.add(Double.parseDouble(listing.getListingPrice()+""));
             mListingID.add(Integer.parseInt(listing.getListingId()+""));
             mLicense.add(listing.getLicense()+"");
+            mLocation.add(listing.getListingLocation());
         }
     }
 
@@ -277,7 +280,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
                     mDatabase.child("COrders").child(email).child("Order"+TId).child("Item"+i).child("Quantity").setValue(mQty.get(i));
                     mDatabase.child("COrders").child(email).child("Order"+TId).child("Item"+i).child("License").setValue(mLicense.get(i));
                     mDatabase.child("COrders").child(email).child("Order"+TId).child("Item"+i).child("Price").setValue(mPrice.get(i));
-
+                    mDatabase.child("COrders").child(email).child("Order"+TId).child("Item"+i).child("Location").setValue(mLocation.get(i));
                 }
                 mDatabase.child("COrders").child(email).child("Order"+TId).child("totalPrice").setValue(calculateTotal());
                 mDatabase.child("UserCart").child(email).setValue(null);
