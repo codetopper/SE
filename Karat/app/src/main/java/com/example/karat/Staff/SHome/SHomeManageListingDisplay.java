@@ -231,7 +231,7 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
                 timeTV.setText(timeStart + "-" + timeEnd);
                 Boolean end = false;
                 int index = 1;
-                int i = 1;
+                int i = 0;
                 while (!end){
                     Listing listing = dataSnapshot.child("Inventory").child(index+"").getValue(Listing.class);
                     try {
@@ -365,7 +365,19 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
                             listingID = Integer.parseInt(getIntent().getExtras().getString("listingID"));
                         }
                         mDatabase.child("Inventory").child(listingID+"").child("listingId").setValue(listingID);
-
+                        final int finalListingID = listingID;
+                        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                String email = mAuth.getCurrentUser().getEmail().replace("@", "")
+                                        .replace(".", "");
+                                String licenseNo = dataSnapshot.child("UserDatabase").child(email).child("licenseNo").getValue()+"";
+                                mDatabase.child("Inventory").child(finalListingID +"").child("licenseNo").setValue(licenseNo);
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                            }
+                        });
                         final int imageID = listingID;
 
                         //Upload image to firebase storage and url to realtime database
@@ -412,7 +424,6 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
                                 }
                             }
                         });
-
                         //Return to home activity
                         Intent SHomeIntent = new Intent(getApplicationContext(), SHomeDisplay.class);
                         SHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);

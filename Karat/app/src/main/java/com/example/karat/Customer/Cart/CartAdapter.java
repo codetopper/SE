@@ -2,6 +2,7 @@
 package com.example.karat.Customer.Cart;
 
 import android.content.Context;
+import android.content.Intent;
 import android.provider.ContactsContract;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -19,7 +20,9 @@ import java.text.DecimalFormat;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.karat.Customer.CHome.CHomeDisplay;
 import com.example.karat.R;
+import com.example.karat.Staff.SHome.SHomeManageListingDisplay;
 import com.example.karat.inventory.Listing;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -32,13 +35,14 @@ import java.util.List;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHolder> {
     /* Instance Variable */
-    private Context mContext;
+    private static Context mContext;
     //private ArrayList<Cart> cartArrayList;
     private OnItemClickListener mListener;
     private static ArrayList<Double> mPrice;
     private static ArrayList<Integer> mQty;
     private static ArrayList<String> mName;
     private static ArrayList<Integer> mListingID;
+    private static ArrayList<String> mLocation;
     private static DecimalFormat df2 = new DecimalFormat("#.##");
     private ArrayList<Listing> cartArrayList;
     DecimalFormat df = new DecimalFormat("#.00"); // Set your desired format here.
@@ -107,6 +111,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
         mName = new ArrayList<String>();
         mQty= new ArrayList<Integer>();
         mListingID = new ArrayList<Integer>();
+        mLocation = new ArrayList<String>();
     };
 
     public void setData(ArrayList<Listing> cartArrayList){
@@ -115,6 +120,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
             mQty.add(Integer.parseInt(listing.getListingQuantity()+""));
             mPrice.add(Double.parseDouble(listing.getListingPrice()+""));
             mListingID.add(Integer.parseInt(listing.getListingId()+""));
+            mLocation.add(listing.getListingLocation()+"");
         }
     }
 
@@ -123,6 +129,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
         mName.clear();
         mQty.clear();
         mListingID.clear();
+        mLocation.clear();
     }
     public static double calculateTotal(){
         double total = 0;
@@ -235,5 +242,45 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
         return mQty.size();
     }
 
+    public static void writePurchase(){
+        final DatabaseReference mDatabase = CartDisplay.getmDatabase();
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String email = CartDisplay.getmAuth().getCurrentUser().getEmail().replace("@", "")
+                        .replace(".", "");
+                int TId = 1;
+                if (dataSnapshot.child("COrders").hasChild(email)) {
+                    TId = Integer.parseInt(dataSnapshot.child("COrders").child(email).getChildrenCount() + "") + 1;
+                }
+                for (int i=0; i<mName.size();i++) {
+                    mDatabase.child("COrders").child(email).child("Order"+TId).child("Item"+i).child("Name").setValue(mName.get(i));
+                    int id = mListingID.get(i);
+                    int quantity = mQty.get(i);
+                    int currStock = Integer.parseInt(dataSnapshot.child("Inventory").child(id + "").child("listingQuantity").getValue() + "");
+                    if(quantity == currStock){
+                        mDatabase.child("Inventory").child(id + "").setValue(null);
+                    }
+                    else {
+                        mDatabase.child("Inventory").child(id + "").child("listingQuantity").setValue(currStock-quantity);
+                    }
+                    mDatabase.child("COrders").child(email).child("Order"+TId).child("Item"+i).child("Quantity").setValue(mQty.get(i));
+                    mDatabase.child("COrders").child(email).child("Order"+TId).child("Item"+i).child("Location").setValue(mLocation.get(i));
+
+                }
+                mDatabase.child("UserCart").child(email).setValue(null);
+                Toast.makeText(mContext,mName.size()+"", Toast.LENGTH_SHORT).show();
+
+                clearData();
+                CartDisplay.resetPrices();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
 
 }

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.os.Build;
@@ -37,7 +38,7 @@ import java.util.ArrayList;
 
 public class CartDisplay extends AppCompatActivity {
     private RecyclerView mRecyclerView;
-    private CartAdapter mAdapter;
+    private static CartAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private static TextView subtotal;
     private static TextView GST;
@@ -84,6 +85,9 @@ public class CartDisplay extends AppCompatActivity {
         //cartManager= new CartManager();
         init();
         buildRecyclerView();
+        //To be done...
+        //checkCart();
+
         EmptyCart.setOnClickListener(
                 new View.OnClickListener() {
              @Override
@@ -120,7 +124,7 @@ public class CartDisplay extends AppCompatActivity {
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // Listing Database is updated
+                mAdapter.writePurchase();
 
             }
         });
@@ -173,6 +177,8 @@ public class CartDisplay extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
+
+
     }
 
     public void buildRecyclerView(){
@@ -246,11 +252,22 @@ public class CartDisplay extends AppCompatActivity {
 //         }
 
     }
-    public void resetPrices() {
+    public static void resetPrices() {
         mAdapter.notifyDataSetChanged();
         CartDisplay.getSubtotal().setText("SUBTOTAL: $" + String.valueOf(df2.format(CartAdapter.calculateSubtotal())));
         CartDisplay.getGST().setText("GST: $" + String.valueOf(df2.format(CartAdapter.calculateGST())));
         CartDisplay.getTotal().setText("TOTAL PAYABLE: $" + String.valueOf(df2.format(CartAdapter.calculateTotal())));
+    }
+
+    public void checkCart(){
+        if (mAdapter.getmName().isEmpty()) {
+            EmptyCart.setEnabled(false);
+            Toast.makeText(getApplicationContext(), "Cart is already empty", Toast.LENGTH_SHORT).show();
+            EmptyCart.setBackgroundColor(Color.GRAY);
+        } else {
+            EmptyCart.setEnabled(true);
+            EmptyCart.setBackgroundColor(0xFFF05555);
+        }
     }
     }
 
