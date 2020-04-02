@@ -43,8 +43,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="CONFIRM"
-        android:background="@drawable/rounded_button"
-        android:backgroundTint="#C4C4C4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

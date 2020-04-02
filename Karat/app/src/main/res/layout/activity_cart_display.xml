@@ -45,8 +45,7 @@
         android:layout_marginTop="64dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:background="@drawable/rounded_button"
-        android:backgroundTint="#F05555"
+        android:background="#F05555"
         android:fontFamily="@font/fredoka_one"
         android:text="Empty Cart"
 
@@ -74,8 +73,7 @@
         android:layout_width="197dp"
         android:layout_height="50dp"
         android:layout_marginTop="12dp"
-        android:background="@drawable/rounded_button"
-        android:backgroundTint="#A2DD8E"
+        android:background="#A2DD8E"
         android:fontFamily="@font/fredoka_one"
         android:text="Proceed to Payment"
         app:layout_constraintEnd_toEndOf="parent"
@@ -88,15 +86,18 @@
         android:layout_height="300dp"
         android:layout_marginTop="136dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:scrollbars="vertical"
+        android:scrollbarThumbVertical="@android:color/darker_gray"
+        android:scrollbarSize="5dp"/>
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout5"
         android:layout_width="282dp"
         android:layout_height="73dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/rounded_button"
-        android:backgroundTint="#33FFFFFF"
+        android:background="#33FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recyclerView2">
@@ -136,12 +137,14 @@
             android:id="@+id/total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/fredoka_one"
             android:text="TOTAL PAYABLE :"
             android:textColor="#F4980E"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/subTotal" />
 
