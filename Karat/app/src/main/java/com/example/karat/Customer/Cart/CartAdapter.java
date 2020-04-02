@@ -33,6 +33,7 @@ import java.util.List;
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHolder> {
     /* Instance Variable */
     private Context mContext;
+    //private ArrayList<Cart> cartArrayList;
     private OnItemClickListener mListener;
     private static ArrayList<Double> mPrice;
     private static ArrayList<Integer> mQty;
