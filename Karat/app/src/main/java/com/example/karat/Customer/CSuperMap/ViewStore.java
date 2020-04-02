@@ -124,7 +124,7 @@ public class ViewStore extends AppCompatActivity implements AdapterView.OnItemSe
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds: dataSnapshot.getChildren()){
                     try {
-                        if (ds.child("listingLocation").getValue(String.class).equals(id)) {
+                        if (ds.child("licenseNo").getValue(String.class).equals(id)) {
                             Listing listing = ds.getValue(Listing.class);
                             assert listing != null;
                             list.add(listing);
