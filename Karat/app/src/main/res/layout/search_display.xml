@@ -116,6 +116,7 @@
                 android:gravity="center"
                 android:inputType="number"
                 android:text="1"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/minus2"
                 app:layout_constraintTop_toBottomOf="@+id/imageview_widget" />

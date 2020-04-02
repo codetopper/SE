@@ -140,11 +140,6 @@ public class CartDisplay extends AppCompatActivity {
         dialog = builder.create();
         dialog.show();
     }
-    public void createExampleList(){
-        cartManager.total.addtoCart(3.5,"Chicken",3,R.drawable.ic_person);
-        cartManager.total.addtoCart(4.5,"Duck",3,R.drawable.ic_history);
-        cartManager.total.addtoCart( 5.5,"Rice",3,R.drawable.ic_person);
-    }
 
 
     public void init(){
