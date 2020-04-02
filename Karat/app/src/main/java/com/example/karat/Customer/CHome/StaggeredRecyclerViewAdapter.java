@@ -98,6 +98,7 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         mDatabase = firebaseDatabase.getReference();
+        mAuth = FirebaseAuth.getInstance();
 
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.placeholder(R.drawable.ic_launcher_background);
@@ -195,8 +196,6 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
                     //Toast.makeText(mContext, Listing.get(position).getListingName(), Toast.LENGTH_LONG).show();
                     int id = mListingId.get(position);
                     mDatabase.child("UserCart").child(email).child(id + "").child("listingId").setValue(id);
-
-
                     mDatabase.child("UserCart").child(email).child(id + "").child("cartQty")
                             .setValue(Integer.parseInt(holder.homequantity.getText().toString()));
                     Toast.makeText(mContext, "Your item has been succesfully added", Toast.LENGTH_SHORT).show();
