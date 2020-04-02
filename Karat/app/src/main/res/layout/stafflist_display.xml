@@ -56,8 +56,6 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="190dp"
-                android:background="@drawable/rounded_button"
-                android:backgroundTint="#C4C4C4"
                 android:text="Edit" />
 
             <TextView

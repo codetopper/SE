@@ -1,6 +1,7 @@
 package com.example.karat.Customer.CHome;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.media.Image;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -38,7 +40,7 @@ import java.util.List;
 public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<StaggeredRecyclerViewAdapter.Viewholder>{
 
     private static final String TAG = "StaggeredRecyclerViewAd";
-
+    private ArrayList<Listing> Listing;
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<String> mImageUrls = new ArrayList<>();
     private ArrayList<String> mDescription = new ArrayList<>();
@@ -47,21 +49,42 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
     private static ArrayList<Integer> mListingId = new ArrayList<>();
     private static ArrayList<Integer> mQty = new ArrayList<>();
     private static ArrayList<Double> mPrice = new ArrayList<>();
-    private FirebaseDatabase firebaseDB;
+    private FirebaseDatabase firebaseDatabase;
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
+
     private Context mContext;
 
     public StaggeredRecyclerViewAdapter(Context context){
         mContext = context;
     }
 
-    public void reset(ArrayList<Listing> listing){
+    public StaggeredRecyclerViewAdapter(Context context,
+                                        ArrayList<Listing> Listing
+                                        //ArrayList<String> names, ArrayList<String> imageUrls
+    ){
 
+        for(Listing listing: Listing) {
+            mNames.add(listing.getListingName());
+            mImageUrls.add(listing.getImage_url());
+            mListingId.add(listing.getListingId());
+            mQty.add(Integer.parseInt(listing.getListingQuantity()+""));
+        }
+        mContext = context;
+
+        /*mNames = names;
+        mImageUrls = imageUrls;
+        mContext = context;*/
+    }
+
+
+    public void reset(ArrayList<Listing> listing){
+        Listing = (ArrayList<com.example.karat.inventory.Listing>) listing.clone();
         mNames.clear();
         mImageUrls.clear();
         mListingId.clear();
         mQty.clear();
+
         mPrice.clear();
         mDescription.clear();
         mDiscount.clear();
@@ -87,8 +110,8 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
     @Override
     public void onBindViewHolder(@NonNull final Viewholder holder, final int position) {
 
-        firebaseDB = FirebaseDatabase.getInstance();
-        mDatabase = firebaseDB.getReference();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        mDatabase = firebaseDatabase.getReference();
         mAuth = FirebaseAuth.getInstance();
 
         RequestOptions requestOptions = new RequestOptions();
@@ -119,6 +142,8 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 holder.minus.setEnabled(true);
                 holder.plus.setEnabled(true);
+                holder.addtoCart.setEnabled(true);
+                holder.addtoCart.setBackgroundColor(0xFFBDE0B7);
             }
 
             @Override
@@ -183,12 +208,22 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
         holder.addtoCart.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                String email = mAuth.getCurrentUser().getEmail().replace("@", "")
-                        .replace(".", "");
-                int id = mListingId.get(position);
-                mDatabase.child("UserCart").child(email).child(id+"").child("listingId").setValue(id);
-                mDatabase.child("UserCart").child(email).child(id+"").child("cartQty")
-                        .setValue(Integer.parseInt(holder.homequantity.getText().toString()));
+                String text = holder.homequantity.getText().toString();
+                if (Integer.parseInt(text) == 0) {
+                    holder.addtoCart.setEnabled(false);
+                    holder.addtoCart.setBackgroundColor(Color.GRAY);
+                    Toast.makeText(mContext, "Please add at least one value to cart", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    String email = mAuth.getCurrentUser().getEmail().replace("@", "")
+                            .replace(".", "");
+                    //Toast.makeText(mContext, Listing.get(position).getListingName(), Toast.LENGTH_LONG).show();
+                    int id = mListingId.get(position);
+                    mDatabase.child("UserCart").child(email).child(id + "").child("listingId").setValue(id);
+                    mDatabase.child("UserCart").child(email).child(id + "").child("cartQty")
+                            .setValue(Integer.parseInt(holder.homequantity.getText().toString()));
+                    Toast.makeText(mContext, "Your item has been succesfully added", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -203,6 +238,8 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
         ImageView image;
         TextView name, price, category, description, quantity, discount;
         Button addtoCart;
+        TextView desc;
+        CardView container;
         EditText homequantity;
         Button plus;
         Button minus;
@@ -213,6 +250,8 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
             this.image = itemView.findViewById(R.id.imageview_widget);
             this.name = itemView.findViewById(R.id.name_widget);
             this.addtoCart = itemView.findViewById(R.id.addtoCart);
+            desc = itemView.findViewById(R.id.textView19);
+            container = itemView.findViewById(R.id.chomecard);
             this.homequantity = itemView.findViewById(R.id.homequantity);
             this.plus = itemView.findViewById(R.id.plus2);
             this.minus = itemView.findViewById(R.id.minus2);
@@ -222,7 +261,10 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
             this.quantity = itemView.findViewById(R.id.qty_widget);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> parent of 2e2d070... Merge pull request #58 from codetopper/sgt
             desc = itemView.findViewById(R.id.textView19);
             container = itemView.findViewById(R.id.chomecard);
 
