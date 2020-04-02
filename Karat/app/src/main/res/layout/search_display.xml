@@ -281,6 +281,20 @@
                 android:maxLines="5"
                 android:text="description_text"
                 android:textColor="#F4980E" />
+            <ImageView
+                android:id="@+id/arrowdown"
+                android:layout_width="27dp"
+                android:layout_height="24dp"
+                android:layout_below="@id/imageview_widget"
+                android:layout_centerHorizontal="true"
+                app:srcCompat="@drawable/downarrow" />
+            <ImageView
+                android:id="@+id/arrowup"
+                android:layout_width="27dp"
+                android:layout_height="24dp"
+                android:layout_below="@id/description_text"
+                android:layout_centerHorizontal="true"
+                app:srcCompat="@drawable/uparrow" />
 
         </RelativeLayout>
 

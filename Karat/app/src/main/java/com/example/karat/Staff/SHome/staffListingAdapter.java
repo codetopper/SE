@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -62,7 +63,7 @@ public class staffListingAdapter extends RecyclerView.Adapter<staffListingAdapte
         holder.itemQty.setText(Listing.get(position).getListingQuantity() +"");
         holder.category.setText(Listing.get(position).getListingCategory());
         holder.discount.setText(Listing.get(position).getListingDiscount()+" %");
-        holder.description.setText(Listing.get(position).getDescription());
+        holder.descTxt.setText(Listing.get(position).getDescription());
         holder.price.setText("$ "+Listing.get(position).getListingPrice());
 
         holder.image.setOnClickListener(new View.OnClickListener(){
@@ -79,6 +80,12 @@ public class staffListingAdapter extends RecyclerView.Adapter<staffListingAdapte
                 i.putExtra("listingID", Listing.get(position).getListingId()+"");
                 mContext.startActivity(i); }
         });
+
+        boolean isExpanded = Listing.get(position).isExpanded();
+        holder.desc.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+        holder.descTxt.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+        holder.arrowd.setVisibility(!isExpanded ? View.VISIBLE : View.GONE);
+        holder.arrowu.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -87,21 +94,35 @@ public class staffListingAdapter extends RecyclerView.Adapter<staffListingAdapte
     }
 
     public class Viewholder extends RecyclerView.ViewHolder /*extends RecyclerView.ViewHolder */{
-        ImageView image;
-        TextView name, itemQty, description, discount, category, price;
+        ImageView image, arrowu, arrowd;
+        CardView container;
+        TextView name, itemQty, desc, descTxt, discount, category, price;
         Button editBtn;
 
         public Viewholder(View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.imageview_widget);
             editBtn = itemView.findViewById(R.id.editBtn);
+            container = itemView.findViewById(R.id.shomecard);
             name = itemView.findViewById(R.id.name_read);
             price = itemView.findViewById(R.id.price_widget);
             itemQty = itemView.findViewById(R.id.qty_widget);
             discount = itemView.findViewById(R.id.disc_widget);
             category = itemView.findViewById(R.id.category_widget);
-            description = itemView.findViewById(R.id.description_text);
+            descTxt = itemView.findViewById(R.id.description_text);
+            desc = itemView.findViewById(R.id.description);
+            arrowd = itemView.findViewById(R.id.arrowdown);
+            arrowu = itemView.findViewById(R.id.arrowup);
 
+            container.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Listing list = Listing.get(getAdapterPosition());
+                    list.setExpanded(!list.isExpanded());
+                    notifyItemChanged(getAdapterPosition());
+                }
+            });
         }
     }
 }

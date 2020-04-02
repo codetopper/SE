@@ -2,11 +2,9 @@ package com.example.karat.Customer.CHome;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.media.Image;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,13 +25,8 @@ import com.example.karat.inventory.Listing;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
 
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<StaggeredRecyclerViewAdapter.Viewholder>{
 
@@ -228,6 +221,8 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
         boolean isExpanded = Listing.get(position).isExpanded();
         holder.desc.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
         holder.descTxt.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+        holder.arrowd.setVisibility(!isExpanded ? View.VISIBLE : View.GONE);
+        holder.arrowu.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -236,7 +231,7 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
     }
 
     public class Viewholder extends RecyclerView.ViewHolder /*extends RecyclerView.ViewHolder */{
-        ImageView image;
+        ImageView image, arrowd, arrowu;
         TextView name, price, category, description, quantity, discount;
         Button addtoCart;
         TextView desc, descTxt;
@@ -261,6 +256,8 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
             this.description = itemView.findViewById(R.id.description_text);
             this.discount = itemView.findViewById(R.id.disc_widget);
             this.quantity = itemView.findViewById(R.id.qty_widget);
+            arrowd = itemView.findViewById(R.id.arrowdown);
+            arrowu = itemView.findViewById(R.id.arrowup);
 
 
             container.setOnClickListener(new View.OnClickListener() {
