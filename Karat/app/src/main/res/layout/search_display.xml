@@ -38,7 +38,9 @@
                 android:text="-"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageview_widget" />
+                app:layout_constraintTop_toBottomOf="@+id/imageview_widget"
+                android:layout_marginLeft="12dp"
+                android:layout_toRightOf="@+id/imageview_widget" />
 
             <ImageView
                 android:id="@+id/imageview_widget"
@@ -51,7 +53,9 @@
                 android:scaleType="center"
                 android:src="@mipmap/ic_launcher"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="5dp" />
 
             <TextView
                 android:id="@+id/name_widget"
@@ -219,8 +223,8 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/lato"
-                android:text="Description"
-                android:textColor="#FFFFFF" />
+                android:textColor="#FFFFFF"
+                android:text="Description" />
 
             <TextView
                 android:id="@+id/qty_widget"
