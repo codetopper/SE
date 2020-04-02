@@ -227,6 +227,7 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
         });
         boolean isExpanded = Listing.get(position).isExpanded();
         holder.desc.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+        holder.descTxt.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -238,7 +239,7 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
         ImageView image;
         TextView name, price, category, description, quantity, discount;
         Button addtoCart;
-        TextView desc;
+        TextView desc, descTxt;
         CardView container;
         EditText homequantity;
         Button plus;
@@ -251,6 +252,7 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
             this.name = itemView.findViewById(R.id.name_widget);
             this.addtoCart = itemView.findViewById(R.id.addtoCart);
             desc = itemView.findViewById(R.id.textView19);
+            descTxt = itemView.findViewById(R.id.description_text);
             container = itemView.findViewById(R.id.chomecard);
             this.homequantity = itemView.findViewById(R.id.homequantity);
             this.plus = itemView.findViewById(R.id.plus2);
@@ -259,9 +261,6 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
             this.description = itemView.findViewById(R.id.description_text);
             this.discount = itemView.findViewById(R.id.disc_widget);
             this.quantity = itemView.findViewById(R.id.qty_widget);
-
-            desc = itemView.findViewById(R.id.textView19);
-            container = itemView.findViewById(R.id.chomecard);
 
 
             container.setOnClickListener(new View.OnClickListener() {
