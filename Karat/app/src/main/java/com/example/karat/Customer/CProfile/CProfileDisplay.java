@@ -122,7 +122,7 @@ public class CProfileDisplay extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(CProfileDisplay.this);
-                builder.setMessage("Are you sure you want to log off??")
+                builder.setMessage("Are you sure you want to log off?")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
