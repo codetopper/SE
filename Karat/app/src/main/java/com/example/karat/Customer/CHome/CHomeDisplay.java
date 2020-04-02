@@ -61,7 +61,7 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
         mDatabase.child("Inventory").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot ds : dataSnapshot.getChildren()){
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     Listing listing = ds.getValue(Listing.class);
                     listing.setImage_url(ds.child("imageUrl").getValue(String.class));
                     assert listing != null;
@@ -70,11 +70,11 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
                 staggeredRecyclerViewAdapter.reset(searchList);
                 staggeredRecyclerViewAdapter.notifyDataSetChanged();
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                throw databaseError.toException();
             }
+
         });
 
         //Do search
@@ -173,8 +173,6 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
 
             }
         });
-        //Editing quantity
-
 
         //Navigation bar
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navi);
