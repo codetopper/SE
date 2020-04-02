@@ -37,7 +37,7 @@ import java.util.List;
 
 public class SHomeDisplay extends AppCompatActivity {
 
-    private TextView nameTV, addressTV, timeTV;
+    private TextView nameTV, addressTV, timeTV, licenseTV;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private Button addListingBtn;
@@ -72,14 +72,15 @@ public class SHomeDisplay extends AppCompatActivity {
                     assert listing != null;
                     listing.setImage_url(ds.child("imageUrl").getValue(String.class));
                     listing.setListingId(id);
+                    listing.setLicense(ds.child("licenseNo").getValue(String.class));
                     postList.add(listing);
                     id ++;
                 }
 
-                String location = nameTV.getText().toString();
+                String license = licenseTV.getText().toString();
 
                 for (Listing i : postList){
-                    if (i.getListingLocation().equals(location)){
+                    if (i.getLicense().equals(license)){
                         filterList.add(i);
                     }
                 }
@@ -145,9 +146,11 @@ public class SHomeDisplay extends AppCompatActivity {
                 String address = dataSnapshot.child("UserDatabase").child(email).child("address").getValue(String.class);
                 String timeStart = dataSnapshot.child("UserDatabase").child(email).child("openingHour").getValue(String.class);
                 String timeEnd = dataSnapshot.child("UserDatabase").child(email).child("closingHour").getValue(String.class);
+                String license = dataSnapshot.child("UserDatabase").child(email).child("licenseNo").getValue(String.class);
                 nameTV.setText(name);
                 addressTV.setText(address);
                 timeTV.setText(timeStart+"-"+timeEnd);
+                licenseTV.setText(license);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -159,6 +162,7 @@ public class SHomeDisplay extends AppCompatActivity {
     private void initialiseUI(){
         addListingBtn = findViewById(R.id.addListing);
         nameTV = findViewById(R.id.nameTV);
+        licenseTV = findViewById(R.id.licenseTV);
         addressTV = findViewById(R.id.addressTV);
         timeTV = findViewById(R.id.timeTV);
         recyclerView = findViewById(R.id.recyclerViewEdit);
