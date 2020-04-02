@@ -35,6 +35,8 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.karat.Customer.COrder.CustomerOrders.purchase;
+
 public class SHomeDisplay extends AppCompatActivity {
 
     private TextView nameTV, addressTV, timeTV;
