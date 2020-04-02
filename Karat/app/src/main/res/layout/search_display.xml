@@ -29,7 +29,7 @@
                 android:layout_height="20dp"
                 android:layout_below="@+id/textView18"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="7dp"
+                android:layout_marginTop="9dp"
                 android:layout_toEndOf="@+id/imageview_widget"
                 android:background="@drawable/rounded_button"
                 android:backgroundTint="#FAFAFA"
@@ -46,7 +46,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="2dp"
                 android:scaleType="center"
                 android:src="@mipmap/ic_launcher"
                 app:layout_constraintStart_toStartOf="parent"
@@ -57,13 +57,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_marginStart="77dp"
-                android:layout_marginTop="13dp"
+                android:layout_marginStart="69dp"
+                android:layout_marginLeft="69dp"
+                android:layout_marginTop="9dp"
                 android:layout_toEndOf="@+id/imageview_widget"
+                android:layout_toRightOf="@+id/imageview_widget"
                 android:fontFamily="@font/lato"
                 android:gravity="center"
                 android:text="Meat"
-                android:textColor="#EBFF00"
+                android:textColor="#F4980E"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/imageview_widget"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -72,14 +74,16 @@
                 android:id="@+id/price_widget"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/name_widget"
-                android:layout_marginStart="75dp"
-                android:layout_marginTop="4dp"
+                android:layout_below="@+id/textView14"
+                android:layout_marginStart="69dp"
+                android:layout_marginLeft="69dp"
+                android:layout_marginTop="9dp"
                 android:layout_toEndOf="@+id/imageview_widget"
+                android:layout_toRightOf="@+id/imageview_widget"
                 android:fontFamily="@font/lato"
                 android:gravity="center"
                 android:text="Price"
-                android:textColor="#EBFF00"
+                android:textColor="#F4980E"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/imageview_widget"
                 app:layout_constraintTop_toBottomOf="@+id/name_widget" />
@@ -107,7 +111,7 @@
                 android:layout_height="20dp"
                 android:layout_below="@+id/textView18"
                 android:layout_marginStart="5dp"
-                android:layout_marginTop="7dp"
+                android:layout_marginTop="9dp"
                 android:layout_toEndOf="@+id/minus2"
                 android:background="@drawable/rounded_button"
                 android:backgroundTint="#FAFAFA"
@@ -127,7 +131,7 @@
                 android:layout_height="20dp"
                 android:layout_below="@+id/textView18"
                 android:layout_marginStart="5dp"
-                android:layout_marginTop="7dp"
+                android:layout_marginTop="9dp"
                 android:layout_toEndOf="@+id/homequantity"
                 android:background="@drawable/rounded_button"
                 android:backgroundTint="#FAFAFA"
@@ -149,9 +153,10 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="10dp"
                 android:layout_toEndOf="@+id/imageview_widget"
-                android:fontFamily="@font/fredoka_one"
+                android:fontFamily="@font/lato"
                 android:text="Name"
-                android:textColor="#FFFFFF" />
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/textView15"
@@ -159,11 +164,12 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textView14"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="7dp"
+                android:layout_marginTop="9dp"
                 android:layout_toEndOf="@+id/imageview_widget"
-                android:fontFamily="@font/fredoka_one"
+                android:fontFamily="@font/lato"
                 android:text="Price"
-                android:textColor="#FFFFFF" />
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/textView16"
@@ -171,11 +177,12 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textView15"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="7dp"
+                android:layout_marginTop="9dp"
                 android:layout_toEndOf="@+id/imageview_widget"
-                android:fontFamily="@font/fredoka_one"
+                android:fontFamily="@font/lato"
                 android:text="Discount"
-                android:textColor="#FFFFFF" />
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/textView17"
@@ -183,11 +190,12 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textView16"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="7dp"
+                android:layout_marginTop="9dp"
                 android:layout_toEndOf="@+id/imageview_widget"
-                android:fontFamily="@font/fredoka_one"
+                android:fontFamily="@font/lato"
                 android:text="itemQty"
-                android:textColor="#FFFFFF" />
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/textView18"
@@ -195,11 +203,12 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textView17"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="7dp"
+                android:layout_marginTop="9dp"
                 android:layout_toEndOf="@+id/imageview_widget"
-                android:fontFamily="@font/fredoka_one"
+                android:fontFamily="@font/lato"
                 android:text="Category"
-                android:textColor="#FFFFFF" />
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/textView19"
@@ -209,7 +218,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="10dp"
-                android:fontFamily="@font/fredoka_one"
+                android:fontFamily="@font/lato"
                 android:text="Description"
                 android:textColor="#FFFFFF" />
 
@@ -217,54 +226,57 @@
                 android:id="@+id/qty_widget"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/disc_widget"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:layout_marginStart="303dp"
-                android:layout_marginLeft="303dp"
-                android:layout_marginTop="4dp"
+                android:layout_below="@+id/textView16"
+                android:layout_marginStart="69dp"
+                android:layout_marginLeft="69dp"
+                android:layout_marginTop="6dp"
+                android:layout_toEndOf="@+id/imageview_widget"
+                android:layout_toRightOf="@+id/imageview_widget"
                 android:text="itemQty"
-                android:textColor="#EBFF00" />
+                android:textColor="#F4980E"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/disc_widget"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/price_widget"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:layout_marginStart="270dp"
-                android:layout_marginLeft="270dp"
-                android:layout_marginTop="9dp"
+                android:layout_below="@+id/textView15"
+                android:layout_marginStart="69dp"
+                android:layout_marginLeft="69dp"
+                android:layout_marginTop="7dp"
+                android:layout_toEndOf="@+id/imageview_widget"
+                android:layout_toRightOf="@+id/imageview_widget"
                 android:text="Discount"
-                android:textColor="#EBFF00" />
+                android:textColor="#F4980E"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/category_widget"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/qty_widget"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:layout_marginStart="308dp"
-                android:layout_marginLeft="308dp"
-                android:layout_marginTop="5dp"
+                android:layout_below="@+id/textView17"
+                android:layout_marginStart="69dp"
+                android:layout_marginLeft="69dp"
+                android:layout_marginTop="6dp"
+                android:layout_toEndOf="@+id/imageview_widget"
+                android:layout_toRightOf="@+id/imageview_widget"
                 android:text="Category"
-                android:textColor="#EBFF00" />
+                android:textColor="#F4980E"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/description_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/imageview_widget"
+                android:layout_below="@+id/textView19"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
-                android:layout_marginStart="1dp"
-                android:layout_marginLeft="1dp"
-                android:layout_marginTop="33dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="2dp"
                 android:maxLines="5"
                 android:text="description_text"
-                android:textColor="#EBFF00" />
+                android:textColor="#F4980E" />
 
         </RelativeLayout>
 
