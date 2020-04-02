@@ -129,7 +129,7 @@ public class ViewStore extends AppCompatActivity implements AdapterView.OnItemSe
                             assert listing != null;
                             listing.setImage_url(ds.child("imageUrl").getValue()+"");
                             list.add(listing);
-                            Toast.makeText(getApplicationContext(), "Count: "+list.size(), Toast.LENGTH_SHORT).show();
+                            /*Toast.makeText(getApplicationContext(), "Count: "+list.size(), Toast.LENGTH_SHORT).show();*/
                         }
                     }catch (Exception ex){}
                 }

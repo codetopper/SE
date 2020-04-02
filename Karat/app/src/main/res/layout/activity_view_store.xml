@@ -104,6 +104,7 @@
         android:orientation="vertical"
         android:scrollbars="vertical"
         android:visibility="visible"
+        android:background="@color/background"
         app:layout_constraintBottom_toTopOf="@id/bottom_navi"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
