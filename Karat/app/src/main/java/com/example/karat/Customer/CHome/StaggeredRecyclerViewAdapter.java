@@ -3,12 +3,15 @@ package com.example.karat.Customer.CHome;
 import android.content.Context;
 import android.graphics.Color;
 import android.media.Image;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,7 +48,6 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
-    private Button addtoCart;
 
 
 
@@ -77,11 +79,11 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
         mImageUrls.clear();
         mListingId.clear();
         mQty.clear();
-        for(Listing listing: Listing) {
-            mNames.add(listing.getListingName());
-            mImageUrls.add(listing.getImage_url());
-            mListingId.add(listing.getListingId());
-            mQty.add(Integer.parseInt(listing.getListingQuantity()+""));
+        for(Listing ls: Listing) {
+            mNames.add(ls.getListingName());
+            mImageUrls.add(ls.getImage_url());
+            mListingId.add(ls.getListingId());
+            mQty.add(Integer.parseInt(ls.getListingQuantity()+""));
         }
     }
 
@@ -92,7 +94,7 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Viewholder holder, final int position) {
+    public void onBindViewHolder(@NonNull final Viewholder holder, final int position) {
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         mDatabase = firebaseDatabase.getReference();
@@ -217,6 +219,9 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
         Button addtoCart;
         TextView desc;
         CardView container;
+        EditText homequantity;
+        Button plus;
+        Button minus;
 
         public Viewholder(View itemView) {
             super(itemView);
@@ -225,6 +230,9 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
             this.addtoCart = itemView.findViewById(R.id.addtoCart);
             desc = itemView.findViewById(R.id.textView19);
             container = itemView.findViewById(R.id.chomecard);
+            this.homequantity = itemView.findViewById(R.id.homequantity);
+            this.plus = itemView.findViewById(R.id.plus2);
+            this.minus = itemView.findViewById(R.id.minus2);
 
             container.setOnClickListener(new View.OnClickListener() {
                 @Override
