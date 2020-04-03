@@ -44,7 +44,8 @@
                 android:layout_toRightOf="@+id/imageview_widget"
                 android:fontFamily="@font/lato"
                 android:text="Name"
-                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textColor="#F4980E"
                 android:textSize="12sp" />
 
             <Button
@@ -59,7 +60,9 @@
                 android:layout_toRightOf="@+id/imageview_widget"
                 android:background="@drawable/rounded_button"
                 android:backgroundTint="#FAFAFA"
-                android:text="Edit" />
+                android:fontFamily="@font/lato"
+                android:text="Edit"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/name_read"
@@ -74,7 +77,7 @@
                 android:fontFamily="@font/lato"
                 android:gravity="center"
                 android:text="Name"
-                android:textColor="#F4980E"
+                android:textColor="#FFFFFF"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/imageview_widget"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -86,13 +89,13 @@
                 android:layout_below="@+id/name_read"
                 android:layout_marginStart="69dp"
                 android:layout_marginLeft="69dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="7dp"
                 android:layout_toEndOf="@+id/imageview_widget"
                 android:layout_toRightOf="@+id/imageview_widget"
                 android:fontFamily="@font/lato"
                 android:gravity="center"
                 android:text="Price"
-                android:textColor="#F4980E"
+                android:textColor="#FFFFFF"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/imageview_widget"
                 app:layout_constraintTop_toBottomOf="@+id/name_widget" />
@@ -108,7 +111,7 @@
                 android:layout_toEndOf="@+id/imageview_widget"
                 android:layout_toRightOf="@+id/imageview_widget"
                 android:text="Discount"
-                android:textColor="#F4980E"
+                android:textColor="#FFFFFF"
                 android:textStyle="bold" />
 
             <TextView
@@ -122,7 +125,7 @@
                 android:layout_toEndOf="@+id/imageview_widget"
                 android:layout_toRightOf="@+id/imageview_widget"
                 android:text="itemQty"
-                android:textColor="#F4980E"
+                android:textColor="#FFFFFF"
                 android:textStyle="bold" />
 
             <TextView
@@ -136,7 +139,7 @@
                 android:layout_toEndOf="@+id/imageview_widget"
                 android:layout_toRightOf="@+id/imageview_widget"
                 android:text="Category"
-                android:textColor="#F4980E"
+                android:textColor="#FFFFFF"
                 android:textStyle="bold" />
 
             <TextView
@@ -151,7 +154,7 @@
                 android:layout_marginTop="2dp"
                 android:maxLines="5"
                 android:text="description_text"
-                android:textColor="#F4980E" />
+                android:textColor="#FFFFFF" />
 
             <TextView
                 android:id="@+id/itemQty"
@@ -165,7 +168,8 @@
                 android:layout_toRightOf="@+id/imageview_widget"
                 android:fontFamily="@font/lato"
                 android:text="itemQty"
-                android:textColor="#FFFFFF"
+                android:textColor="#F4980E"
+                android:textStyle="bold"
                 android:textSize="12sp" />
 
             <TextView
@@ -180,8 +184,8 @@
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/lato"
                 android:text="Description"
-                android:textColor="#FFFFFF"
                 android:textSize="12sp"
+                android:textColor="#F4980E"
                 android:textStyle="bold" />
 
             <TextView
@@ -196,7 +200,8 @@
                 android:layout_toRightOf="@+id/imageview_widget"
                 android:fontFamily="@font/lato"
                 android:text="Discount"
-                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textColor="#F4980E"
                 android:textSize="12sp" />
 
             <TextView
@@ -211,7 +216,8 @@
                 android:layout_toRightOf="@+id/imageview_widget"
                 android:fontFamily="@font/lato"
                 android:text="Category"
-                android:textColor="#FFFFFF"
+                android:textColor="#F4980E"
+                android:textStyle="bold"
                 android:textSize="12sp" />
 
             <TextView
@@ -226,7 +232,8 @@
                 android:layout_toRightOf="@+id/imageview_widget"
                 android:fontFamily="@font/lato"
                 android:text="Price"
-                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textColor="#F4980E"
                 android:textSize="12sp" />
 
             <ImageView

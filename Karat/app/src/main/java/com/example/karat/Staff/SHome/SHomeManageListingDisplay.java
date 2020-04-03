@@ -422,13 +422,18 @@ public class SHomeManageListingDisplay extends AppCompatActivity{
                                     mDatabase.child("Inventory").child(imageID+"").child("imageUrl").setValue(downloadURL);
                                 } else {
                                 }
+                                Intent SHomeIntent = new Intent(getApplicationContext(), SHomeDisplay.class);
+                                SHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(SHomeIntent);
+                                overridePendingTransition(0,0);
                             }
                         });
                         //Return to home activity
-                        Intent SHomeIntent = new Intent(getApplicationContext(), SHomeDisplay.class);
-                        SHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(SHomeIntent);
-                        overridePendingTransition(0,0); }
+//                        Intent SHomeIntent = new Intent(getApplicationContext(), SHomeDisplay.class);
+//                        SHomeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        startActivity(SHomeIntent);
+//                        overridePendingTransition(0,0);
+                    }
                 }).setNegativeButton("No", null);
             AlertDialog alert = builder.create();
             alert.show();

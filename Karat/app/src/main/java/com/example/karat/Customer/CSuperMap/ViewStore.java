@@ -124,12 +124,12 @@ public class ViewStore extends AppCompatActivity implements AdapterView.OnItemSe
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds: dataSnapshot.getChildren()){
                     try {
-                        if (ds.child("listingLocation").getValue(String.class).equals(id)) {
+                        if (ds.child("licenseNo").getValue(String.class).equals(id)) {
                             Listing listing = ds.getValue(Listing.class);
                             assert listing != null;
                             listing.setImage_url(ds.child("imageUrl").getValue()+"");
                             list.add(listing);
-                            Toast.makeText(getApplicationContext(), "Count: "+list.size(), Toast.LENGTH_SHORT).show();
+                            /*Toast.makeText(getApplicationContext(), "Count: "+list.size(), Toast.LENGTH_SHORT).show();*/
                         }
                     }catch (Exception ex){}
                 }

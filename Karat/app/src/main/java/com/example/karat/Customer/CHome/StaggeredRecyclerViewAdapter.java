@@ -1,6 +1,7 @@
 package com.example.karat.Customer.CHome;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,11 +21,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.karat.Customer.CProfile.CProfileDisplay;
+import com.example.karat.Customer.CSuperMap.MapDisplay;
+import com.example.karat.Customer.CSuperMap.ViewStore;
 import com.example.karat.R;
+import com.example.karat.Staff.SHome.SHomeManageListingDisplay;
 import com.example.karat.inventory.Listing;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -37,6 +45,7 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
     private ArrayList<String> mDescription = new ArrayList<>();
     private ArrayList<Double> mDiscount = new ArrayList<>();
     private ArrayList<String> mCategory = new ArrayList<>();
+    private ArrayList<String> mLicense = new ArrayList<>();
     private static ArrayList<Integer> mListingId = new ArrayList<>();
     private static ArrayList<Integer> mQty = new ArrayList<>();
     private static ArrayList<Double> mPrice = new ArrayList<>();
@@ -50,31 +59,13 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
         mContext = context;
     }
 
-    public StaggeredRecyclerViewAdapter(Context context,
-                                        ArrayList<Listing> Listing
-                                        //ArrayList<String> names, ArrayList<String> imageUrls
-    ){
-
-        for(Listing listing: Listing) {
-            mNames.add(listing.getListingName());
-            mImageUrls.add(listing.getImage_url());
-            mListingId.add(listing.getListingId());
-            mQty.add(Integer.parseInt(listing.getListingQuantity()+""));
-        }
-        mContext = context;
-
-        /*mNames = names;
-        mImageUrls = imageUrls;
-        mContext = context;*/
-    }
-
-
     public void reset(ArrayList<Listing> listing){
         Listing = (ArrayList<com.example.karat.inventory.Listing>) listing.clone();
         mNames.clear();
         mImageUrls.clear();
         mListingId.clear();
         mQty.clear();
+        mLicense.clear();
 
         mPrice.clear();
         mDescription.clear();
@@ -89,6 +80,7 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
             mDescription.add(mlisting.getDescription());
             mDiscount.add(Double.parseDouble(mlisting.getListingDiscount()+""));
             mCategory.add(mlisting.getListingCategory());
+            mLicense.add(mlisting.getLicense());
         }
     }
 
@@ -218,11 +210,21 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
                 }
             }
         });
+        holder.viewStore.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(mContext, ViewStore.class);
+                i.putExtra("id", mLicense.get(position)+"");
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(i);
+            }
+        });
         boolean isExpanded = Listing.get(position).isExpanded();
         holder.desc.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
         holder.descTxt.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
         holder.arrowd.setVisibility(!isExpanded ? View.VISIBLE : View.GONE);
         holder.arrowu.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+        holder.viewStore.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -233,7 +235,7 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
     public class Viewholder extends RecyclerView.ViewHolder /*extends RecyclerView.ViewHolder */{
         ImageView image, arrowd, arrowu;
         TextView name, price, category, description, quantity, discount;
-        Button addtoCart;
+        Button addtoCart, viewStore;
         TextView desc, descTxt;
         CardView container;
         EditText homequantity;
@@ -244,6 +246,7 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
             super(itemView);
             this.image = itemView.findViewById(R.id.imageview_widget);
             this.addtoCart = itemView.findViewById(R.id.addtoCart);
+            this.viewStore = itemView.findViewById(R.id.viewstore);
             desc = itemView.findViewById(R.id.textView19);
             descTxt = itemView.findViewById(R.id.description_text);
             container = itemView.findViewById(R.id.chomecard);

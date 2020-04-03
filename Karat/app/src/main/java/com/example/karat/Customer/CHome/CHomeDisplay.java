@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -62,6 +64,7 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     Listing listing = ds.getValue(Listing.class);
                     listing.setImage_url(ds.child("imageUrl").getValue(String.class));
+                    listing.setLicense(ds.child("licenseNo").getValue(String.class));
                     assert listing != null;
                     searchList.add(listing);
                 }
@@ -82,12 +85,14 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
                 //Extracting data from asynchronous database
                 searchList.clear();
                 searched.clear();
-                mDatabase.child("Inventory").addListenerForSingleValueEvent(new ValueEventListener() {
+                mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for(DataSnapshot ds : dataSnapshot.getChildren()){
+                        DataSnapshot inv = dataSnapshot.child("Inventory");
+                        for(DataSnapshot ds : inv.getChildren()){
                             Listing listing = ds.getValue(Listing.class);
                             listing.setImage_url(ds.child("imageUrl").getValue(String.class));
+                            listing.setLicense(ds.child("licenseNo").getValue(String.class));
                             assert listing != null;
                             searchList.add(listing);
                         }
@@ -143,6 +148,24 @@ public class CHomeDisplay extends AppCompatActivity implements AdapterView.OnIte
                                 if (discparam > -1.0) {
                                     if (discount < discparam)
                                         add = false;
+                                }
+
+                                String license = l.getLicense();
+                                if (locparam.equals("Near Me") ) {
+                                    DataSnapshot stafflist = dataSnapshot.child("UserDatabase");
+                                    for (DataSnapshot staff:stafflist.getChildren()){
+                                        if (staff.child("isStaff").getValue(Integer.class) ==1 ) {
+
+                                            if (staff.child("licenseNo").getValue(String.class).equals(license)) {
+                                                String chk = staff.child("licenseNo").getValue(String.class);
+                                                Log.d("lol1", chk);
+                                                if (staff.child("near").getValue(Integer.class)==0) {
+                                                    add = false;
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
 
                                 if (add){

@@ -39,7 +39,7 @@ class COrderManager extends AppCompatActivity {
                                 details.child("Quantity").getValue(Integer.class)+ "\n"+details.child("Location").getValue(String.class)+"\nItem Price: "+
                                 details.child("Price").getValue(Double.class)+"\n"+"\n";
                     }
-                    orders.add(new Order(" " + count, info));
+                    orders.add(new Order(" #" + count, info));
                     Log.d("lol", count+"");
                     count+=1;
                 }

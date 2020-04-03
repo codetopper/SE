@@ -14,7 +14,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/blue_carrot"
+        android:icon="@drawable/carrot"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -34,7 +34,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Customer.CHome.UpdateApp" />
+        <activity android:name=".Login.UpdateApp" />
         <activity android:name=".Login.UpdateDatabase" />
         <activity android:name=".Login.GetData" />
         <activity android:name=".Login.GetUrl" />
