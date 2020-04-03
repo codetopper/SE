@@ -37,7 +37,7 @@ public class SOrderAdapter extends RecyclerView.Adapter<SOrderAdapter.OrderVH> {
     public void onBindViewHolder(@NonNull OrderVH holder, int position) {
 
         SOrder order = orderList.get(position);
-        holder.titleTextView.setText("Sale" + order.getSaleNum());
+        holder.titleTextView.setText("Sale #" + order.getSaleNum());
         holder.desc.setText(order.getSDesc());
 
 
