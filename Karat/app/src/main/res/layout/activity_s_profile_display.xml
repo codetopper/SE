@@ -26,7 +26,7 @@ tools:context=".Staff.SProfile.SProfileDisplay">
 
     <TextView
         android:id="@+id/revenue"
-        android:layout_width="122dp"
+        android:layout_width="wrap_content"
         android:layout_height="27dp"
         android:text="REVENUE"
         android:textColor="#F4980E"

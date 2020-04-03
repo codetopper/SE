@@ -36,7 +36,7 @@ public class SOrderDisplay extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s_order_display);
         orderManager = new SOrderManager();
-        Toast.makeText(getApplicationContext(), orders.size()+"l", Toast.LENGTH_LONG).show();
+//        Toast.makeText(getApplicationContext(), orders.size()+"", Toast.LENGTH_LONG).show();
         //recyclerview
         recyclerView = findViewById(R.id.recyclerView);
         initRecyclerView();

@@ -26,21 +26,27 @@ public class SOrderManager extends AppCompatActivity {
         final FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser() ;
         String email = currentFirebaseUser.getEmail().replace("@", "");
         final String finalEmail = email.replace(".", "");
-        mDatabase.child("SOrders").child(finalEmail).addListenerForSingleValueEvent(new ValueEventListener() {
+
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String licenseNum = dataSnapshot.child("UserDatabase").child(finalEmail).child("licenseNo").getValue(String.class);
+                DataSnapshot sorder = dataSnapshot.child("SOrders").child(licenseNum);
                 orders.clear();
 //                DataSnapshot orderlist = new dataSnapshot.getChildren();
                 int count = 1;
-                for (DataSnapshot ord: dataSnapshot.getChildren()){
+//                Log.d("lol", "lol");
+                for (DataSnapshot ord: sorder.getChildren()){
                     String info = "";
+//                    Log.d("lol", "lol");
                     for (DataSnapshot details : ord.getChildren()) {
                         info = info + "Name: "+details.child("Name").getValue(String.class)+"\nQty: "+
                                 details.child("Quantity").getValue(Integer.class)+"\nItem Price: "+
                                 details.child("Price").getValue(Double.class)+"\n"+"\n";
                     }
                     orders.add(new SOrder(" " + count, info));
-                    Log.d("lol", count+"");
+//                    Log.d("lol", count+"");
                     count+=1;
                 }
             }

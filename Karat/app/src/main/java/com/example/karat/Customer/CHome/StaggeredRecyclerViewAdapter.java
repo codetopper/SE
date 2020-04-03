@@ -45,13 +45,13 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
     private ArrayList<String> mDescription = new ArrayList<>();
     private ArrayList<Double> mDiscount = new ArrayList<>();
     private ArrayList<String> mCategory = new ArrayList<>();
+    private ArrayList<String> mLicense = new ArrayList<>();
     private static ArrayList<Integer> mListingId = new ArrayList<>();
     private static ArrayList<Integer> mQty = new ArrayList<>();
     private static ArrayList<Double> mPrice = new ArrayList<>();
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
-    private String licenseNo;
 
     private Context mContext;
 
@@ -65,6 +65,7 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
         mImageUrls.clear();
         mListingId.clear();
         mQty.clear();
+        mLicense.clear();
 
         mPrice.clear();
         mDescription.clear();
@@ -79,7 +80,7 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
             mDescription.add(mlisting.getDescription());
             mDiscount.add(Double.parseDouble(mlisting.getListingDiscount()+""));
             mCategory.add(mlisting.getListingCategory());
-            licenseNo = mlisting.getLicense();
+            mLicense.add(mlisting.getLicense());
         }
     }
 
@@ -213,7 +214,7 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(mContext, ViewStore.class);
-                i.putExtra("id", licenseNo+"");
+                i.putExtra("id", mLicense.get(position)+"");
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(i);
             }
