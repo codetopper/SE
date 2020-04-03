@@ -202,10 +202,12 @@ tools:context=".Staff.SHome.SHomeManageListingDisplay">
         android:layout_marginLeft="16dp"
         android:layout_marginTop="10dp"
         android:background="#C4EFEFEF"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/textView13"
-        app:layout_constraintTop_toBottomOf="@+id/itemDisc" />
+        app:layout_constraintTop_toBottomOf="@+id/itemDisc"
+        android:layout_gravity="center_horizontal" />
 
     <EditText
         android:id="@+id/description"

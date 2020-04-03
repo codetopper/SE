@@ -24,21 +24,6 @@ tools:context=".Staff.SProfile.SProfileDisplay">
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/revenue"
-        android:layout_width="wrap_content"
-        android:layout_height="27dp"
-        android:text="REVENUE"
-        android:textColor="#F4980E"
-        android:textSize="24sp"
-        app:fontFamily="@font/fredoka_one"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.16"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-        app:layout_constraintVertical_bias="0.00999999" />
-
     <com.google.android.material.bottomnavigation.BottomNavigationView
     android:id="@+id/bottom_navi"
     android:layout_width="match_parent"
