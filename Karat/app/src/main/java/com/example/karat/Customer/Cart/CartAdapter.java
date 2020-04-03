@@ -304,6 +304,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ExampleViewHol
                             mDatabase.child("SOrders").child(supermarket).child("Sale"+superTId).child("Item"+count).child("License").setValue(mLicense.get(index));
                             mDatabase.child("SOrders").child(supermarket).child("Sale"+superTId).child("Item"+count).child("Price").setValue(mPrice.get(index));
                             mDatabase.child("SOrders").child(supermarket).child("Sale"+superTId).child("Item"+count).child("Location").setValue(mLocation.get(index));
+                            mDatabase.child("SOrders").child(supermarket).child("Sale"+superTId).child("Item"+count).child("Name").setValue(mName.get(index));
                             count++;
                         }
                     }
