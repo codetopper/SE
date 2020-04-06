@@ -37,7 +37,7 @@ public class ViewStore extends AppCompatActivity implements AdapterView.OnItemSe
     private TextView timeTV;
     private DatabaseReference mDatabase;
     private ArrayList<com.example.karat.inventory.Listing> list = new ArrayList<>();
-    private StaggeredRecyclerViewAdapter staggeredRecyclerViewAdapter;
+    private StoreRecyclerView staggeredRecyclerViewAdapter;
     private RecyclerView recyclerView;
     private static final int Num_Columns = 1;
 
@@ -144,7 +144,7 @@ public class ViewStore extends AppCompatActivity implements AdapterView.OnItemSe
 
     private void initUi(){
         recyclerView = findViewById(R.id.recyclerView);
-        staggeredRecyclerViewAdapter = new StaggeredRecyclerViewAdapter(getApplicationContext());
+        staggeredRecyclerViewAdapter = new StoreRecyclerView(getApplicationContext());
         recyclerView.setAdapter(staggeredRecyclerViewAdapter);
 
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(Num_Columns, LinearLayoutManager.VERTICAL);
