@@ -235,7 +235,7 @@ public class StaggeredRecyclerViewAdapter extends RecyclerView.Adapter<Staggered
     public class Viewholder extends RecyclerView.ViewHolder /*extends RecyclerView.ViewHolder */{
         ImageView image, arrowd, arrowu;
         TextView name, price, category, description, quantity, discount;
-        Button addtoCart, viewStore;
+        public Button addtoCart, viewStore;
         TextView desc, descTxt;
         CardView container;
         EditText homequantity;
